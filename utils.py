@@ -4,13 +4,13 @@ import subprocess
 
 from model import BenchmarkResult
 
-CPU_COUNT = os.cpu_count()
 _CPU_THRESHOLD = 60
 
 _dir = os.path.dirname(__file__)
 _BENCHMARK_PATH = f"{_dir}/benchmark_apps"
 _BENCHMARK_STATS_PATH = f"{_dir}/benchmark_stats"
 _BENCHMARK_LOG_PATH = f"{_dir}/benchmark_logs"
+_BENCHMARK_MATRIX_PATH = f"{_dir}/benchmark_matrix"
 
 _benchmark_paths = {
     "Renaissance": f"{_BENCHMARK_PATH}/renaissance-gpl-0.15.0.jar",
@@ -24,6 +24,12 @@ _available_gcs = {
     _GRAAL: ["G1", "Parallel", "Z"],
     _OPENJDK: ["G1", "Parallel", "Z", "Shenandoah"],
 }
+
+
+def get_cpu_count():
+    cpu = os.cpu_count()
+    assert cpu is not None, "Error: cpu_count is None"
+    return cpu
 
 
 def clean_logs_and_stats():
@@ -43,12 +49,17 @@ def get_benchmark_log_path(
 def get_benchmark_stats_path(
     gc: str, benchmark_group: str, benchmark_name: str, heap_size: int, success: bool
 ) -> str:
-    success = "" if success else "_error"
-    return f"{_BENCHMARK_STATS_PATH}/{benchmark_group}_{benchmark_name}_{gc}_{heap_size}m{success}.json"
+    qualifier = "" if success else "_error"
+    return f"{_BENCHMARK_STATS_PATH}/{benchmark_group}_{benchmark_name}_{gc}_{heap_size}m{qualifier}.json"
 
 
 def get_gc_global_stats_path(gc: str) -> str:
     return f"{_BENCHMARK_STATS_PATH}/global_stats/{gc}.json"
+
+
+def get_matrix_path(runtime: str, suffix: str) -> str:
+    assert runtime in _SUPPORTED_JDKS, "Runtime not supported"
+    return f"{_BENCHMARK_MATRIX_PATH}/{runtime}.json"
 
 
 def get_benchmark_jar_path(benchmark_group: str) -> str:
@@ -59,7 +70,7 @@ def is_cpu_intensive(cpu: float) -> bool:
     return cpu >= _CPU_THRESHOLD
 
 
-def get_available_gcs() -> list[str] | None:
+def get_available_gcs() -> tuple[str, list[str]] | tuple[None, None]:
     """
     Get list of available garbage collectors for your java version.
     Only Graal and OpenJDK are currently supported.
@@ -72,9 +83,9 @@ def get_available_gcs() -> list[str] | None:
     print(f"Your java version is:\n {p.stdout}")
     for jdk in _SUPPORTED_JDKS:
         if jdk in p.stdout:
-            return _available_gcs[jdk]
+            return jdk, _available_gcs[jdk]
 
-    return None
+    return None, None
 
 
 def get_heap_sizes() -> list[str]:
@@ -83,7 +94,7 @@ def get_heap_sizes() -> list[str]:
 
 
 def load_benchmark_results(
-    garbage_collector: str, heap_size: int
+    garbage_collector: str, heap_size: str
 ) -> list[BenchmarkResult]:
     return [
         BenchmarkResult.load_from_json(i)

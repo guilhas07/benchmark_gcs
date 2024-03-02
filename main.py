@@ -8,15 +8,10 @@ from threading import Timer
 import numpy
 
 import utils
-from model import (
-    Benchmark_Stats,
-    BenchmarkResult,
-    GarbageCollectorResult,
-    GarbageCollectorStats,
-)
+from model import Benchmark_Stats, BenchmarkResult, GarbageCollectorResult, StatsMatrix
 
 
-def run_benchmark(benchmark_command: str, timeout: int) -> Benchmark_Stats:
+def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats:
     """
     Args:
         benchmark_command: str -> command to run benchmark
@@ -26,7 +21,7 @@ def run_benchmark(benchmark_command: str, timeout: int) -> Benchmark_Stats:
     """
 
     process = subprocess.Popen(benchmark_command)
-    timer = Timer(1, process.kill)
+    timer = Timer(timeout, process.kill)
     time_start = time.time_ns()
     pid = process.pid
     cpu_stats = []
@@ -42,7 +37,7 @@ def run_benchmark(benchmark_command: str, timeout: int) -> Benchmark_Stats:
         lines = p.stdout.splitlines()[-2:]
         assert lines[0].split()[8] == "%CPU"
         cpu_percentage = float(lines[1].split()[8])
-        cpu_stat = round(float(cpu_percentage / utils.CPU_COUNT), 1)
+        cpu_stat = round(float(cpu_percentage / utils.get_cpu_count()), 1)
         print(f"{cpu_stat=}")
         cpu_stats.append(cpu_stat)
         time.sleep(0.1)
@@ -92,7 +87,7 @@ def run_renaissance(gc: str, iterations: int, heap_size: int) -> list[BenchmarkR
                 benchmark_group,
                 benchmark,
                 heap_size,
-                utils.is_cpu_intensive(average_cpu),
+                (utils.is_cpu_intensive(average_cpu), average_cpu),
                 throughput,
             )
         except Exception as e:
@@ -141,31 +136,36 @@ def main(argv=None) -> int:
     if clean:
         utils.clean_logs_and_stats()
 
-    benchmark_results: dict[tuple[str, str], list[BenchmarkResult]] = {}
-    gcs: list[str] = utils.get_available_gcs()
+    jdk, gcs = utils.get_available_gcs()
+    assert jdk is not None and gcs is not None, "Current jdk is not supported"
+
+    benchmark_results: dict[str, dict[str, list[BenchmarkResult]]] = {}
     heap_sizes: list[str] = utils.get_heap_sizes()
 
-    failed_benchmarks: dict[tuple[str, str], list[str]] = {}
+    failed_benchmarks: dict[tuple[str, int], list[str]] = {}
+
     # run the benchmakrs
     for gc in gcs:
-        # gc_stats: GarbageCollectorStats = []
-        # for heap_size in utils.get_heap_sizes():
+        benchmark_results[gc] = {}
         for heap_size in heap_sizes[0:2]:
+            if heap_size not in benchmark_results[gc]:
+                benchmark_results[gc][heap_size] = []
+
             if skip_benchmarks:
-                benchmark_results[(gc, heap_size)] = utils.load_benchmark_results(
+                benchmark_results[gc][heap_size] = utils.load_benchmark_results(
                     gc, heap_size
                 )
+                # if gc == "Z":
+                #     for i in benchmark_results[gc][heap_size]:
+                #         print(i.benchmark_name)
+                # print(benchmark_results[gc][heap_size])
             else:
-                benchmark_results[(gc, heap_size)] = []
-                benchmark_results[(gc, heap_size)].extend(
-                    run_renaissance(gc, iterations, heap_size)
+                benchmark_results[gc][heap_size].extend(
+                    run_renaissance(gc, iterations, int(heap_size))
                 )
 
-            for result in benchmark_results[(gc, heap_size)]:
+            for result in benchmark_results[gc][heap_size]:
                 if not result.is_successfull():
-                    print(
-                        f"Benchmark {result.benchmark_name} failed with {gc=} and {heap_size=}."
-                    )
                     if (
                         result.benchmark_name,
                         result.heap_size,
@@ -178,35 +178,49 @@ def main(argv=None) -> int:
                         gc
                     )
 
-            # gc_stats.append(
-            #     GarbageCollectorStats.build_gc_stats(heap_size, benchmark_results)
-            # )
-
     for (name, heap_size), value in failed_benchmarks.items():
         print(f"Benchmark {name} failed for heap size {heap_size} for gcs: {value}")
 
-    # compute stats
-    gc_stats: dict[str, list[GarbageCollectorStats]] = {}
-    for (gc, heap_size), results in benchmark_results.items():
-        valid_results = [
-            el
-            for el in results
-            if (el.benchmark_name, el.heap_size) not in failed_benchmarks
-        ]
+    gc_results = []
+    for gc in list(benchmark_results):
+        heap_size = None
+        for heap_size, results in list(benchmark_results[gc].items()):
+            print(f"{gc=}")
+            for el in results:
+                print(
+                    f"{el.benchmark_name=} and {el.success} {(el.benchmark_name, el.heap_size) in failed_benchmarks}"
+                )
+            valid_results = [
+                el
+                for el in results
+                if (el.benchmark_name, el.heap_size) not in failed_benchmarks
+            ]
 
-        if len(valid_results) == 0:
-            continue
+            if len(valid_results) == 0:
+                del benchmark_results[gc][heap_size]
+                continue
 
-        if gc not in gc_stats:
-            gc_stats[gc] = []
-        gc_stats[gc].append(
-            GarbageCollectorStats.build_gc_stats(heap_size, valid_results)
+            # if heap_size == "256":
+            #     for el in valid_results:
+            #         print(
+            #             f"GIRO: {el.garbage_collector} {el.benchmark_name} {el.cpu_intensive}"
+            #         )
+            #     print(len(valid_results))
+
+            benchmark_results[gc][heap_size] = valid_results
+            print(benchmark_results[gc][heap_size])
+
+        assert (
+            len(benchmark_results[gc]) > 0
+        ), f"Garbage Collector {gc} doesn't have successfull benchmarks for selected heap_size {heap_size}."
+        gc_result = GarbageCollectorResult.build_garbage_collector_result(
+            benchmark_results[gc]
         )
-
-    for gc, stats in gc_stats.items():
-        gc_result = GarbageCollectorResult(gc, stats)
-        print(f"{gc_result}")
         gc_result.save_to_json()
+        gc_results.append(gc_result)
+
+    matrix = StatsMatrix.build_stats_matrix(gc_results, "G1")
+    matrix.save_to_json(jdk)
 
     return 0
 
