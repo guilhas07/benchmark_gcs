@@ -57,9 +57,9 @@ def get_gc_global_stats_path(gc: str) -> str:
     return f"{_BENCHMARK_STATS_PATH}/global_stats/{gc}.json"
 
 
-def get_matrix_path(runtime: str, suffix: str) -> str:
+def get_matrix_path(runtime: str, date: str) -> str:
     assert runtime in _SUPPORTED_JDKS, "Runtime not supported"
-    return f"{_BENCHMARK_MATRIX_PATH}/{runtime}.json"
+    return f"{_BENCHMARK_MATRIX_PATH}/{runtime}_{date}.json"
 
 
 def get_benchmark_jar_path(benchmark_group: str) -> str:
