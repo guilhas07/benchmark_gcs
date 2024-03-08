@@ -305,13 +305,13 @@ class BenchmarkResult:
 
     @staticmethod
     def build_benchmark_error(
-        gc, benchmark_group, benchmark, heap_size, error_code: int
+        gc, benchmark_group, benchmark, heap_size, error_code: int, error_message: str
     ) -> BenchmarkResult:
-        def error_code_message(error_code: int) -> str:
+        def error_code_message(error_code: int, error_message: str) -> str:
             error_codes = {-9: "Process was killed due to timeout", -1: "Out of memory"}
             if error_code in error_codes:
-                return f"Return code {error_code}: {error_codes[error_code]}"
-            return f"Error code not found: {error_code}"
+                return f"Return code {error_code}: {error_codes[error_code]}\n{error_message}"
+            return f"Error code not found: {error_code}\n{error_message}"
 
         return BenchmarkResult(
             gc,
@@ -320,7 +320,7 @@ class BenchmarkResult:
             heap_size,
             (
                 False,
-                error_code_message(error_code),
+                error_code_message(error_code, error_message),
             ),
             (False, -1),
             0,

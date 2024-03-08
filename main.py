@@ -20,7 +20,7 @@ def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats
         BenchmarkStats
     """
 
-    process = subprocess.Popen(benchmark_command)
+    process = subprocess.Popen(benchmark_command, stderr=subprocess.PIPE)
     timer = Timer(timeout, process.kill)
     time_start = time.time_ns()
     pid = process.pid
@@ -38,12 +38,13 @@ def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats
         assert lines[0].split()[8] == "%CPU"
         cpu_percentage = float(lines[1].split()[8])
         cpu_stat = round(float(cpu_percentage / utils.get_cpu_count()), 1)
-        print(f"{cpu_stat=}")
+        # print(f"{cpu_stat=}")
         cpu_stats.append(cpu_stat)
-        time.sleep(0.1)
+        time.sleep(1)
     timer.cancel()
+    error = process.stderr.read().decode() if process.stderr is not None else ""
     if process.returncode != 0:
-        raise Exception(process.returncode)
+        raise Exception(process.returncode, error)
 
     return (round(float(numpy.mean(cpu_stats)), 1), time.time_ns() - time_start)
 
@@ -60,7 +61,6 @@ def run_renaissance(gc: str, iterations: int, heap_size: int) -> list[BenchmarkR
     renaissance_benchmarks = result.stdout.splitlines()
 
     for benchmark in renaissance_benchmarks:
-        # for benchmark in renaissance_benchmarks[0:2]:
         command = [
             "java",
             f"-XX:+Use{gc}GC",
@@ -92,7 +92,7 @@ def run_renaissance(gc: str, iterations: int, heap_size: int) -> list[BenchmarkR
             )
         except Exception as e:
             result = BenchmarkResult.build_benchmark_error(
-                gc, benchmark_group, benchmark, heap_size, e.args[0]
+                gc, benchmark_group, benchmark, heap_size, e.args[0], e.args[1]
             )
         result.save_to_json()
         benchmark_results.append(result)
@@ -135,19 +135,23 @@ def main(argv=None) -> int:
 
     if clean:
         utils.clean_logs_and_stats()
+        if skip_benchmarks:
+            print("Cleaned and skipped benchmarks")
+            return 0
 
     jdk, gcs = utils.get_available_gcs()
     assert jdk is not None and gcs is not None, "Current jdk is not supported"
 
     benchmark_results: dict[str, dict[str, list[BenchmarkResult]]] = {}
     heap_sizes: list[str] = utils.get_heap_sizes()
-
+    heap_sizes.reverse()  # NOTE: start with higher heap_sizes
+    heap_sizes = heap_sizes[0:4]
     failed_benchmarks: dict[tuple[str, int], list[str]] = {}
 
     # run the benchmakrs
     for gc in gcs:
         benchmark_results[gc] = {}
-        for heap_size in heap_sizes[0:2]:
+        for heap_size in heap_sizes:
             if heap_size not in benchmark_results[gc]:
                 benchmark_results[gc][heap_size] = []
 
@@ -155,10 +159,6 @@ def main(argv=None) -> int:
                 benchmark_results[gc][heap_size] = utils.load_benchmark_results(
                     gc, heap_size
                 )
-                # if gc == "Z":
-                #     for i in benchmark_results[gc][heap_size]:
-                #         print(i.benchmark_name)
-                # print(benchmark_results[gc][heap_size])
             else:
                 benchmark_results[gc][heap_size].extend(
                     run_renaissance(gc, iterations, int(heap_size))
