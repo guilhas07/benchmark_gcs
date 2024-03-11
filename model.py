@@ -7,6 +7,7 @@ from dataclasses import asdict, dataclass
 from typing import Optional
 
 import numpy
+
 import utils
 
 Benchmark_Stats = tuple[float, int]
@@ -44,9 +45,8 @@ class StatsMatrix:
             for id, stat in enumerate(default_stats):
                 normalization_throughtput_factor = stat.avg_throughput
                 normalization_p90_pause_time_factor = stat.p90_avg_pause_time
-                heap_size = str(stat.heap_size)
-                if heap_size not in matrix:
-                    matrix[heap_size] = {}
+                if stat.heap_size not in matrix:
+                    matrix[stat.heap_size] = {}
 
                 for result in gc_results:
                     gc_stat = (
@@ -54,7 +54,9 @@ class StatsMatrix:
                         if cpu_intensive
                         else result.non_cpu_intensive_stats[id]
                     )
-                    matrix[heap_size][result.garbage_collector] = StatsMatrix.GCScore(
+                    matrix[stat.heap_size][
+                        result.garbage_collector
+                    ] = StatsMatrix.GCScore(
                         round(
                             gc_stat.avg_throughput / normalization_throughtput_factor,
                             2,
@@ -109,7 +111,7 @@ class StatsMatrix:
                 for el in gc_results
             ), "All gc_results should have cpu_intensive stats for the same benchmarks"
             # TODO: benchmarks can be cpu_intensive for on GC and not for another ??
-            benchmarks["cpu_intensive"] = {str(stat.heap_size): stat.benchmarks}
+            benchmarks["cpu_intensive"] = {stat.heap_size: stat.benchmarks}
 
         for id, stat in enumerate(default_gc_element.non_cpu_intensive_stats):
             assert all(
@@ -120,7 +122,7 @@ class StatsMatrix:
                 stat.benchmarks == el.non_cpu_intensive_stats[id].benchmarks
                 for el in gc_results
             ), "All gc_results should have non_cpu_intensive stats for the same benchmarks"
-            benchmarks["non_cpu_intensive"] = {str(stat.heap_size): stat.benchmarks}
+            benchmarks["non_cpu_intensive"] = {stat.heap_size: stat.benchmarks}
 
         cpu_intensive_matrix = compute_matrix(
             default_gc_element.cpu_intensive_stats, gc_results, True
@@ -136,7 +138,7 @@ class StatsMatrix:
             benchmarks,
         )
 
-    def save_to_json(self, runtime: str):
+    def save_to_json(self, jdk: str):
         date = datetime.datetime.now()
         day = date.day
         month = date.month
@@ -144,7 +146,7 @@ class StatsMatrix:
         minute = date.minute
 
         with open(
-            utils.get_matrix_path(runtime, f"{day}_{month}_{hour}_{minute}"),
+            utils.get_matrix_path(jdk, f"{day}_{month}_{hour}_{minute}"),
             "w",
         ) as f:
             f.write(json.dumps(asdict(self), indent=4))
@@ -153,12 +155,13 @@ class StatsMatrix:
 @dataclass
 class GarbageCollectorResult:
     garbage_collector: str
+    jdk: str
     cpu_intensive_stats: list[GarbageCollectorStats]
     non_cpu_intensive_stats: list[GarbageCollectorStats]
 
     @dataclass
     class GarbageCollectorStats:
-        heap_size: int
+        heap_size: str
         number_of_pauses: int
         total_pause_time: int
         avg_pause_time: float
@@ -168,7 +171,7 @@ class GarbageCollectorResult:
 
     @staticmethod
     def _build_gc_stats(
-        heap_size: int,
+        heap_size: str,
         benchmark_results: list[BenchmarkResult],
     ) -> GarbageCollectorResult.GarbageCollectorStats:
         """
@@ -213,6 +216,15 @@ class GarbageCollectorResult:
     def build_garbage_collector_result(
         benchmarks_results: dict[str, list[BenchmarkResult]],
     ) -> GarbageCollectorResult:
+        """Builds a garbage collector result, taking into account every successfull benchmark run for every heap_size.
+
+        Args:
+            benchmarks_results: Dictionary with `heap_size` as key and value as the list of `BenchmarkResult`s for that `heap_size`.
+                                NOTE: Every value should have one or more elements.
+
+        Returns:
+            A `GarbageCollectorResult`
+        """
         cpu_intensive_stats = []
         non_cpu_intensive_stats = []
 
@@ -220,21 +232,23 @@ class GarbageCollectorResult:
             len(benchmarks_results) > 0
         ), "benchmark_results should have one or more keys"
 
-        gc = None
+        gc = ""
+        jdk = ""
         for key, value in benchmarks_results.items():
             assert (
                 len(value) >= 0
             ), "List of benchmark results should have one element or more"
 
-            if gc is None:
+            if gc == "" and jdk == "":
                 gc = value[0].garbage_collector
+                jdk = value[0].jdk
 
             assert all(
                 el.is_successfull() for el in value
             ), "All benchmarks should be successfull"
 
             assert all(
-                str(el.heap_size) == key for el in value
+                el.heap_size == key for el in value
             ), f"All benchmark results should have the same heap size {key}"
 
             assert all(
@@ -245,9 +259,9 @@ class GarbageCollectorResult:
                 el.garbage_collector == gc for el in value
             ), "All benchmark results should be from the same garbage collector"
 
-        assert (
-            gc is not None
-        ), "Garbage collector should not be None"  # NOTE: to keep the lsp happy
+            assert all(
+                el.jdk == jdk for el in value
+            ), "All benchmark results should be from the same runtime"
 
         for heap_size in benchmarks_results:
             cpu_intensive_benchmarks = [
@@ -260,22 +274,24 @@ class GarbageCollectorResult:
             if len(cpu_intensive_benchmarks) > 0:
                 cpu_intensive_stats.append(
                     GarbageCollectorResult._build_gc_stats(
-                        int(heap_size), cpu_intensive_benchmarks
+                        heap_size, cpu_intensive_benchmarks
                     )
                 )
 
             if len(non_cpu_intensive_benchmarks) > 0:
                 non_cpu_intensive_stats.append(
                     GarbageCollectorResult._build_gc_stats(
-                        int(heap_size), non_cpu_intensive_benchmarks
+                        heap_size, non_cpu_intensive_benchmarks
                     )
                 )
 
-        return GarbageCollectorResult(gc, cpu_intensive_stats, non_cpu_intensive_stats)
+        return GarbageCollectorResult(
+            gc, jdk, cpu_intensive_stats, non_cpu_intensive_stats
+        )
 
     def save_to_json(self):
         with open(
-            utils.get_gc_global_stats_path(self.garbage_collector),
+            utils.get_gc_stats_path(self.garbage_collector, self.jdk),
             "w",
         ) as f:
             f.write(json.dumps(asdict(self), indent=4))
@@ -284,10 +300,11 @@ class GarbageCollectorResult:
 @dataclass
 class BenchmarkResult:
     garbage_collector: str
+    jdk: str
     benchmark_group: str
     benchmark_name: str
-    heap_size: int
-    success: tuple[bool, Optional[str]]
+    heap_size: str
+    error: Optional[str]
     cpu_intensive: tuple[bool, float]
     number_of_pauses: int
     total_pause_time: int
@@ -305,7 +322,13 @@ class BenchmarkResult:
 
     @staticmethod
     def build_benchmark_error(
-        gc, benchmark_group, benchmark, heap_size, error_code: int, error_message: str
+        gc: str,
+        benchmark_group: str,
+        benchmark: str,
+        heap_size: str,
+        jdk: str,
+        error_code: int,
+        error_message: str,
     ) -> BenchmarkResult:
         def error_code_message(error_code: int, error_message: str) -> str:
             error_codes = {-9: "Process was killed due to timeout", -1: "Out of memory"}
@@ -315,13 +338,14 @@ class BenchmarkResult:
 
         return BenchmarkResult(
             gc,
+            jdk,
             benchmark_group,
             benchmark,
             heap_size,
-            (
-                False,
-                error_code_message(error_code, error_message),
-            ),
+            # (
+            #     False,
+            error_code_message(error_code, error_message),
+            # ),
             (False, -1),
             0,
             0,
@@ -338,9 +362,10 @@ class BenchmarkResult:
         gc: str,
         benchmark_group: str,
         benchmark_name: str,
-        heap_size: int,
+        heap_size: str,
         cpu_intensive: tuple[bool, float],
         throughput: int,
+        jdk: str,
     ) -> BenchmarkResult:
         log_file = utils.get_benchmark_log_path(
             gc, benchmark_group, benchmark_name, heap_size
@@ -381,10 +406,11 @@ class BenchmarkResult:
 
         return BenchmarkResult(
             gc,
+            jdk,
             benchmark_group,
             benchmark_name,
             heap_size,
-            (True, None),
+            None,
             cpu_intensive,
             number_of_pauses,
             total_pause_time,
@@ -397,7 +423,7 @@ class BenchmarkResult:
         )
 
     def is_successfull(self):
-        return self.success[0]
+        return self.error is None
 
     def save_to_json(self):
         with open(
@@ -406,8 +432,27 @@ class BenchmarkResult:
                 self.benchmark_group,
                 self.benchmark_name,
                 self.heap_size,
-                self.success[0],
+                self.jdk,
+                self.error,
             ),
+            "w",
+        ) as f:
+            f.write(json.dumps(asdict(self), indent=4))
+
+
+@dataclass
+class _ErrorReport:
+    jdk: str
+    failed_benchmarks: dict[str, dict[str, list[tuple[str, str]]]]
+
+    def save_to_json(self):
+        date = datetime.datetime.now()
+        day = date.day
+        month = date.month
+        hour = date.hour
+        minute = date.minute
+        with open(
+            utils.get_error_report_path(self.jdk, f"{day}_{month}_{hour}_{minute}"),
             "w",
         ) as f:
             f.write(json.dumps(asdict(self), indent=4))
