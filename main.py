@@ -29,8 +29,7 @@ def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats
     process = subprocess.Popen(
         benchmark_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
-    # timer = Timer(timeout, process.kill)
-    timer = Timer(1, process.kill)  # TODO: remove this
+    timer = Timer(timeout, process.kill)
     time_start = time.time_ns()
     pid = process.pid
     cpu_stats = []
