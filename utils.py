@@ -18,12 +18,12 @@ _benchmark_paths = {
 }
 
 _GRAAL = "Graal"
-_OPENJDK = "OpenJDK"
+_HOTSPOT = "HotSpot"
 
-_SUPPORTED_JDKS = [_GRAAL, _OPENJDK]
+_SUPPORTED_JDKS = [_GRAAL, _HOTSPOT]
 _available_gcs = {
     _GRAAL: ["G1", "Parallel", "Z"],
-    _OPENJDK: ["G1", "Parallel", "Z", "Shenandoah"],
+    _HOTSPOT: ["G1", "Parallel", "Z"],
 }
 
 
