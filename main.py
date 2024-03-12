@@ -156,9 +156,6 @@ def main(argv=None) -> int:
 
     benchmark_results: dict[str, dict[str, list[BenchmarkResult]]] = {}
     heap_sizes: list[str] = utils.get_heap_sizes()
-    # heap_sizes.reverse()  # NOTE: start with higher heap_sizes
-    heap_sizes = heap_sizes[0:1]  # TODO: REMOVE THIS
-    # failed_benchmarks: dict[tuple[str, str], list[str]] = {}
 
     failed_benchmarks: dict[str, dict[str, list[tuple[str, str]]]] = {}
 
