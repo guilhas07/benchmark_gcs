@@ -26,7 +26,9 @@ def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats
         BenchmarkStats
     """
 
-    process = subprocess.Popen(benchmark_command, stderr=subprocess.PIPE)
+    process = subprocess.Popen(
+        benchmark_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    )
     # timer = Timer(timeout, process.kill)
     timer = Timer(1, process.kill)  # TODO: remove this
     time_start = time.time_ns()
@@ -67,6 +69,7 @@ def run_renaissance(
         capture_output=True,
         text=True,
     )
+    assert result.stderr == "", result.stderr
     renaissance_benchmarks = result.stdout.splitlines()
 
     for benchmark in renaissance_benchmarks:
