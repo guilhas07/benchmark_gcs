@@ -55,7 +55,7 @@ def get_benchmark_stats_path(
     jdk: str,
     error: Optional[str],
 ) -> str:
-    return f"{_BENCHMARK_STATS_PATH}/{benchmark_group}_{benchmark_name}_{gc}_{heap_size}m_{jdk}_{'' if error is not None else '_error'}.json"
+    return f"{_BENCHMARK_STATS_PATH}/{benchmark_group}_{benchmark_name}_{gc}_{heap_size}m_{jdk}_{'' if error is None else 'error'}.json"
 
 
 def get_error_report_path(jdk: str, date: str) -> str:
