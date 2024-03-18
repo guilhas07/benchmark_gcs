@@ -30,7 +30,7 @@ class StatsMatrix:
         str, dict[str, GCScore]
     ]  # {heap_size: { gc : {throughput, pause_time }}}
     garbage_collectors: list[str]
-    benchmarks: dict[str, dict[str, list[str]]]
+    # benchmarks: dict[str, dict[str, list[str]]]
 
     @staticmethod
     def build_stats_matrix(
@@ -100,29 +100,31 @@ class StatsMatrix:
 
         benchmarks: dict[str, dict[str, list[str]]] = {}
 
-        for id, stat in enumerate(default_gc_element.cpu_intensive_stats):
-            assert all(
-                stat.heap_size == el.cpu_intensive_stats[id].heap_size
-                for el in gc_results
-            ), "All gc_results should have cpu_intensive stats for the same heap_sizes"
-
-            assert all(
-                stat.benchmarks == el.cpu_intensive_stats[id].benchmarks
-                for el in gc_results
-            ), "All gc_results should have cpu_intensive stats for the same benchmarks"
-            # TODO: benchmarks can be cpu_intensive for on GC and not for another ??
-            benchmarks["cpu_intensive"] = {stat.heap_size: stat.benchmarks}
-
-        for id, stat in enumerate(default_gc_element.non_cpu_intensive_stats):
-            assert all(
-                stat.heap_size == el.non_cpu_intensive_stats[id].heap_size
-                for el in gc_results
-            ), "All gc_results should have non_cpu_intensive stats for the same heap_sizes"
-            assert all(
-                stat.benchmarks == el.non_cpu_intensive_stats[id].benchmarks
-                for el in gc_results
-            ), "All gc_results should have non_cpu_intensive stats for the same benchmarks"
-            benchmarks["non_cpu_intensive"] = {stat.heap_size: stat.benchmarks}
+        # TODO: see this
+        # for id, stat in enumerate(default_gc_element.cpu_intensive_stats):
+        #     assert all(
+        #         stat.heap_size == el.cpu_intensive_stats[id].heap_size
+        #         for el in gc_results
+        #     ), "All gc_results should have cpu_intensive stats for the same heap_sizes"
+        #
+        #     assert all(
+        #         stat.benchmarks == el.cpu_intensive_stats[id].benchmarks
+        #         for el in gc_results
+        #     ), "All gc_results should have cpu_intensive stats for the same benchmarks"
+        #     # TODO: benchmarks can be cpu_intensive for on GC and not for another ??
+        #     benchmarks["cpu_intensive"] = {stat.heap_size: stat.benchmarks}
+        #
+        # for id, stat in enumerate(default_gc_element.non_cpu_intensive_stats):
+        #     assert all(
+        #         stat.heap_size == el.non_cpu_intensive_stats[id].heap_size
+        #         for el in gc_results
+        #     ), "All gc_results should have non_cpu_intensive stats for the same heap_sizes"
+        #     assert all(
+        #         stat.benchmarks == el.non_cpu_intensive_stats[id].benchmarks
+        #         for el in gc_results
+        #     ), "All gc_results should have non_cpu_intensive stats for the same benchmarks"
+        #     benchmarks["non_cpu_intensive"] = {stat.heap_size: stat.benchmarks}
+        #
 
         cpu_intensive_matrix = compute_matrix(
             default_gc_element.cpu_intensive_stats, gc_results, True
@@ -135,7 +137,7 @@ class StatsMatrix:
             cpu_intensive_matrix,
             non_cpu_intensive_matrix,
             list(garbage_collectors),
-            benchmarks,
+            # benchmarks,
         )
 
     def save_to_json(self, jdk: str):
