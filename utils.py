@@ -3,9 +3,7 @@ import os
 import subprocess
 from typing import Optional
 
-from model import BenchmarkResult
-
-_CPU_THRESHOLD = 60
+from model import BenchmarkResult, GarbageCollectorResult
 
 _dir = os.path.dirname(__file__)
 _BENCHMARK_PATH = f"{_dir}/benchmark_apps"
@@ -25,6 +23,10 @@ _available_gcs = {
     _GRAAL: ["G1", "Parallel", "Z"],
     _HOTSPOT: ["G1", "Parallel", "Z"],
 }
+
+
+def get_supported_jdks() -> list[str]:
+    return _SUPPORTED_JDKS
 
 
 def get_cpu_count():
@@ -75,18 +77,18 @@ def get_benchmark_jar_path(benchmark_group: str) -> str:
     return _benchmark_paths[benchmark_group]
 
 
-def is_cpu_intensive(cpu: float) -> bool:
-    return cpu >= _CPU_THRESHOLD
-
-
-def get_available_gcs() -> tuple[str, list[str]] | tuple[None, None]:
+def get_available_gcs(jdk: Optional[str] = None) -> tuple[str | None, list[str] | None]:
     """
     Get list of available garbage collectors for your java version.
-    Only Graal and OpenJDK are currently supported.
+    Only Graal and HotSpot are currently supported.
 
     Returns:
-        list[str] | None: List of garbage collectors. None if java version isn't supported.
+        Tuple of jdk: str | None, garbage_collectors: list[str] | None
+        Both None if java version isn't supported.
     """
+
+    if jdk is not None:
+        return jdk, _available_gcs.get(jdk)
 
     p = subprocess.run(["java", "--version"], capture_output=True, text=True)
     print(f"Your java version is:\n {p.stdout}")
@@ -110,4 +112,11 @@ def load_benchmark_results(
         for i in glob.glob(
             f"{_BENCHMARK_STATS_PATH}/*{garbage_collector}_{heap_size}m_{jdk}*.json"
         )
+    ]
+
+
+def load_garbage_collector_results(jdk: str) -> list[GarbageCollectorResult]:
+    return [
+        GarbageCollectorResult.load_from_json(i)
+        for i in glob.glob(f"{_BENCHMARK_STATS_PATH}/gc_stats/*{jdk}.json")
     ]

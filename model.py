@@ -1,4 +1,5 @@
 from __future__ import annotations
+from collections import defaultdict
 
 import datetime
 import json
@@ -9,11 +10,6 @@ from typing import Optional
 import numpy
 
 import utils
-
-Benchmark_Stats = tuple[float, int]
-"""(average_cpu_percentage, throughput)
-average_cpu_percentage: float -> average benchmark cpu percentage
-throughput: int -> Time in nanoseconds. Equivalent to program execution time"""
 
 
 @dataclass
@@ -30,7 +26,7 @@ class StatsMatrix:
         str, dict[str, GCScore]
     ]  # {heap_size: { gc : {throughput, pause_time }}}
     garbage_collectors: list[str]
-    # benchmarks: dict[str, dict[str, list[str]]]
+    benchmarks: dict[str, dict[str, list[str]]]
 
     @staticmethod
     def build_stats_matrix(
@@ -98,33 +94,34 @@ class StatsMatrix:
             for el in gc_results
         ), "All gc_results should have non_cpu_intensive_stats with the same length"
 
-        benchmarks: dict[str, dict[str, list[str]]] = {}
+        benchmarks: dict[str, dict[str, list[str]]] = defaultdict(dict)
+        print(type(default_gc_element.cpu_intensive_stats[0]))
 
-        # TODO: see this
-        # for id, stat in enumerate(default_gc_element.cpu_intensive_stats):
-        #     assert all(
-        #         stat.heap_size == el.cpu_intensive_stats[id].heap_size
-        #         for el in gc_results
-        #     ), "All gc_results should have cpu_intensive stats for the same heap_sizes"
-        #
-        #     assert all(
-        #         stat.benchmarks == el.cpu_intensive_stats[id].benchmarks
-        #         for el in gc_results
-        #     ), "All gc_results should have cpu_intensive stats for the same benchmarks"
-        #     # TODO: benchmarks can be cpu_intensive for on GC and not for another ??
-        #     benchmarks["cpu_intensive"] = {stat.heap_size: stat.benchmarks}
-        #
-        # for id, stat in enumerate(default_gc_element.non_cpu_intensive_stats):
-        #     assert all(
-        #         stat.heap_size == el.non_cpu_intensive_stats[id].heap_size
-        #         for el in gc_results
-        #     ), "All gc_results should have non_cpu_intensive stats for the same heap_sizes"
-        #     assert all(
-        #         stat.benchmarks == el.non_cpu_intensive_stats[id].benchmarks
-        #         for el in gc_results
-        #     ), "All gc_results should have non_cpu_intensive stats for the same benchmarks"
-        #     benchmarks["non_cpu_intensive"] = {stat.heap_size: stat.benchmarks}
-        #
+        for id, stat in enumerate(default_gc_element.cpu_intensive_stats):
+            assert all(
+                stat.heap_size == el.cpu_intensive_stats[id].heap_size
+                for el in gc_results
+            ), "All gc_results should have cpu_intensive stats for the same heap_sizes"
+
+            # TODO: Handle case of benchmark being cpu_intensive in one gc and not on another.
+            assert all(
+                stat.benchmarks == el.cpu_intensive_stats[id].benchmarks
+                for el in gc_results
+            ), "All gc_results should have cpu_intensive stats for the same benchmarks"
+
+            # if stat.heap_size not in benchmarks["cpu_intensive"]:
+            benchmarks["cpu_intensive"][stat.heap_size] = stat.benchmarks
+
+        for id, stat in enumerate(default_gc_element.non_cpu_intensive_stats):
+            assert all(
+                stat.heap_size == el.non_cpu_intensive_stats[id].heap_size
+                for el in gc_results
+            ), "All gc_results should have non_cpu_intensive stats for the same heap_sizes"
+            assert all(
+                stat.benchmarks == el.non_cpu_intensive_stats[id].benchmarks
+                for el in gc_results
+            ), "All gc_results should have non_cpu_intensive stats for the same benchmarks"
+            benchmarks["non_cpu_intensive"][stat.heap_size] = stat.benchmarks
 
         cpu_intensive_matrix = compute_matrix(
             default_gc_element.cpu_intensive_stats, gc_results, True
@@ -137,7 +134,7 @@ class StatsMatrix:
             cpu_intensive_matrix,
             non_cpu_intensive_matrix,
             list(garbage_collectors),
-            # benchmarks,
+            dict(benchmarks),
         )
 
     def save_to_json(self, jdk: str):
@@ -267,10 +264,10 @@ class GarbageCollectorResult:
 
         for heap_size in benchmarks_results:
             cpu_intensive_benchmarks = [
-                el for el in benchmarks_results[heap_size] if el.cpu_intensive[0]
+                el for el in benchmarks_results[heap_size] if el.cpu_intensive
             ]
             non_cpu_intensive_benchmarks = [
-                el for el in benchmarks_results[heap_size] if not el.cpu_intensive[0]
+                el for el in benchmarks_results[heap_size] if not el.cpu_intensive
             ]
 
             if len(cpu_intensive_benchmarks) > 0:
@@ -291,6 +288,25 @@ class GarbageCollectorResult:
             gc, jdk, cpu_intensive_stats, non_cpu_intensive_stats
         )
 
+    @staticmethod
+    def load_from_json(file_path: str) -> GarbageCollectorResult:
+        with open(file_path) as f:
+            data = f.read()
+            print(f"{json.loads(data)}")
+            result = GarbageCollectorResult(**json.loads(data))
+
+            # NOTE: Convert dicts to GarbageCollectorStats
+            result.cpu_intensive_stats = [
+                GarbageCollectorResult.GarbageCollectorStats(**el)  # type: ignore
+                for el in result.cpu_intensive_stats
+            ]
+
+            result.non_cpu_intensive_stats = [
+                GarbageCollectorResult.GarbageCollectorStats(**el)  # type: ignore
+                for el in result.non_cpu_intensive_stats
+            ]
+            return result
+
     def save_to_json(self):
         with open(
             utils.get_gc_stats_path(self.garbage_collector, self.jdk),
@@ -307,7 +323,9 @@ class BenchmarkResult:
     benchmark_name: str
     heap_size: str
     error: Optional[str]
-    cpu_intensive: tuple[bool, float]
+    cpu_intensive: bool
+    avg_cpu_usage: float
+    avg_io_percentage: float
     number_of_pauses: int
     total_pause_time: int
     avg_pause_time: float
@@ -328,6 +346,9 @@ class BenchmarkResult:
         benchmark_group: str,
         benchmark: str,
         heap_size: str,
+        cpu_intensive: bool,
+        average_cpu: float,
+        average_io: float,
         jdk: str,
         error_code: int,
         error_message: str,
@@ -344,11 +365,10 @@ class BenchmarkResult:
             benchmark_group,
             benchmark,
             heap_size,
-            # (
-            #     False,
             error_code_message(error_code, error_message),
-            # ),
-            (False, -1),
+            cpu_intensive,
+            average_cpu,
+            average_io,
             0,
             0,
             0,
@@ -365,7 +385,9 @@ class BenchmarkResult:
         benchmark_group: str,
         benchmark_name: str,
         heap_size: str,
-        cpu_intensive: tuple[bool, float],
+        cpu_intensive: bool,
+        average_cpu: float,
+        average_io: float,
         throughput: int,
         jdk: str,
     ) -> BenchmarkResult:
@@ -384,7 +406,7 @@ class BenchmarkResult:
         with open(log_file) as f:
             for line in f:
                 if "safepoint" in line:
-                    # use () to group
+                    # NOTE: use () to capture group
                     pause_category = re.findall('Safepoint "(.*)"', line)[0]
                     pause_time = int(re.findall("Total: (\\d+) ns", line)[0])
                     pause_times.append(pause_time)
@@ -414,6 +436,8 @@ class BenchmarkResult:
             heap_size,
             None,
             cpu_intensive,
+            average_cpu,
+            average_io,
             number_of_pauses,
             total_pause_time,
             avg_pause_time,
