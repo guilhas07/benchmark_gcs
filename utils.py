@@ -90,13 +90,17 @@ def get_available_gcs(jdk: Optional[str] = None) -> tuple[str | None, list[str] 
     if jdk is not None:
         return jdk, _available_gcs.get(jdk)
 
+    jdk = ""
     p = subprocess.run(["java", "--version"], capture_output=True, text=True)
     print(f"Your java version is:\n {p.stdout}")
-    for jdk in _SUPPORTED_JDKS:
-        if jdk in p.stdout:
-            return jdk, _available_gcs[jdk]
+    # NOTE: checking like this because the string Hotspot is also in the GraalVM version.
+    #       This way we prevent a regression in the future.
+    if _GRAAL in p.stdout:
+        jdk = _GRAAL
+    elif _HOTSPOT in p.stdout:
+        jdk = _HOTSPOT
 
-    return None, None
+    return jdk, _available_gcs.get(jdk)
 
 
 def get_heap_sizes() -> list[str]:
