@@ -182,7 +182,7 @@ def run_benchmark_groups(
     iterations: int,
     jdk: str,
     timeout: int,
-    benchmark_groups: Optional[list[BENCHMARK_GROUP]] = None,
+    benchmark_groups: Optional[list[BENCHMARK_GROUP]],
 ) -> list[BenchmarkResult]:
     """Run all benchmark groups or only the ones
     specified in `benchmark_groups`
@@ -200,9 +200,7 @@ def run_benchmark_groups(
         list[BenchmarkResult]
     """
     benchmark_results: list[BenchmarkResult] = []
-    groups: list[BENCHMARK_GROUP] = (
-        [*BENCHMARK_GROUP] if benchmark_groups is None else benchmark_groups
-    )
+    groups: list[BENCHMARK_GROUP] = benchmark_groups or [*BENCHMARK_GROUP]
 
     for benchmark_group in groups:
         benchmarks = _get_benchmarks(benchmark_group)

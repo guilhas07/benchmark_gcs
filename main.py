@@ -61,7 +61,9 @@ def main(argv=None) -> int:
     iterations = args.iterations
     clean = args.clean
     jdk = args.jdk
-    benchmarks = [benchmark.BENCHMARK_GROUP(el) for el in args.benchmarks]
+    benchmarks = args.benchmarks and [
+        benchmark.BENCHMARK_GROUP(el) for el in args.benchmarks
+    ]
 
     if clean:
         utils.clean_logs_and_stats()
