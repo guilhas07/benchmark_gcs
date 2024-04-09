@@ -157,20 +157,22 @@ def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats
     timer.cancel()
     throughput = time.time_ns() - time_start
 
+    cpu_avg = round(float(numpy.mean(cpu_stats)), 1)
+    io_avg = round(float(numpy.mean(io_stats)), 1)
     if process.returncode != 0:
         error = process.stderr.read().decode() if process.stderr is not None else ""
         return (
-            is_cpu_intensive > 0,
-            round(float(numpy.mean(cpu_stats)), 1),
-            round(float(numpy.mean(io_stats)), 1),
+            io_avg < 10,
+            cpu_avg,
+            io_avg,
             throughput,
             (process.returncode, error),
         )
 
     return (
-        is_cpu_intensive > 0,
-        round(float(numpy.mean(cpu_stats)), 1),
-        round(float(numpy.mean(io_stats)), 1),
+        io_avg < 10,
+        cpu_avg,
+        io_avg,
         throughput,
         None,
     )
