@@ -12,15 +12,16 @@ import utils
 from model import (
     BenchmarkResult,
     GarbageCollectorResult,
-    _ErrorReport,
+    ErrorReport,
 )
 
 
-Benchmark_Stats = tuple[bool, float, float, int, Optional[tuple[int, str]]]
+Benchmark_Stats = tuple[bool, float, float, float, int, Optional[tuple[int, str]]]
 """(cpu_intensive, average_cpu_usage_percentage, average_io_percentage, throughput, error)
 cpu_intensive: bool -> True if application is cpu_bound, False otherwise
 average_cpu_usage_percentage: float -> average cpu usage percentage of the benchmark
 average_io_percentage: float -> average IO percentage of the benchmark
+io_percentile: float -> 90th io_percentile
 throughput: int -> Time in nanoseconds. Equivalent to program execution time
 error: Optional[tuple[int, str]] -> Application return code and error message when application fails"""
 
@@ -159,20 +160,23 @@ def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats
 
     cpu_avg = round(float(numpy.mean(cpu_stats)), 1)
     io_avg = round(float(numpy.mean(io_stats)), 1)
+    io_percentile = float(round(numpy.percentile(io_stats, 90), 2))
     if process.returncode != 0:
         error = process.stderr.read().decode() if process.stderr is not None else ""
         return (
-            io_avg < 10,
+            io_avg < 5,
             cpu_avg,
             io_avg,
+            io_percentile,
             throughput,
             (process.returncode, error),
         )
 
     return (
-        io_avg < 10,
+        io_avg < 5,
         cpu_avg,
         io_avg,
+        io_percentile,
         throughput,
         None,
     )
@@ -216,9 +220,14 @@ def run_benchmark_groups(
                 f"[{benchmark_group.value}]: Running benchmark {benchmark} with:\n\tGC: {gc}\n\tHeap Size: {heap_size}\n\tIterations: {iterations=}"
             )
 
-            (cpu_intensive, average_cpu, average_io, throughput, error) = run_benchmark(
-                command, timeout
-            )
+            (
+                cpu_intensive,
+                average_cpu,
+                average_io,
+                io_percentile,
+                throughput,
+                error,
+            ) = run_benchmark(command, timeout)
 
             print(f"{cpu_intensive=} {average_cpu=} {average_io=} and {throughput=}")
             if error is None:
@@ -230,6 +239,7 @@ def run_benchmark_groups(
                     cpu_intensive,
                     average_cpu,
                     average_io,
+                    io_percentile,
                     throughput,
                     jdk,
                 )
@@ -242,6 +252,7 @@ def run_benchmark_groups(
                     cpu_intensive,
                     average_cpu,
                     average_io,
+                    io_percentile,
                     jdk,
                     error[0],
                     error[1],
@@ -330,6 +341,6 @@ def run_benchmarks(
             f"Garbage Collector {gc} doesn't have successfull benchmarks."
 
     if len(failed_benchmarks) > 0:
-        error_report = _ErrorReport(jdk, failed_benchmarks)
+        error_report = ErrorReport(jdk, failed_benchmarks)
         error_report.save_to_json()
     return gc_results

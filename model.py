@@ -50,18 +50,19 @@ class StatsMatrix:
                         if cpu_intensive
                         else result.non_cpu_intensive_stats[id]
                     )
-                    matrix[stat.heap_size][
-                        result.garbage_collector
-                    ] = StatsMatrix.GCScore(
-                        round(
-                            gc_stat.avg_throughput / normalization_throughtput_factor,
-                            2,
-                        ),
-                        round(
-                            gc_stat.p90_avg_pause_time
-                            / normalization_p90_pause_time_factor,
-                            2,
-                        ),
+                    matrix[stat.heap_size][result.garbage_collector] = (
+                        StatsMatrix.GCScore(
+                            round(
+                                gc_stat.avg_throughput
+                                / normalization_throughtput_factor,
+                                2,
+                            ),
+                            round(
+                                gc_stat.p90_avg_pause_time
+                                / normalization_p90_pause_time_factor,
+                                2,
+                            ),
+                        )
                     )
 
             return matrix
@@ -326,6 +327,7 @@ class BenchmarkResult:
     cpu_intensive: bool
     avg_cpu_usage: float
     avg_io_percentage: float
+    percentile_io: float
     number_of_pauses: int
     total_pause_time: int
     avg_pause_time: float
@@ -349,6 +351,7 @@ class BenchmarkResult:
         cpu_intensive: bool,
         average_cpu: float,
         average_io: float,
+        percentile_io: float,
         jdk: str,
         error_code: int,
         error_message: str,
@@ -369,6 +372,7 @@ class BenchmarkResult:
             cpu_intensive,
             average_cpu,
             average_io,
+            percentile_io,
             0,
             0,
             0,
@@ -388,6 +392,7 @@ class BenchmarkResult:
         cpu_intensive: bool,
         average_cpu: float,
         average_io: float,
+        percentile_io: float,
         throughput: int,
         jdk: str,
     ) -> BenchmarkResult:
@@ -438,6 +443,7 @@ class BenchmarkResult:
             cpu_intensive,
             average_cpu,
             average_io,
+            percentile_io,
             number_of_pauses,
             total_pause_time,
             avg_pause_time,
@@ -467,7 +473,7 @@ class BenchmarkResult:
 
 
 @dataclass
-class _ErrorReport:
+class ErrorReport:
     jdk: str
     failed_benchmarks: dict[str, dict[str, list[tuple[str, str]]]]
 
