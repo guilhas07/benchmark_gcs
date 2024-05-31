@@ -71,7 +71,7 @@ def main(argv=None) -> int:
             print("Cleaned and skipped benchmarks")
             return 0
 
-    gc_results = []
+    benchmark_results = []
     garbage_collectors = []
     if skip_benchmarks:
         assert (
@@ -88,15 +88,15 @@ def main(argv=None) -> int:
         jdk is not None and garbage_collectors is not None
     ), "Current jdk is not supported"
 
-    gc_results = benchmark.run_benchmarks(
+    benchmark_results = benchmark.run_benchmarks(
         iterations, jdk, garbage_collectors, skip_benchmarks, benchmarks
     )
 
-    if len(gc_results) == 0:
+    if len(benchmark_results) == 0:
         print("No GarbageCollector had successfull benchmarks")
         return 0
 
-    matrix = StatsMatrix.build_stats_matrix(gc_results, "G1")
+    matrix = StatsMatrix.build_stats_matrix(benchmark_results, "G1")
     matrix.save_to_json(jdk)
     return 0
 

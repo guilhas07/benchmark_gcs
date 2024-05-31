@@ -3,7 +3,7 @@ import os
 import subprocess
 from typing import Optional
 
-from model import BenchmarkResult, GarbageCollectorResult
+from model import BenchmarkReport, GarbageCollectorReport
 
 _dir = os.path.dirname(__file__)
 _BENCHMARK_PATH = f"{_dir}/benchmark_apps"
@@ -110,17 +110,17 @@ def get_heap_sizes() -> list[str]:
 
 def load_benchmark_results(
     garbage_collector: str, heap_size: str, jdk: str
-) -> list[BenchmarkResult]:
+) -> list[BenchmarkReport]:
     return [
-        BenchmarkResult.load_from_json(i)
+        BenchmarkReport.load_from_json(i)
         for i in glob.glob(
             f"{_BENCHMARK_STATS_PATH}/*{garbage_collector}_{heap_size}m_{jdk}*.json"
         )
     ]
 
 
-def load_garbage_collector_results(jdk: str) -> list[GarbageCollectorResult]:
+def load_garbage_collector_results(jdk: str) -> list[GarbageCollectorReport]:
     return [
-        GarbageCollectorResult.load_from_json(i)
+        GarbageCollectorReport.load_from_json(i)
         for i in glob.glob(f"{_BENCHMARK_STATS_PATH}/gc_stats/*{jdk}.json")
     ]

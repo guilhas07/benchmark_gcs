@@ -1,8 +1,9 @@
-from os import path
 import re
 import subprocess
 import time
+from collections import defaultdict
 from enum import Enum
+from os import path
 from threading import Timer
 from typing import Optional
 
@@ -10,18 +11,17 @@ import numpy
 
 import utils
 from model import (
-    BenchmarkResult,
-    GarbageCollectorResult,
+    BenchmarkReport,
     ErrorReport,
+    GarbageCollectorReport,
 )
 
-
-Benchmark_Stats = tuple[bool, float, float, float, int, Optional[tuple[int, str]]]
-"""(cpu_intensive, average_cpu_usage_percentage, average_io_percentage, throughput, error)
-cpu_intensive: bool -> True if application is cpu_bound, False otherwise
-average_cpu_usage_percentage: float -> average cpu usage percentage of the benchmark
-average_io_percentage: float -> average IO percentage of the benchmark
-io_percentile: float -> 90th io_percentile
+Benchmark_Stats = tuple[float, float, float, float, int, Optional[tuple[int, str]]]
+"""(average_cpu_usage_percentage, average_cpu_time_percentage, average_io_time_percentage, throughput, error)
+average_cpu_usage_percentage: float 
+average_cpu_time_percentage: float 
+average_io_time_percentage: float
+io_90_percentile: float
 throughput: int -> Time in nanoseconds. Equivalent to program execution time
 error: Optional[tuple[int, str]] -> Application return code and error message when application fails"""
 
@@ -127,12 +127,12 @@ def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats
     timer = Timer(timeout, process.kill)
     time_start = time.time_ns()
     pid = process.pid
-    cpu_stats = []
-    io_stats = []
+    cpu_usage_stats = []
+    cpu_time_stats = []
+    io_time_stats = []
 
     # TODO: see better polling method than sleeping 1 seconds for throughput
     timer.start()
-    is_cpu_intensive = 0  # NOTE: True if positive, false otherwise
     while process.poll() is None:
         # subprocess.run with capture_output doesn't seem to capture the whole output when
         # using top with -1 flag
@@ -146,37 +146,37 @@ def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats
         # wa, IO-wait : time waiting for I/O completion
         # %Cpu(s): 15.1 us,  2.2 sy,  0.0 ni, 81.2 id,  0.0 wa,  0.0 hi,  1.6 si,  0.0 st
         us, wa = map(float, re.findall("(\\d+.\\d+) us.*(\\d+.\\d+) wa", lines[2])[0])
-        is_cpu_intensive += 1 if us > wa else -1
-        io_stats.append(wa)
+        io_time_stats.append(wa)
+        cpu_time_stats.append(us)
 
         lines = lines[-2:]
         assert lines[0].split()[8] == "%CPU"
-        cpu_percentage = float(lines[1].split()[8])
-        cpu_stat = round(float(cpu_percentage / utils.get_cpu_count()), 1)
-        cpu_stats.append(cpu_stat)
+        cpu_usage = round(float(lines[1].split()[8]) / utils.get_cpu_count(), 1)
+        cpu_usage_stats.append(cpu_usage)
         time.sleep(0.1)
     timer.cancel()
     throughput = time.time_ns() - time_start
 
-    cpu_avg = round(float(numpy.mean(cpu_stats)), 1)
-    io_avg = round(float(numpy.mean(io_stats)), 1)
-    io_percentile = float(round(numpy.percentile(io_stats, 90), 2))
+    cpu_usage_avg = round(float(numpy.mean(cpu_usage_stats)), 1)
+    cpu_time_avg = round(float(numpy.mean(cpu_time_stats)), 1)
+    io_time_avg = round(float(numpy.mean(io_time_stats)), 1)
+    p90_io = float(round(numpy.percentile(io_time_stats, 90), 2))
     if process.returncode != 0:
         error = process.stderr.read().decode() if process.stderr is not None else ""
         return (
-            io_avg < 5,
-            cpu_avg,
-            io_avg,
-            io_percentile,
+            cpu_usage_avg,
+            cpu_usage_avg,
+            io_time_avg,
+            p90_io,
             throughput,
             (process.returncode, error),
         )
 
     return (
-        io_avg < 5,
-        cpu_avg,
-        io_avg,
-        io_percentile,
+        cpu_usage_avg,
+        io_time_avg,
+        cpu_time_avg,
+        p90_io,
         throughput,
         None,
     )
@@ -189,7 +189,7 @@ def run_benchmark_groups(
     jdk: str,
     timeout: int,
     benchmark_groups: Optional[list[BENCHMARK_GROUP]],
-) -> list[BenchmarkResult]:
+) -> list[BenchmarkReport]:
     """Run all benchmark groups or only the ones
     specified in `benchmark_groups`
 
@@ -203,9 +203,9 @@ def run_benchmark_groups(
         subset of the benchmarks
 
     Returns:
-        list[BenchmarkResult]
+        list[BenchmarkReport]
     """
-    benchmark_results: list[BenchmarkResult] = []
+    benchmark_results: list[BenchmarkReport] = []
     groups: list[BENCHMARK_GROUP] = benchmark_groups or [*BENCHMARK_GROUP]
 
     for benchmark_group in groups:
@@ -221,38 +221,40 @@ def run_benchmark_groups(
             )
 
             (
-                cpu_intensive,
-                average_cpu,
-                average_io,
-                io_percentile,
+                average_cpu_usage,
+                average_cpu_time,
+                average_io_time,
+                p90_io,
                 throughput,
                 error,
             ) = run_benchmark(command, timeout)
 
-            print(f"{cpu_intensive=} {average_cpu=} {average_io=} and {throughput=}")
+            print(
+                f"{average_cpu_usage=} {average_cpu_time=} {average_io_time=} {p90_io=} and {throughput=}"
+            )
             if error is None:
-                result = BenchmarkResult.build_benchmark_result(
+                result = BenchmarkReport.build_benchmark_result(
                     gc,
                     benchmark_group.value,
                     benchmark,
                     heap_size,
-                    cpu_intensive,
-                    average_cpu,
-                    average_io,
-                    io_percentile,
+                    average_cpu_usage,
+                    average_cpu_time,
+                    average_io_time,
+                    p90_io,
                     throughput,
                     jdk,
                 )
             else:
-                result = BenchmarkResult.build_benchmark_error(
+                result = BenchmarkReport.build_benchmark_error(
                     gc,
                     benchmark_group.value,
                     benchmark,
                     heap_size,
-                    cpu_intensive,
-                    average_cpu,
-                    average_io,
-                    io_percentile,
+                    average_cpu_usage,
+                    average_cpu_time,
+                    average_io_time,
+                    p90_io,
                     jdk,
                     error[0],
                     error[1],
@@ -268,49 +270,55 @@ def run_benchmarks(
     garbage_collectors: list[str],
     skip_benchmarks: bool,
     benchmark_groups: list[BENCHMARK_GROUP],
-) -> list[GarbageCollectorResult]:
-    benchmark_results: dict[str, dict[str, list[BenchmarkResult]]] = {}
+) -> dict[str, dict[str, list[BenchmarkReport]]]:
+    # { gc: heap_size: { list[BenchmarkReport } }
+    benchmark_results: dict[str, dict[str, list[BenchmarkReport]]] = defaultdict(
+        lambda: defaultdict(list)
+    )
     heap_sizes: list[str] = utils.get_heap_sizes()
 
-    failed_benchmarks: dict[str, dict[str, list[tuple[str, str]]]] = {}
+    failed_benchmarks: dict[str, dict[str, list[tuple[str, str]]]] = defaultdict(
+        lambda: defaultdict(list)
+    )
 
     for gc in garbage_collectors:
-        benchmark_results[gc] = {}
+        # benchmark_results[gc] = {}
         for heap_size in heap_sizes:
-            if heap_size not in benchmark_results[gc]:
-                benchmark_results[gc][heap_size] = []
+            # if heap_size not in benchmark_results[gc]:
+            # benchmark_results[gc][heap_size] = []
 
-                if skip_benchmarks:
-                    benchmark_results[gc][heap_size] = utils.load_benchmark_results(
-                        gc, heap_size, jdk
+            if skip_benchmarks:
+                benchmark_results[gc][heap_size] = utils.load_benchmark_results(
+                    gc, heap_size, jdk
+                )
+            else:
+                benchmark_results[gc][heap_size].extend(
+                    run_benchmark_groups(
+                        gc,
+                        heap_size,
+                        iterations,
+                        jdk,
+                        iterations * 60,
+                        benchmark_groups,
                     )
-                else:
-                    benchmark_results[gc][heap_size].extend(
-                        run_benchmark_groups(
-                            gc,
-                            heap_size,
-                            iterations,
-                            jdk,
-                            iterations * 60,
-                            benchmark_groups,
-                        )
-                    )
+                )
 
             for result in benchmark_results[gc][heap_size]:
                 if not result.is_successfull():
-                    if result.heap_size not in failed_benchmarks:
-                        failed_benchmarks[result.heap_size] = {}
-                    if result.benchmark_name not in failed_benchmarks[result.heap_size]:
-                        failed_benchmarks[result.heap_size][result.benchmark_name] = []
+                    # if result.heap_size not in failed_benchmarks:
+                    #     failed_benchmarks[result.heap_size] = {}
+                    # if result.benchmark_name not in failed_benchmarks[result.heap_size]:
+                    #     failed_benchmarks[result.heap_size][result.benchmark_name] = []
 
                     failed_benchmarks[result.heap_size][result.benchmark_name].append(
                         (
                             result.garbage_collector,
-                            result.error,  # type: ignore
+                            result.error,  # type: ignore -> error is not None in case of a failed benchmark
                         )
                     )
 
-    gc_results: list[GarbageCollectorResult] = []
+    gc_results: list[GarbageCollectorReport] = []
+    # using list to avoid modifying dict while iterating
     for gc in list(benchmark_results):
         heap_size = None
         for heap_size, results in list(benchmark_results[gc].items()):
@@ -329,18 +337,17 @@ def run_benchmarks(
             assert all(
                 el.is_successfull() for el in valid_results
             ), "All benchmarks should be successfull"
-            # print(benchmark_results[gc][heap_size])
 
         if len(benchmark_results[gc]) > 0:
-            gc_result = GarbageCollectorResult.build_garbage_collector_result(
+            gc_result = GarbageCollectorReport.build_garbage_collector_result(
                 benchmark_results[gc]
             )
             gc_result.save_to_json()
-            gc_results.append(gc_result)
         else:
             f"Garbage Collector {gc} doesn't have successfull benchmarks."
 
     if len(failed_benchmarks) > 0:
         error_report = ErrorReport(jdk, failed_benchmarks)
         error_report.save_to_json()
-    return gc_results
+
+    return benchmark_results
