@@ -22,11 +22,18 @@ def main(argv=None) -> int:
     )
     parser.add_argument(
         "-s",
-        "--skip_benchmarks",
+        "--skip-benchmarks",
         dest="skip_benchmarks",
         action="store_true",
         help="""Skip the benchmarks and compute the matrix with previously obtained garbage collector results.
         Specify the java jdk of the garbage collector results if your current java jdk version is different than the one of the results'.""",
+    )
+
+    parser.add_argument(
+        "-j",
+        "--jdk",
+        dest="jdk",
+        help="Specify the java jdk version when you wish to skip the benchmarks and only calculate the matrix.",
     )
 
     parser.add_argument(
@@ -36,14 +43,6 @@ def main(argv=None) -> int:
         default=10,
         type=int,
         help="Number of iterations to run benchmarks. Increase this number to achieve more reliable metrics.",
-    )
-
-    parser.add_argument(
-        "-j",
-        "--jdk",
-        dest="jdk",
-        choices=utils.get_supported_jdks(),
-        help="Specify the java jdk version when you wish to skip the benchmarks and only calculate the matrix.",
     )
 
     parser.add_argument(
@@ -65,38 +64,34 @@ def main(argv=None) -> int:
         benchmark.BENCHMARK_GROUP(el) for el in args.benchmarks
     ]
 
+    print(benchmarks)
     if clean:
         utils.clean_logs_and_stats()
         if skip_benchmarks:
             print("Cleaned and skipped benchmarks")
             return 0
 
-    benchmark_results = []
-    garbage_collectors = []
     if skip_benchmarks:
         assert (
             jdk is not None
-        ), "Please specify a java version in order to skip the benchmarks"
-        _, garbage_collectors = utils.get_available_gcs(jdk)
-
-        # gc_results = utils.load_garbage_collector_results(jdk)
-        # TODO: support not computing stats again
+        ), "Please provide the jdk in order to load previously obtained results."
+        garbage_collectors = utils.get_garbage_collectors()
     else:
-        jdk, garbage_collectors = utils.get_available_gcs()
+        jdk, garbage_collectors = utils.get_java_env_info()
 
     assert (
         jdk is not None and garbage_collectors is not None
-    ), "Current jdk is not supported"
+    ), "Please make sure you have Java installed on your system."
 
-    benchmark_results = benchmark.run_benchmarks(
+    benchmark_reports = benchmark.run_benchmarks(
         iterations, jdk, garbage_collectors, skip_benchmarks, benchmarks
     )
 
-    if len(benchmark_results) == 0:
+    if len(benchmark_reports) == 0:
         print("No GarbageCollector had successfull benchmarks")
         return 0
 
-    matrix = StatsMatrix.build_stats_matrix(benchmark_results, "G1")
+    matrix = StatsMatrix.build_stats_matrix(benchmark_reports, "G1")
     matrix.save_to_json(jdk)
     return 0
 

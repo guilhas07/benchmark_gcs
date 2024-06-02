@@ -317,7 +317,6 @@ def run_benchmarks(
                         )
                     )
 
-    gc_results: list[GarbageCollectorReport] = []
     # using list to avoid modifying dict while iterating
     for gc in list(benchmark_results):
         heap_size = None
@@ -339,12 +338,12 @@ def run_benchmarks(
             ), "All benchmarks should be successfull"
 
         if len(benchmark_results[gc]) > 0:
-            gc_result = GarbageCollectorReport.build_garbage_collector_result(
+            GarbageCollectorReport.build_garbage_collector_result(
                 benchmark_results[gc]
-            )
-            gc_result.save_to_json()
+            ).save_to_json()
         else:
             f"Garbage Collector {gc} doesn't have successfull benchmarks."
+            del benchmark_results[gc]
 
     if len(failed_benchmarks) > 0:
         error_report = ErrorReport(jdk, failed_benchmarks)
