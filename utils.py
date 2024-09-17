@@ -26,10 +26,13 @@ def get_cpu_count():
     return cpu
 
 
-def clean_logs_and_stats():
+def clean_stats():
     print("Cleaning logs and stats directories")
     for i in glob.glob(f"{_BENCHMARK_STATS_PATH}/**/*.json", recursive=True):
         os.remove(i)
+
+
+def clean_logs():
     for i in glob.glob(f"{_BENCHMARK_LOG_PATH}/**/*.log", recursive=True):
         os.remove(i)
 

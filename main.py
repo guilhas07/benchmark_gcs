@@ -18,7 +18,7 @@ def main(argv=None) -> int:
         "--clean",
         dest="clean",
         action="store_true",
-        help="Clean the benchmark stats and log paths",
+        help="Clean the benchmark stats.",
     )
     parser.add_argument(
         "-s",
@@ -65,8 +65,12 @@ def main(argv=None) -> int:
     ]
 
     print(benchmarks)
+
+    # Always clean benchmark garbage collection logs
+    utils.clean_logs()
+
     if clean:
-        utils.clean_logs_and_stats()
+        utils.clean_stats()
         if skip_benchmarks:
             print("Cleaned and skipped benchmarks")
             return 0
