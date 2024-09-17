@@ -7,6 +7,7 @@ import benchmark
 from model import (
     StatsMatrix,
 )
+import interactive
 
 
 def main(argv=None) -> int:
@@ -30,6 +31,14 @@ def main(argv=None) -> int:
     )
 
     parser.add_argument(
+        "-i",
+        "--interactive",
+        dest="interactive",
+        action="store_true",
+        help="""Run benchmark in a interactive way""",
+    )
+
+    parser.add_argument(
         "-j",
         "--jdk",
         dest="jdk",
@@ -37,8 +46,8 @@ def main(argv=None) -> int:
     )
 
     parser.add_argument(
-        "-i",
-        "--iterations",
+        "-n",
+        "--number-iterations",
         dest="iterations",
         default=10,
         type=int,
@@ -87,16 +96,22 @@ def main(argv=None) -> int:
         jdk is not None and garbage_collectors is not None
     ), "Please make sure you have Java installed on your system."
 
-    benchmark_reports = benchmark.run_benchmarks(
-        iterations, jdk, garbage_collectors, skip_benchmarks, benchmarks
-    )
+    if args.interactive:
+        assert (
+            skip_benchmarks is False
+        ), "Skipping benchmarks is not supported in interactive mode."
+        interactive.run(jdk, garbage_collectors)
+    else:
+        benchmark_reports = benchmark.run_benchmarks(
+            iterations, jdk, garbage_collectors, skip_benchmarks, benchmarks
+        )
 
-    if len(benchmark_reports) == 0:
-        print("No GarbageCollector had successfull benchmarks")
-        return 0
+        if len(benchmark_reports) == 0:
+            print("No GarbageCollector had successfull benchmarks.")
+            return 0
 
-    matrix = StatsMatrix.build_stats_matrix(benchmark_reports, "G1")
-    matrix.save_to_json(jdk)
+        matrix = StatsMatrix.build_stats_matrix(benchmark_reports, "G1")
+        matrix.save_to_json(jdk)
     return 0
 
 

@@ -16,15 +16,6 @@ from model import (
     GarbageCollectorReport,
 )
 
-Benchmark_Stats = tuple[float, float, float, float, int, Optional[tuple[int, str]]]
-"""(average_cpu_usage_percentage, average_cpu_time_percentage, average_io_time_percentage, throughput, error)
-average_cpu_usage_percentage: float 
-average_cpu_time_percentage: float 
-average_io_time_percentage: float
-io_90_percentile: float
-throughput: int -> Time in nanoseconds. Equivalent to program execution time
-error: Optional[tuple[int, str]] -> Application return code and error message when application fails"""
-
 
 class BENCHMARK_GROUP(Enum):
     RENAISSANCE = "Renaissance"
@@ -112,19 +103,32 @@ def _get_benchmark_command(
     return command
 
 
-def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats:
+def run_benchmark(
+    benchmark_group: BENCHMARK_GROUP,
+    benchmark: str,
+    gc: str,
+    heap_size: str,
+    iterations: int,
+    jdk: str,
+    timeout: int,
+) -> BenchmarkReport:
     """
     Args:
-        benchmark_command: str -> command to run benchmark
         timeout: int -> value in seconds to interrupt benchmark
     Returns:
-        BenchmarkStats
+        BenchmarkReport
     """
 
     def kill_process(process: subprocess.Popen[bytes], cmd: str):
         print(f"Killing command: {cmd} due to timeout")
         process.kill()
 
+    benchmark_command = _get_benchmark_command(
+        benchmark_group, benchmark, gc, heap_size, iterations
+    )
+    print(
+        f"[{benchmark_group.value}]: Running benchmark {benchmark} with:\n\tGC: {gc}\n\tHeap Size: {heap_size}\n\tIterations: {iterations=}"
+    )
     process = subprocess.Popen(
         benchmark_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
@@ -165,25 +169,43 @@ def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats
     cpu_time_avg = round(float(numpy.mean(cpu_time_stats)), 1)
     io_time_avg = round(float(numpy.mean(io_time_stats)), 1)
     p90_io = float(round(numpy.percentile(io_time_stats, 90), 2))
+
+    print(
+        f"{cpu_usage_avg=} {cpu_time_avg=} {io_time_avg=} {p90_io=} and {throughput=}"
+    )
+
     if process.returncode != 0:
         error = process.stderr.read().decode() if process.stderr is not None else ""
-        return (
+        print(f"Error: {error}")
+        result = BenchmarkReport.build_benchmark_error(
+            gc,
+            benchmark_group.value,
+            benchmark,
+            heap_size,
+            cpu_usage_avg,
+            cpu_time_avg,
+            io_time_avg,
+            p90_io,
+            jdk,
+            process.returncode,
+            error,
+        )
+    else:
+        print("Success")
+        result = BenchmarkReport.build_benchmark_result(
+            gc,
+            benchmark_group.value,
+            benchmark,
+            heap_size,
             cpu_usage_avg,
             cpu_time_avg,
             io_time_avg,
             p90_io,
             throughput,
-            (process.returncode, error),
+            jdk,
         )
-
-    return (
-        cpu_usage_avg,
-        cpu_time_avg,
-        io_time_avg,
-        p90_io,
-        throughput,
-        None,
-    )
+    result.save_to_json()
+    return result
 
 
 def run_benchmark_groups(
@@ -216,54 +238,10 @@ def run_benchmark_groups(
         benchmarks = _get_benchmarks(benchmark_group)
 
         for benchmark in benchmarks:
-            command = _get_benchmark_command(
-                benchmark_group, benchmark, gc, heap_size, iterations
+            result = run_benchmark(
+                benchmark_group, benchmark, gc, heap_size, iterations, jdk, timeout
             )
 
-            print(
-                f"[{benchmark_group.value}]: Running benchmark {benchmark} with:\n\tGC: {gc}\n\tHeap Size: {heap_size}\n\tIterations: {iterations=}"
-            )
-
-            (
-                average_cpu_usage,
-                average_cpu_time,
-                average_io_time,
-                p90_io,
-                throughput,
-                error,
-            ) = run_benchmark(command, timeout)
-
-            print(
-                f"{average_cpu_usage=} {average_cpu_time=} {average_io_time=} {p90_io=} and {throughput=}"
-            )
-            if error is None:
-                result = BenchmarkReport.build_benchmark_result(
-                    gc,
-                    benchmark_group.value,
-                    benchmark,
-                    heap_size,
-                    average_cpu_usage,
-                    average_cpu_time,
-                    average_io_time,
-                    p90_io,
-                    throughput,
-                    jdk,
-                )
-            else:
-                result = BenchmarkReport.build_benchmark_error(
-                    gc,
-                    benchmark_group.value,
-                    benchmark,
-                    heap_size,
-                    average_cpu_usage,
-                    average_cpu_time,
-                    average_io_time,
-                    p90_io,
-                    jdk,
-                    error[0],
-                    error[1],
-                )
-            result.save_to_json()
             benchmark_results.append(result)
     return benchmark_results
 
