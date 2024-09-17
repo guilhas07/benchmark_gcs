@@ -35,7 +35,7 @@ _dir = path.dirname(__file__)
 _BENCHMARK_PATH = f"{_dir}/benchmark_apps"
 _benchmark_paths = {
     BENCHMARK_GROUP.RENAISSANCE.value: f"{_BENCHMARK_PATH}/renaissance-gpl-0.15.0.jar",
-    BENCHMARK_GROUP.DACAPO.value: f"{_BENCHMARK_PATH}/dacapo/dacapo-23.11-chopin.jar",
+    BENCHMARK_GROUP.DACAPO.value: f"{_BENCHMARK_PATH}/dacapo-23.11-chopin.jar",
 }
 
 
