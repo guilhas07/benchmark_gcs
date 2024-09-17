@@ -121,10 +121,14 @@ def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats
         BenchmarkStats
     """
 
+    def kill_process(process: subprocess.Popen[bytes], cmd: str):
+        print(f"Killing command: {cmd} due to timeout")
+        process.kill()
+
     process = subprocess.Popen(
         benchmark_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
     )
-    timer = Timer(timeout, process.kill)
+    timer = Timer(timeout, kill_process, (process, benchmark_command))
     time_start = time.time_ns()
     pid = process.pid
     cpu_usage_stats = []
@@ -165,7 +169,7 @@ def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats
         error = process.stderr.read().decode() if process.stderr is not None else ""
         return (
             cpu_usage_avg,
-            cpu_usage_avg,
+            cpu_time_avg,
             io_time_avg,
             p90_io,
             throughput,
@@ -174,8 +178,8 @@ def run_benchmark(benchmark_command: list[str], timeout: int) -> Benchmark_Stats
 
     return (
         cpu_usage_avg,
-        io_time_avg,
         cpu_time_avg,
+        io_time_avg,
         p90_io,
         throughput,
         None,
