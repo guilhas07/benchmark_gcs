@@ -34,7 +34,7 @@ def main(argv=None) -> int:
         dest="skip_benchmarks",
         action="store_true",
         help="""Skip the benchmarks and compute the matrix with previously obtained garbage collector results.
-        Specify the java jdk of the garbage collector results if your current java jdk version is different than the one of the results'.""",
+        You must specify the java jdk used to obtain previous results. The jdk version is present in the name of each benchmark stat file. See `--jdk`.""",
     )
 
     parser.add_argument(
