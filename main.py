@@ -15,6 +15,13 @@ def main(argv=None) -> int:
         description="Compute throughput and average pause time for benchmarks"
     )
     parser.add_argument(
+        "-d",
+        "--debug",
+        dest="debug",
+        action="store_true",
+        help="Enable benchmark debugging.",
+    )
+    parser.add_argument(
         "-c",
         "--clean",
         dest="clean",
@@ -55,6 +62,15 @@ def main(argv=None) -> int:
     )
 
     parser.add_argument(
+        "-t",
+        "--timeout",
+        dest="timeout",
+        default=None,
+        type=int,
+        help="Timeout for each benchmark.",
+    )
+
+    parser.add_argument(
         "-b",
         "--benchmarks",
         dest="benchmarks",
@@ -72,7 +88,12 @@ def main(argv=None) -> int:
     benchmarks = args.benchmarks and [
         benchmark.BENCHMARK_GROUP(el) for el in args.benchmarks
     ]
+    timeout = args.timeout
+    debug = args.debug
 
+    benchmark.set_debug(debug)
+
+    print(f"{debug=}")
     print(benchmarks)
 
     # Always clean benchmark garbage collection logs
@@ -103,7 +124,7 @@ def main(argv=None) -> int:
         interactive.run(jdk, garbage_collectors)
     else:
         benchmark_reports = benchmark.run_benchmarks(
-            iterations, jdk, garbage_collectors, skip_benchmarks, benchmarks
+            iterations, jdk, garbage_collectors, skip_benchmarks, benchmarks, timeout
         )
 
         if len(benchmark_reports) == 0:

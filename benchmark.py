@@ -6,6 +6,7 @@ from enum import Enum
 from os import path
 from threading import Timer
 from typing import Optional
+import json
 
 import numpy
 
@@ -22,12 +23,26 @@ class BENCHMARK_GROUP(Enum):
     DACAPO = "DaCapo"
 
 
+_debug = False
 _dir = path.dirname(__file__)
 _BENCHMARK_PATH = f"{_dir}/benchmark_apps"
 _benchmark_paths = {
     BENCHMARK_GROUP.RENAISSANCE.value: f"{_BENCHMARK_PATH}/renaissance-gpl-0.15.0.jar",
     BENCHMARK_GROUP.DACAPO.value: f"{_BENCHMARK_PATH}/dacapo-23.11-chopin.jar",
 }
+
+benchmark_options = {}
+try:
+    with open(f"{_dir}/benchmark_options.json") as f:
+        benchmark_options = json.loads(f.read())
+        print(f"Loaded benchmark options: {benchmark_options}")
+except FileNotFoundError:
+    print(f"[Warning] No benchmark options found in {_dir}/benchmark_options.json")
+
+
+def set_debug(value: bool):
+    global _debug
+    _debug = value
 
 
 def _get_benchmarks(benchmark_group: BENCHMARK_GROUP) -> list[str]:
@@ -77,10 +92,16 @@ def _get_benchmark_command(
         f"-Xms{heap_size}m",
         f"-Xmx{heap_size}m",
         f"-Xlog:gc*,safepoint:file={utils.get_benchmark_log_path(gc, benchmark_group.value, benchmark, heap_size)}::filecount=0",
-        "-jar",
-        bench_path,
-        benchmark,
     ]
+
+    if (
+        options := benchmark_options.get(benchmark_group.value, {})
+        .get(benchmark, {})
+        .get("java")
+    ):
+        command.extend(options)
+
+    command.extend(["-jar", bench_path, benchmark])
 
     match benchmark_group:
         case BENCHMARK_GROUP.RENAISSANCE:
@@ -110,7 +131,7 @@ def run_benchmark(
     heap_size: str,
     iterations: int,
     jdk: str,
-    timeout: int,
+    timeout: int | None,
 ) -> BenchmarkReport:
     """
     Args:
@@ -119,20 +140,63 @@ def run_benchmark(
         BenchmarkReport
     """
 
+    # NOTE: No-op timer and file
+    class DummyTimerAndFile:
+        def start(self):
+            pass
+
+        def close(self):
+            pass
+
+        def cancel(self):
+            pass
+
+    killed = False
+
     def kill_process(process: subprocess.Popen[bytes], cmd: str):
-        print(f"Killing command: {cmd} due to timeout")
+        nonlocal killed
+        print(f"Killing command: {' '.join(cmd)} due to timeout with {timeout}")
+        # file = utils.get_benchmark_debug_path(
+        #     gc, benchmark_group.value, benchmark, heap_size
+        # )
+        # with open(file, "wb") as f:
+        #     if process.stdout is not None:
+        #         print(f"Writing to {file}...")
+        #         f.write(process.stdout.read())
         process.kill()
+        killed = True
+        # process.wait()
 
     benchmark_command = _get_benchmark_command(
         benchmark_group, benchmark, gc, heap_size, iterations
     )
+
     print(
-        f"[{benchmark_group.value}]: Running benchmark {benchmark} with:\n\tGC: {gc}\n\tHeap Size: {heap_size}\n\tIterations: {iterations=}"
+        f"[{benchmark_group.value}]: Running benchmark {benchmark} with:\n"
+        f"\tGC: {gc}\n"
+        f"\tHeap Size: {heap_size}\n"
+        f"\tIterations: {iterations}\n"
+        f"\tCommand: {' '.join(benchmark_command)}"
     )
-    process = subprocess.Popen(
-        benchmark_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
-    )
-    timer = Timer(timeout, kill_process, (process, benchmark_command))
+
+    file = DummyTimerAndFile()
+    if _debug:
+        file_path = utils.get_benchmark_debug_path(
+            gc, benchmark_group.value, benchmark, heap_size
+        )
+        file = open(file_path, "w")
+        process = subprocess.Popen(
+            benchmark_command, stdout=file, stderr=subprocess.STDOUT
+        )
+    else:
+        process = subprocess.Popen(
+            benchmark_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+
+    timer = DummyTimerAndFile()
+    if timeout is not None:
+        timer = Timer(timeout, kill_process, (process, benchmark_command))
+
     time_start = time.time_ns()
     pid = process.pid
     cpu_usage_stats = []
@@ -158,7 +222,7 @@ def run_benchmark(
         cpu_time_stats.append(us)
 
         lines = lines[-2:]
-        assert lines[0].split()[8] == "%CPU"
+        assert lines[0].split()[8] == "%CPU", "Couldn't find %CPU in " + lines[0]
         cpu_usage = round(float(lines[1].split()[8]) / utils.get_cpu_count(), 1)
         cpu_usage_stats.append(cpu_usage)
         time.sleep(0.1)
@@ -174,7 +238,21 @@ def run_benchmark(
         f"{cpu_usage_avg=} {cpu_time_avg=} {io_time_avg=} {p90_io=} and {throughput=}"
     )
 
-    if process.returncode != 0:
+    if process.returncode == 0 or killed:
+        print("Success")
+        result = BenchmarkReport.build_benchmark_result(
+            gc,
+            benchmark_group.value,
+            benchmark,
+            heap_size,
+            cpu_usage_avg,
+            cpu_time_avg,
+            io_time_avg,
+            p90_io,
+            throughput,
+            jdk,
+        )
+    else:
         error = process.stderr.read().decode() if process.stderr is not None else ""
         print(f"Error: {error}")
         result = BenchmarkReport.build_benchmark_error(
@@ -190,20 +268,7 @@ def run_benchmark(
             process.returncode,
             error,
         )
-    else:
-        print("Success")
-        result = BenchmarkReport.build_benchmark_result(
-            gc,
-            benchmark_group.value,
-            benchmark,
-            heap_size,
-            cpu_usage_avg,
-            cpu_time_avg,
-            io_time_avg,
-            p90_io,
-            throughput,
-            jdk,
-        )
+    file.close()
     result.save_to_json()
     return result
 
@@ -213,7 +278,7 @@ def run_benchmark_groups(
     heap_size: str,
     iterations: int,
     jdk: str,
-    timeout: int,
+    timeout: int | None,
     benchmark_groups: Optional[list[BENCHMARK_GROUP]],
 ) -> list[BenchmarkReport]:
     """Run all benchmark groups or only the ones
@@ -252,6 +317,7 @@ def run_benchmarks(
     garbage_collectors: list[str],
     skip_benchmarks: bool,
     benchmark_groups: list[BENCHMARK_GROUP],
+    timeout: int | None = None,
 ) -> dict[str, dict[str, list[BenchmarkReport]]]:
     # { gc: heap_size: { list[BenchmarkReport } }
     benchmark_results: dict[str, dict[str, list[BenchmarkReport]]] = defaultdict(
@@ -280,7 +346,7 @@ def run_benchmarks(
                         heap_size,
                         iterations,
                         jdk,
-                        iterations * 60,
+                        timeout,
                         benchmark_groups,
                     )
                 )

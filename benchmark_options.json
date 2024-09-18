@@ -1,0 +1,1 @@
+{ "DaCapo": { "kafka": { "java": ["-XX:+ExitOnOutOfMemoryError"] } } }

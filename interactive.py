@@ -1,5 +1,7 @@
 from enum import Enum
 from typing import Any, Callable, Iterable
+import subprocess
+from threading import Timer
 
 from benchmark import (
     BENCHMARK_GROUP,
@@ -58,6 +60,7 @@ def timeout_menu() -> Menu:
 
     commands.extend(
         [
+            ("None", lambda: (RETURN_CODE.SUCCESS, {"timeout": None}), []),
             ("Back", lambda: (RETURN_CODE.BACK, {}), []),
             ("Quit", lambda: (RETURN_CODE.QUIT, {}), []),
         ]
@@ -303,6 +306,7 @@ def benchmark_suite_cmd(jdk, garbage_collectors) -> tuple[RETURN_CODE, dict]:
                     del values["benchmarks"]
                     del values["heap_sizes"]
                     print("Starting to run")
+                    p = None
                     for gc in command_values["garbage_collectors"]:
                         print(f"{gc=}")
                         for benchmark in command_values["benchmarks"]:
@@ -315,6 +319,11 @@ def benchmark_suite_cmd(jdk, garbage_collectors) -> tuple[RETURN_CODE, dict]:
                                     benchmark=benchmark,
                                     gc=gc,
                                 )
+                                if p is not None:
+                                    p.kill()
+                                p = subprocess.Popen(["paplay", "notification.mp3"])
+                                Timer(5, p.kill).start()
+
                     return RETURN_CODE.SUCCESS, {}
                 # go to next sub-menu
                 case RETURN_CODE.SUCCESS:
