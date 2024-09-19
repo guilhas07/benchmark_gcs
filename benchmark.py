@@ -36,7 +36,6 @@ benchmarks_config = {}
 try:
     with open(_BENCHMARK_CONFIG_PATH) as f:
         benchmarks_config = json.loads(f.read())
-        print(f"Loaded benchmarks config: {benchmarks_config}")
 except FileNotFoundError:
     print(f"[Warning] No benchmark options found in {_BENCHMARK_CONFIG_PATH}")
 
