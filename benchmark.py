@@ -398,7 +398,7 @@ def run_benchmarks(
             ), "All benchmarks should be successfull"
 
         if len(benchmark_results[gc]) > 0:
-            GarbageCollectorReport.build_garbage_collector_result(
+            GarbageCollectorReport.build_garbage_collector_report(
                 benchmark_results[gc]
             ).save_to_json()
         else:

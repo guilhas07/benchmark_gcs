@@ -22,15 +22,13 @@ class StatsMatrix:
         throughput: float
         pause_time: float
 
-    cpu_intensive_matrix: dict[
+    matrix: dict[
         str, dict[str, GCScore]
     ]  # {heap_size: { gc : {throughput, pause_time }}}
-    non_cpu_intensive_matrix: dict[
-        str, dict[str, GCScore]
-    ]  # {heap_size: { gc : {throughput, pause_time }}}
+
     garbage_collectors: list[str]
-    # { "[non_]cpu_intensive": { heap_size : list[garbage_collectors]}}
-    benchmarks: dict[str, dict[str, list[str]]]
+    # { heap_size : list[garbage_collectors]}}
+    benchmarks: dict[str, list[str]]
 
     @staticmethod
     def build_stats_matrix(
@@ -76,12 +74,8 @@ class StatsMatrix:
         ), f"default_garbage_collector: {default_gc} was not found in benchmark_results"
 
         # Populate list of benchmark names with the benchmarks present in
-        # the default garbage collector and classify them with respect to
-        # average cpu utilization
-        default_gc_reports: dict[str, dict[str, bool]] = defaultdict(dict)
-        benchmarks: dict[str, dict[str, list[str]]] = defaultdict(
-            lambda: defaultdict(list)
-        )
+        # the default garbage collector
+        default_gc_reports: dict[str, list[str]] = defaultdict(list)
 
         default_jdk = None
         for heap_size, report_list in benchmark_reports[default_gc].items():
@@ -97,18 +91,10 @@ class StatsMatrix:
                     report.benchmark_name not in default_gc_reports[heap_size]
                 ), f"Default garbage collector {default_gc} shouldn't have repeated reports for the same benchmark {report.benchmark_name}"
 
-                is_cpu_intensive = report.avg_cpu_usage >= CPU_THRESHOLD
-                default_gc_reports[heap_size][report.benchmark_name] = is_cpu_intensive
+                default_gc_reports[heap_size].append(report.benchmark_name)
 
-                benchmarks[
-                    "cpu_intensive" if is_cpu_intensive else "non_cpu_intensive"
-                ][heap_size].append(report.benchmark_name)
-
-        cpu_intensive_matrix: dict[str, dict[str, StatsMatrix.GCScore]] = defaultdict(
+        matrix: dict[str, dict[str, StatsMatrix.GCScore]] = defaultdict(
             lambda: defaultdict(lambda: StatsMatrix.GCScore(0, 0))
-        )
-        non_cpu_intensive_matrix: dict[str, dict[str, StatsMatrix.GCScore]] = (
-            defaultdict(lambda: defaultdict(lambda: StatsMatrix.GCScore(0, 0)))
         )
 
         for gc in benchmark_reports:
@@ -123,31 +109,23 @@ class StatsMatrix:
 
                 gc_benchmarks = {i.benchmark_name for i in reports_list}
 
-                assert (
-                    gc_benchmarks == default_gc_reports[heap_size].keys()
+                assert gc_benchmarks == set(
+                    default_gc_reports[heap_size]
                 ), "All garbage collectors should have the same benchmarks"
 
                 for report in reports_list:
                     assert (
                         report.jdk == default_jdk
                     ), "All benchmark reports should be from the same runtime"
-                    # check which matrix this benchmark belongs
-                    matrix = (
-                        cpu_intensive_matrix
-                        if default_gc_reports[heap_size][report.benchmark_name]
-                        else non_cpu_intensive_matrix
-                    )
 
                     matrix[heap_size][gc].throughput += report.throughput
                     matrix[heap_size][gc].pause_time += report.p90_pause_time
 
-        normalize_matrix(cpu_intensive_matrix)
-        normalize_matrix(non_cpu_intensive_matrix)
+        normalize_matrix(matrix)
         return StatsMatrix(
-            cpu_intensive_matrix,
-            non_cpu_intensive_matrix,
+            matrix,
             list(garbage_collectors),
-            benchmarks,
+            default_gc_reports,
         )
 
     def save_to_json(self, jdk: str):
@@ -168,8 +146,7 @@ class StatsMatrix:
 class GarbageCollectorReport:
     garbage_collector: str
     jdk: str
-    cpu_intensive_stats: list[GarbageCollectorStats]
-    non_cpu_intensive_stats: list[GarbageCollectorStats]
+    stats: list[GarbageCollectorStats]
 
     @dataclass
     class GarbageCollectorStats:
@@ -225,20 +202,19 @@ class GarbageCollectorReport:
         )
 
     @staticmethod
-    def build_garbage_collector_result(
+    def build_garbage_collector_report(
         benchmarks_results: dict[str, list[BenchmarkReport]],
     ) -> GarbageCollectorReport:
-        """Builds a garbage collector result, taking into account every successfull benchmark run for every heap_size.
+        """Builds a garbage collector report, taking into account every successfull benchmark run for every heap_size.
 
         Args:
             benchmarks_results: Dictionary with `heap_size` as key and value as the list of `BenchmarkResult`s for that `heap_size`.
-                                NOTE: Every value should have one or more elements.
+                                NOTE: Every list should have one or more elements.
 
         Returns:
             A `GarbageCollectorResult`
         """
-        cpu_intensive_stats = []
-        non_cpu_intensive_stats = []
+        stats = []
 
         assert (
             len(benchmarks_results) > 0
@@ -246,64 +222,37 @@ class GarbageCollectorReport:
 
         gc = ""
         jdk = ""
-        for key, value in benchmarks_results.items():
+        for heap_size, results in benchmarks_results.items():
             assert (
-                len(value) >= 0
+                len(results) >= 0
             ), "List of benchmark results should have one element or more"
 
             if gc == "" and jdk == "":
-                gc = value[0].garbage_collector
-                jdk = value[0].jdk
+                gc = results[0].garbage_collector
+                jdk = results[0].jdk
 
             assert all(
-                el.is_successfull() for el in value
+                el.is_successfull() for el in results
             ), "All benchmarks should be successfull"
 
             assert all(
-                el.heap_size == key for el in value
-            ), f"All benchmark results should have the same heap size {key}"
+                el.heap_size == heap_size for el in results
+            ), f"All benchmark results should have the same heap size {heap_size}"
 
             assert all(
-                el.is_successfull() for el in value
+                el.is_successfull() for el in results
             ), "All benchmark results should be successfull"
 
             assert all(
-                el.garbage_collector == gc for el in value
+                el.garbage_collector == gc for el in results
             ), "All benchmark results should be from the same garbage collector"
 
             assert all(
-                el.jdk == jdk for el in value
+                el.jdk == jdk for el in results
             ), "All benchmark results should be from the same runtime"
+            stats.append(GarbageCollectorReport._build_gc_stats(heap_size, results))
 
-        for heap_size in benchmarks_results:
-            cpu_intensive_benchmarks = [
-                el
-                for el in benchmarks_results[heap_size]
-                if el.avg_cpu_usage >= CPU_THRESHOLD
-            ]
-            non_cpu_intensive_benchmarks = [
-                el
-                for el in benchmarks_results[heap_size]
-                if not el.avg_cpu_usage >= CPU_THRESHOLD
-            ]
-
-            if len(cpu_intensive_benchmarks) > 0:
-                cpu_intensive_stats.append(
-                    GarbageCollectorReport._build_gc_stats(
-                        heap_size, cpu_intensive_benchmarks
-                    )
-                )
-
-            if len(non_cpu_intensive_benchmarks) > 0:
-                non_cpu_intensive_stats.append(
-                    GarbageCollectorReport._build_gc_stats(
-                        heap_size, non_cpu_intensive_benchmarks
-                    )
-                )
-
-        return GarbageCollectorReport(
-            gc, jdk, cpu_intensive_stats, non_cpu_intensive_stats
-        )
+        return GarbageCollectorReport(gc, jdk, stats)
 
     @staticmethod
     def load_from_json(file_path: str) -> GarbageCollectorReport:
@@ -313,15 +262,11 @@ class GarbageCollectorReport:
             result = GarbageCollectorReport(**json.loads(data))
 
             # NOTE: Convert dicts to GarbageCollectorStats
-            result.cpu_intensive_stats = [
+            result.stats = [
                 GarbageCollectorReport.GarbageCollectorStats(**el)  # type: ignore
-                for el in result.cpu_intensive_stats
+                for el in result.stats
             ]
 
-            result.non_cpu_intensive_stats = [
-                GarbageCollectorReport.GarbageCollectorStats(**el)  # type: ignore
-                for el in result.non_cpu_intensive_stats
-            ]
             return result
 
     def save_to_json(self):
