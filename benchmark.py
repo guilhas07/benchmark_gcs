@@ -95,7 +95,7 @@ def _get_benchmark_command(
         f"-Xlog:gc*,safepoint:file={utils.get_benchmark_log_path(gc, benchmark_group.value, benchmark, heap_size)}::filecount=0",
     ]
 
-    settings = benchmarks_config.get(benchmark_group.value, {}).get(benchmark)
+    settings = benchmarks_config.get(benchmark_group.value, {}).get(benchmark, {})
     command.extend(settings.get("java", []))
 
     command.extend(["-jar", bench_path, benchmark])
@@ -149,7 +149,9 @@ def run_benchmark(
             pass
 
     def kill_process(process: subprocess.Popen[bytes], cmd: str):
-        print(f"Killing command: {' '.join(cmd)} due to timeout with {timeout}")
+        print(
+            f"Killing command: \n\t{' '.join(cmd)}\n\tdue to timeout with {timeout} seconds.\n"
+        )
         # file = utils.get_benchmark_debug_path(
         #     gc, benchmark_group.value, benchmark, heap_size
         # )
@@ -173,10 +175,10 @@ def run_benchmark(
     )
 
     file = DummyTimerAndFile()
+    file_path = utils.get_benchmark_debug_path(
+        gc, benchmark_group.value, benchmark, heap_size
+    )
     if _debug:
-        file_path = utils.get_benchmark_debug_path(
-            gc, benchmark_group.value, benchmark, heap_size
-        )
         file = open(file_path, "w")
         process = subprocess.Popen(
             benchmark_command, stdout=file, stderr=subprocess.STDOUT
@@ -186,9 +188,11 @@ def run_benchmark(
             benchmark_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
 
-    timer = DummyTimerAndFile()
-    if timeout is not None:
-        timer = Timer(timeout, kill_process, (process, benchmark_command))
+    timer = (
+        DummyTimerAndFile()
+        if timeout is None
+        else Timer(timeout, kill_process, (process, benchmark_command))
+    )
 
     time_start = time.time_ns()
     pid = process.pid
@@ -246,7 +250,12 @@ def run_benchmark(
             jdk,
         )
     else:
-        error = process.stderr.read().decode() if process.stderr is not None else ""
+        error = ""
+        if _debug:
+            error = f"Check {file_path} for error logs."
+        elif process.stderr:
+            error = process.stderr.read().decode()
+
         print(f"Error: {error}")
         result = BenchmarkReport.build_benchmark_error(
             gc,
