@@ -1,6 +1,28 @@
 {
     "DaCapo": {
         "kafka": { "java": ["-XX:+ExitOnOutOfMemoryError"] },
-        "batik": { "iterations": 5 }
+        "batik": { "iterations": 5, "timeout": 900 },
+        "biojava": { "iterations": 5, "timeout": 900 },
+        "cassandra": {
+            "iterations": 3,
+            "timeout": 900,
+            "java": ["-Djava.security.manager=allow"]
+        },
+        "graphchi": { "iterations": 3, "timeout": 900 },
+        "h2": { "iterations": 1, "timeout": 900 },
+        "h2o": {
+            "iterations": 5,
+            "timeout": 900,
+            "java": ["-Dsys.ai.h2o.debug.allowJavaVersions=21"]
+        },
+        "jme": { "iterations": 5, "timeout": 900 },
+        "jython": { "iterations": 5, "timeout": 900 },
+        "luindex": { "iterations": 1 },
+        "lusearch": { "iterations": 2, "timeout": 900 },
+        "kafka": { "timeout": 900 },
+        "sunflow": { "iterations": 5 },
+        "tomcat": { "iterations": 3, "timeout": 900 },
+        "tradebeans": { "iterations": 5, "timeout": 900 },
+        "tradesoap": { "iterations": 8, "timeout": 900 }
     }
 }
