@@ -151,10 +151,7 @@ def run_benchmark(
         def cancel(self):
             pass
 
-    killed = False
-
     def kill_process(process: subprocess.Popen[bytes], cmd: str):
-        nonlocal killed
         print(f"Killing command: {' '.join(cmd)} due to timeout with {timeout}")
         # file = utils.get_benchmark_debug_path(
         #     gc, benchmark_group.value, benchmark, heap_size
@@ -164,7 +161,6 @@ def run_benchmark(
         #         print(f"Writing to {file}...")
         #         f.write(process.stdout.read())
         process.kill()
-        killed = True
         # process.wait()
 
     benchmark_command = _get_benchmark_command(
@@ -238,7 +234,7 @@ def run_benchmark(
         f"{cpu_usage_avg=} {cpu_time_avg=} {io_time_avg=} {p90_io=} and {throughput=}"
     )
 
-    if process.returncode == 0 or killed:
+    if process.returncode == 0:
         print("Success")
         result = BenchmarkReport.build_benchmark_result(
             gc,
