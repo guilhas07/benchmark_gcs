@@ -26,18 +26,19 @@ class BENCHMARK_GROUP(Enum):
 _debug = False
 _dir = path.dirname(__file__)
 _BENCHMARK_PATH = f"{_dir}/benchmark_apps"
+_BENCHMARK_CONFIG_PATH = f"{_dir}/benchmarks_config.json"
 _benchmark_paths = {
     BENCHMARK_GROUP.RENAISSANCE.value: f"{_BENCHMARK_PATH}/renaissance-gpl-0.15.0.jar",
     BENCHMARK_GROUP.DACAPO.value: f"{_BENCHMARK_PATH}/dacapo-23.11-chopin.jar",
 }
 
-benchmark_options = {}
+benchmarks_config = {}
 try:
-    with open(f"{_dir}/benchmark_options.json") as f:
-        benchmark_options = json.loads(f.read())
-        print(f"Loaded benchmark options: {benchmark_options}")
+    with open(_BENCHMARK_CONFIG_PATH) as f:
+        benchmarks_config = json.loads(f.read())
+        print(f"Loaded benchmarks config: {benchmarks_config}")
 except FileNotFoundError:
-    print(f"[Warning] No benchmark options found in {_dir}/benchmark_options.json")
+    print(f"[Warning] No benchmark options found in {_BENCHMARK_CONFIG_PATH}")
 
 
 def set_debug(value: bool):
@@ -94,12 +95,8 @@ def _get_benchmark_command(
         f"-Xlog:gc*,safepoint:file={utils.get_benchmark_log_path(gc, benchmark_group.value, benchmark, heap_size)}::filecount=0",
     ]
 
-    if (
-        options := benchmark_options.get(benchmark_group.value, {})
-        .get(benchmark, {})
-        .get("java")
-    ):
-        command.extend(options)
+    settings = benchmarks_config.get(benchmark_group.value, {}).get(benchmark)
+    command.extend(settings.get("java", []))
 
     command.extend(["-jar", bench_path, benchmark])
 
@@ -299,8 +296,19 @@ def run_benchmark_groups(
         benchmarks = _get_benchmarks(benchmark_group)
 
         for benchmark in benchmarks:
+            # NOTE: Override with config settings
+            settings = benchmarks_config.get(benchmark_group.value, {}).get(
+                benchmark, {}
+            )
+
             result = run_benchmark(
-                benchmark_group, benchmark, gc, heap_size, iterations, jdk, timeout
+                benchmark_group,
+                benchmark,
+                gc,
+                heap_size,
+                settings.get("iterations", iterations),
+                jdk,
+                settings.get("timeout", timeout),
             )
 
             benchmark_results.append(result)

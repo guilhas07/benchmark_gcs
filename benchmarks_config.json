@@ -1,0 +1,6 @@
+{
+    "DaCapo": {
+        "kafka": { "java": ["-XX:+ExitOnOutOfMemoryError"] },
+        "batik": { "iterations": 5 }
+    }
+}
