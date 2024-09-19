@@ -18,7 +18,7 @@ _benchmark_paths = {
 }
 
 # NOTE: there is a no-op GC Epsilon
-_GCS = ["G1", "Parallel", "Serial", "Shenandoah", "Z"]
+_GCS = ["G1", "Parallel", "Shenandoah", "Z"]
 
 
 def get_cpu_count():
