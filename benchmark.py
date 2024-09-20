@@ -104,17 +104,6 @@ def _get_benchmark_command(
             command.extend(["-r", f"{iterations}", "--no-forced-gc"])
         case BENCHMARK_GROUP.DACAPO:
             command.extend(["-n", f"{iterations}", "--no-pre-iteration-gc"])
-            # TODO: change to capture output only once https://github.com/dacapobench/dacapobench/issues/265
-            # is fixed
-            p = subprocess.run(
-                ["java", "-jar", bench_path, benchmark, "--sizes"],
-                # capture_output=True,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                text=True,
-            )
-            if "large" in p.stdout:
-                command.extend(["-s", "large"])
         case _:
             raise AssertionError(f"{benchmark_group} not supported")
     return command
