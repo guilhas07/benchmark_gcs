@@ -65,9 +65,9 @@ def main(argv=None) -> int:
         "-t",
         "--timeout",
         dest="timeout",
-        default=None,
+        default=600,
         type=int,
-        help="Timeout for each benchmark.",
+        help="Timeout in seconds for each benchmark.",
     )
 
     parser.add_argument(
