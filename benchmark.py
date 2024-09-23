@@ -368,7 +368,6 @@ def run_benchmarks(
 
     # using list to avoid modifying dict while iterating
     for gc in list(benchmark_results):
-        heap_size = None
         for heap_size, results in list(benchmark_results[gc].items()):
             valid_results = [
                 el
