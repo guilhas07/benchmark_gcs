@@ -18,11 +18,4 @@ print(f"{len(d[graal])} == {len(d[oracle])}")
 # print(d[oracle])
 
 assert len(d[graal]) == len(d[oracle])
-print(type(d[graal]))
-print(type(d[oracle]))
-# assert d[graal] == d[oracle]
-
-
-for i in d[graal]:
-    if i not in d[oracle]:
-        print(i)
+assert d[graal] == d[oracle]
