@@ -71,7 +71,7 @@ class StatsMatrix:
 
         assert (
             found
-        ), f"default_garbage_collector: {default_gc} was not found in benchmark_results"
+        ), f"default_garbage_collector: {default_gc} was not found in benchmark_reports"
 
         # Populate list of benchmark names with the benchmarks present in
         # the default garbage collector
@@ -161,12 +161,12 @@ class GarbageCollectorReport:
     @staticmethod
     def _build_gc_stats(
         heap_size: str,
-        benchmark_results: list[BenchmarkReport],
+        benchmark_reports: list[BenchmarkReport],
     ) -> GarbageCollectorReport.GarbageCollectorStats:
         """
         Args:
             heap_size: int -> size of the heap used for the list of benchmark results.
-            benchmark_results: list[BenchmarkResult] -> Valid benchmark results (meaning only successfull benchmarks), with atleast one element.
+            benchmark_reports: list[BenchmarkResult] -> Valid benchmark results (meaning only successfull benchmarks), with atleast one element.
             All benchmark results should have an heap_size equal to the provided heap_size and should be from the same garbage collector.
             You can check the validity of the benchmark with benchmark_result.is_successfull().
 
@@ -179,7 +179,7 @@ class GarbageCollectorReport:
         gc_throughput = []
         benchmarks = []
 
-        for result in benchmark_results:
+        for result in benchmark_reports:
             total_gc_pauses += result.number_of_pauses
             total_gc_pause_time += result.total_pause_time
             p90_gc_pause_time.append(result.p90_pause_time)
@@ -218,7 +218,7 @@ class GarbageCollectorReport:
 
         assert (
             len(benchmarks_results) > 0
-        ), "benchmark_results should have one or more keys"
+        ), "benchmark_reports should have one or more keys"
 
         gc = ""
         jdk = ""

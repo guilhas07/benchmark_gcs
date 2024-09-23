@@ -286,7 +286,7 @@ def run_benchmark_groups(
     Returns:
         list[BenchmarkReport]
     """
-    benchmark_results: list[BenchmarkReport] = []
+    benchmark_reports: list[BenchmarkReport] = []
     groups: list[BENCHMARK_GROUP] = benchmark_groups or [*BENCHMARK_GROUP]
 
     for benchmark_group in groups:
@@ -308,8 +308,8 @@ def run_benchmark_groups(
                 settings.get("timeout", timeout),
             )
 
-            benchmark_results.append(result)
-    return benchmark_results
+            benchmark_reports.append(result)
+    return benchmark_reports
 
 
 def run_benchmarks(
@@ -321,7 +321,7 @@ def run_benchmarks(
     timeout: int | None = None,
 ) -> dict[str, dict[str, list[BenchmarkReport]]]:
     # { gc: heap_size: { list[BenchmarkReport } }
-    benchmark_results: dict[str, dict[str, list[BenchmarkReport]]] = defaultdict(
+    benchmark_reports: dict[str, dict[str, list[BenchmarkReport]]] = defaultdict(
         lambda: defaultdict(list)
     )
     heap_sizes: list[str] = utils.get_heap_sizes()
@@ -331,17 +331,13 @@ def run_benchmarks(
     )
 
     for gc in garbage_collectors:
-        # benchmark_results[gc] = {}
         for heap_size in heap_sizes:
-            # if heap_size not in benchmark_results[gc]:
-            # benchmark_results[gc][heap_size] = []
-
             if skip_benchmarks:
-                benchmark_results[gc][heap_size] = utils.load_benchmark_results(
+                benchmark_reports[gc][heap_size] = utils.load_benchmark_reports(
                     gc, heap_size, jdk
                 )
             else:
-                benchmark_results[gc][heap_size].extend(
+                benchmark_reports[gc][heap_size].extend(
                     run_benchmark_groups(
                         gc,
                         heap_size,
@@ -352,13 +348,8 @@ def run_benchmarks(
                     )
                 )
 
-            for result in benchmark_results[gc][heap_size]:
+            for result in benchmark_reports[gc][heap_size]:
                 if not result.is_successfull():
-                    # if result.heap_size not in failed_benchmarks:
-                    #     failed_benchmarks[result.heap_size] = {}
-                    # if result.benchmark_name not in failed_benchmarks[result.heap_size]:
-                    #     failed_benchmarks[result.heap_size][result.benchmark_name] = []
-
                     failed_benchmarks[result.heap_size][result.benchmark_name].append(
                         (
                             result.garbage_collector,
@@ -366,9 +357,9 @@ def run_benchmarks(
                         )
                     )
 
-    # using list to avoid modifying dict while iterating
-    for gc in list(benchmark_results):
-        for heap_size, results in list(benchmark_results[gc].items()):
+    # NOTE: using list to avoid modifying dict while iterating
+    for gc in list(benchmark_reports):
+        for heap_size, results in list(benchmark_reports[gc].items()):
             valid_results = [
                 el
                 for el in results
@@ -377,24 +368,24 @@ def run_benchmarks(
             ]
 
             if len(valid_results) == 0:
-                del benchmark_results[gc][heap_size]
+                del benchmark_reports[gc][heap_size]
                 continue
 
-            benchmark_results[gc][heap_size] = valid_results
+            benchmark_reports[gc][heap_size] = valid_results
             assert all(
                 el.is_successfull() for el in valid_results
             ), "All benchmarks should be successfull"
 
-        if len(benchmark_results[gc]) > 0:
+        if len(benchmark_reports[gc]) > 0:
             GarbageCollectorReport.build_garbage_collector_report(
-                benchmark_results[gc]
+                benchmark_reports[gc]
             ).save_to_json()
         else:
             f"Garbage Collector {gc} doesn't have successfull benchmarks."
-            del benchmark_results[gc]
+            del benchmark_reports[gc]
 
     if len(failed_benchmarks) > 0:
         error_report = ErrorReport(jdk, failed_benchmarks)
         error_report.save_to_json()
 
-    return benchmark_results
+    return benchmark_reports

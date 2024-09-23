@@ -156,7 +156,7 @@ def get_heap_sizes() -> list[str]:
     return ["256", "512", "1024", "2048", "4096", "8192"]
 
 
-def load_benchmark_results(
+def load_benchmark_reports(
     garbage_collector: str, heap_size: str, jdk: str
 ) -> list[BenchmarkReport]:
     return [
