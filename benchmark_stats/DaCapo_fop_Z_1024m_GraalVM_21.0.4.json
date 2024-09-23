@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "fop",
+    "heap_size": "1024",
+    "error": null,
+    "avg_cpu_usage": 24.0,
+    "avg_cpu_time": 93.4,
+    "avg_io_time": 0.2,
+    "p90_io": 0.0,
+    "number_of_pauses": 63,
+    "total_pause_time": 30614875,
+    "avg_pause_time": 485950.4,
+    "pauses_per_category": {
+        "ICBufferFull": 27,
+        "XMarkStart": 10,
+        "XMarkEnd": 9,
+        "CleanClassLoaderDataMetaspaces": 2,
+        "XRelocateStart": 10,
+        "Cleanup": 5
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 6752401,
+        "XMarkStart": 1626526,
+        "XMarkEnd": 9364654,
+        "CleanClassLoaderDataMetaspaces": 8502056,
+        "XRelocateStart": 3421635,
+        "Cleanup": 947603
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 250088.93,
+        "XMarkStart": 162652.6,
+        "XMarkEnd": 1040517.11,
+        "CleanClassLoaderDataMetaspaces": 4251028.0,
+        "XRelocateStart": 342163.5,
+        "Cleanup": 189520.6
+    },
+    "p90_pause_time": 372503.2,
+    "throughput": 20257844055
+}

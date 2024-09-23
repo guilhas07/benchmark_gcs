@@ -1,0 +1,29 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "rx-scrabble",
+    "heap_size": "256",
+    "error": null,
+    "avg_cpu_usage": 27.0,
+    "avg_cpu_time": 55.1,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 23,
+    "total_pause_time": 82452649,
+    "avg_pause_time": 3584897.78,
+    "pauses_per_category": {
+        "ICBufferFull": 9,
+        "G1CollectForAllocation": 14
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 1180848,
+        "G1CollectForAllocation": 81271801
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 131205.33,
+        "G1CollectForAllocation": 5805128.64
+    },
+    "p90_pause_time": 6530637.2,
+    "throughput": 3049918712
+}

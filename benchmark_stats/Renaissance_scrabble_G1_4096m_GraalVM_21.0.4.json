@@ -1,0 +1,29 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "scrabble",
+    "heap_size": "4096",
+    "error": null,
+    "avg_cpu_usage": 62.4,
+    "avg_cpu_time": 83.1,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 13,
+    "total_pause_time": 217956126,
+    "avg_pause_time": 16765855.85,
+    "pauses_per_category": {
+        "ICBufferFull": 2,
+        "G1CollectForAllocation": 11
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 324089,
+        "G1CollectForAllocation": 217632037
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 162044.5,
+        "G1CollectForAllocation": 19784730.64
+    },
+    "p90_pause_time": 23088203.2,
+    "throughput": 4364065631
+}

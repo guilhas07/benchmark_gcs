@@ -1,0 +1,44 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "kafka",
+    "heap_size": "4096",
+    "error": null,
+    "avg_cpu_usage": 14.3,
+    "avg_cpu_time": 86.1,
+    "avg_io_time": 1.4,
+    "p90_io": 6.1,
+    "number_of_pauses": 95,
+    "total_pause_time": 350626054,
+    "avg_pause_time": 3690800.57,
+    "pauses_per_category": {
+        "ICBufferFull": 24,
+        "CollectForMetadataAllocation": 6,
+        "G1PauseRemark": 3,
+        "G1PauseCleanup": 3,
+        "G1CollectForAllocation": 10,
+        "Cleanup": 48,
+        "G1TryInitiateConcMark": 1
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 8200948,
+        "CollectForMetadataAllocation": 51039630,
+        "G1PauseRemark": 24265411,
+        "G1PauseCleanup": 5120595,
+        "G1CollectForAllocation": 229604330,
+        "Cleanup": 10456568,
+        "G1TryInitiateConcMark": 21938572
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 341706.17,
+        "CollectForMetadataAllocation": 8506605.0,
+        "G1PauseRemark": 8088470.33,
+        "G1PauseCleanup": 1706865.0,
+        "G1CollectForAllocation": 22960433.0,
+        "Cleanup": 217845.17,
+        "G1TryInitiateConcMark": 21938572.0
+    },
+    "p90_pause_time": 13759886.6,
+    "throughput": 77545567557
+}

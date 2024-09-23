@@ -1,0 +1,38 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "akka-uct",
+    "heap_size": "4096",
+    "error": null,
+    "avg_cpu_usage": 71.1,
+    "avg_cpu_time": 84.5,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 371,
+    "total_pause_time": 404918829,
+    "avg_pause_time": 1091425.42,
+    "pauses_per_category": {
+        "ICBufferFull": 3,
+        "XMarkStart": 116,
+        "XMarkEnd": 133,
+        "CleanClassLoaderDataMetaspaces": 3,
+        "XRelocateStart": 116
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 11164134,
+        "XMarkStart": 95940714,
+        "XMarkEnd": 122104070,
+        "CleanClassLoaderDataMetaspaces": 2756542,
+        "XRelocateStart": 172953369
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 3721378.0,
+        "XMarkStart": 827075.12,
+        "XMarkEnd": 918075.71,
+        "CleanClassLoaderDataMetaspaces": 918847.33,
+        "XRelocateStart": 1490977.32
+    },
+    "p90_pause_time": 3340677.0,
+    "throughput": 109566239548
+}

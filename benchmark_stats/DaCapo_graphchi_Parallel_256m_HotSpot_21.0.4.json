@@ -1,0 +1,29 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "graphchi",
+    "heap_size": "256",
+    "error": null,
+    "avg_cpu_usage": 25.8,
+    "avg_cpu_time": 92.5,
+    "avg_io_time": 0.2,
+    "p90_io": 0.0,
+    "number_of_pauses": 3351,
+    "total_pause_time": 94649195853,
+    "avg_pause_time": 28245059.94,
+    "pauses_per_category": {
+        "Cleanup": 5,
+        "ParallelGCFailedAllocation": 3346
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 8337440,
+        "ParallelGCFailedAllocation": 94640858413
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 1667488.0,
+        "ParallelGCFailedAllocation": 28284775.38
+    },
+    "p90_pause_time": 36957491.0,
+    "throughput": 196249784316
+}

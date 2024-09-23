@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "batik",
+    "heap_size": "256",
+    "error": null,
+    "avg_cpu_usage": 26.8,
+    "avg_cpu_time": 93.7,
+    "avg_io_time": 0.2,
+    "p90_io": 0.0,
+    "number_of_pauses": 707,
+    "total_pause_time": 95793882,
+    "avg_pause_time": 135493.47,
+    "pauses_per_category": {
+        "Cleanup": 2,
+        "XMarkStart": 254,
+        "XMarkEnd": 203,
+        "CleanClassLoaderDataMetaspaces": 3,
+        "XRelocateStart": 243,
+        "ICBufferFull": 2
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 67051,
+        "XMarkStart": 32073011,
+        "XMarkEnd": 17978821,
+        "CleanClassLoaderDataMetaspaces": 666537,
+        "XRelocateStart": 44703519,
+        "ICBufferFull": 304943
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 33525.5,
+        "XMarkStart": 126271.7,
+        "XMarkEnd": 88565.62,
+        "CleanClassLoaderDataMetaspaces": 222179.0,
+        "XRelocateStart": 183965.1,
+        "ICBufferFull": 152471.5
+    },
+    "p90_pause_time": 108231.4,
+    "throughput": 52201633966
+}

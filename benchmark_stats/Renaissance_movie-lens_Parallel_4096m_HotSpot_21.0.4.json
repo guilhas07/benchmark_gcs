@@ -1,0 +1,38 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "movie-lens",
+    "heap_size": "4096",
+    "error": null,
+    "avg_cpu_usage": 46.6,
+    "avg_cpu_time": 63.0,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 238,
+    "total_pause_time": 914932465,
+    "avg_pause_time": 3844254.05,
+    "pauses_per_category": {
+        "ICBufferFull": 47,
+        "CollectForMetadataAllocation": 3,
+        "ParallelGCFailedAllocation": 160,
+        "ParallelGCSystemGC": 27,
+        "Cleanup": 1
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 22585827,
+        "CollectForMetadataAllocation": 90907970,
+        "ParallelGCFailedAllocation": 600821655,
+        "ParallelGCSystemGC": 200561290,
+        "Cleanup": 55723
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 480549.51,
+        "CollectForMetadataAllocation": 30302656.67,
+        "ParallelGCFailedAllocation": 3755135.34,
+        "ParallelGCSystemGC": 7428195.93,
+        "Cleanup": 55723.0
+    },
+    "p90_pause_time": 5279863.9,
+    "throughput": 104486600502
+}

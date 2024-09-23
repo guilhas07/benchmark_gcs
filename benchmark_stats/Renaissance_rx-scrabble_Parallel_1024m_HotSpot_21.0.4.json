@@ -1,0 +1,29 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "rx-scrabble",
+    "heap_size": "1024",
+    "error": null,
+    "avg_cpu_usage": 32.5,
+    "avg_cpu_time": 52.0,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 15,
+    "total_pause_time": 131574290,
+    "avg_pause_time": 8771619.33,
+    "pauses_per_category": {
+        "ICBufferFull": 8,
+        "ParallelGCFailedAllocation": 7
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 3939115,
+        "ParallelGCFailedAllocation": 127635175
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 492389.38,
+        "ParallelGCFailedAllocation": 18233596.43
+    },
+    "p90_pause_time": 23655411.4,
+    "throughput": 2752710225
+}

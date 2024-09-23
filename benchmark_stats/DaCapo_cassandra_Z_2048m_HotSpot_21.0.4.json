@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "cassandra",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 15.2,
+    "avg_cpu_time": 83.9,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 236,
+    "total_pause_time": 93421417,
+    "avg_pause_time": 395853.46,
+    "pauses_per_category": {
+        "Cleanup": 84,
+        "ICBufferFull": 41,
+        "XMarkStart": 35,
+        "XMarkEnd": 35,
+        "CleanClassLoaderDataMetaspaces": 5,
+        "XRelocateStart": 36
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 17162516,
+        "ICBufferFull": 35258796,
+        "XMarkStart": 13421225,
+        "XMarkEnd": 6564719,
+        "CleanClassLoaderDataMetaspaces": 12389282,
+        "XRelocateStart": 8624879
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 204315.67,
+        "ICBufferFull": 859970.63,
+        "XMarkStart": 383463.57,
+        "XMarkEnd": 187563.4,
+        "CleanClassLoaderDataMetaspaces": 2477856.4,
+        "XRelocateStart": 239579.97
+    },
+    "p90_pause_time": 807792.0,
+    "throughput": 219915506615
+}

@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "neo4j-analytics",
+    "heap_size": "8192",
+    "error": null,
+    "avg_cpu_usage": 29.7,
+    "avg_cpu_time": 46.7,
+    "avg_io_time": 0.4,
+    "p90_io": 0.0,
+    "number_of_pauses": 116,
+    "total_pause_time": 15040843,
+    "avg_pause_time": 129662.44,
+    "pauses_per_category": {
+        "ICBufferFull": 45,
+        "XMarkStart": 17,
+        "XMarkEnd": 15,
+        "CleanClassLoaderDataMetaspaces": 5,
+        "XRelocateStart": 15,
+        "Cleanup": 19
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 5511252,
+        "XMarkStart": 1589518,
+        "XMarkEnd": 1565402,
+        "CleanClassLoaderDataMetaspaces": 2914892,
+        "XRelocateStart": 1620967,
+        "Cleanup": 1838812
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 122472.27,
+        "XMarkStart": 93501.06,
+        "XMarkEnd": 104360.13,
+        "CleanClassLoaderDataMetaspaces": 582978.4,
+        "XRelocateStart": 108064.47,
+        "Cleanup": 96779.58
+    },
+    "p90_pause_time": 169457.0,
+    "throughput": 43959174236
+}

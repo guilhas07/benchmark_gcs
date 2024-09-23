@@ -1,0 +1,44 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "eclipse",
+    "heap_size": "512",
+    "error": null,
+    "avg_cpu_usage": 21.8,
+    "avg_cpu_time": 87.9,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 589,
+    "total_pause_time": 7110523137,
+    "avg_pause_time": 12072195.48,
+    "pauses_per_category": {
+        "G1CollectForAllocation": 230,
+        "ICBufferFull": 72,
+        "CollectForMetadataAllocation": 2,
+        "G1PauseRemark": 73,
+        "G1PauseCleanup": 73,
+        "Cleanup": 51,
+        "G1TryInitiateConcMark": 88
+    },
+    "total_pause_time_per_category": {
+        "G1CollectForAllocation": 4672071392,
+        "ICBufferFull": 17673225,
+        "CollectForMetadataAllocation": 9289265,
+        "G1PauseRemark": 871032325,
+        "G1PauseCleanup": 51060750,
+        "Cleanup": 11529800,
+        "G1TryInitiateConcMark": 1477866380
+    },
+    "avg_pause_time_per_category": {
+        "G1CollectForAllocation": 20313353.88,
+        "ICBufferFull": 245461.46,
+        "CollectForMetadataAllocation": 4644632.5,
+        "G1PauseRemark": 11931949.66,
+        "G1PauseCleanup": 699462.33,
+        "Cleanup": 226074.51,
+        "G1TryInitiateConcMark": 16793936.14
+    },
+    "p90_pause_time": 28843981.4,
+    "throughput": 216898732743
+}

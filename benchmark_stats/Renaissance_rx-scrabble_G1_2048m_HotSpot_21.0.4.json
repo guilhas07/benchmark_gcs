@@ -1,0 +1,29 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "rx-scrabble",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 30.7,
+    "avg_cpu_time": 49.5,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 11,
+    "total_pause_time": 51214267,
+    "avg_pause_time": 4655842.45,
+    "pauses_per_category": {
+        "ICBufferFull": 5,
+        "G1CollectForAllocation": 6
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 453692,
+        "G1CollectForAllocation": 50760575
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 90738.4,
+        "G1CollectForAllocation": 8460095.83
+    },
+    "p90_pause_time": 10393446.0,
+    "throughput": 2747455393
+}

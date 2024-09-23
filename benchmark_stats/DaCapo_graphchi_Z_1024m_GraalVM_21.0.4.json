@@ -1,0 +1,38 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "graphchi",
+    "heap_size": "1024",
+    "error": null,
+    "avg_cpu_usage": 28.3,
+    "avg_cpu_time": 90.5,
+    "avg_io_time": 0.4,
+    "p90_io": 1.2,
+    "number_of_pauses": 1110,
+    "total_pause_time": 1272888663,
+    "avg_pause_time": 1146746.54,
+    "pauses_per_category": {
+        "Cleanup": 6,
+        "XMarkStart": 367,
+        "XMarkEnd": 366,
+        "CleanClassLoaderDataMetaspaces": 2,
+        "XRelocateStart": 369
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 575610,
+        "XMarkStart": 440351508,
+        "XMarkEnd": 531998888,
+        "CleanClassLoaderDataMetaspaces": 4582885,
+        "XRelocateStart": 295379772
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 95935.0,
+        "XMarkStart": 1199867.87,
+        "XMarkEnd": 1453548.87,
+        "CleanClassLoaderDataMetaspaces": 2291442.5,
+        "XRelocateStart": 800487.19
+    },
+    "p90_pause_time": 3076407.6,
+    "throughput": 93323541185
+}

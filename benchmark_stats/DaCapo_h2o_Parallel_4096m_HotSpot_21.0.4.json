@@ -1,0 +1,38 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "h2o",
+    "heap_size": "4096",
+    "error": null,
+    "avg_cpu_usage": 20.1,
+    "avg_cpu_time": 91.3,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 96,
+    "total_pause_time": 1614153404,
+    "avg_pause_time": 16814097.96,
+    "pauses_per_category": {
+        "Cleanup": 6,
+        "ICBufferFull": 6,
+        "CollectForMetadataAllocation": 2,
+        "ParallelGCFailedAllocation": 62,
+        "ParallelGCSystemGC": 20
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 647307,
+        "ICBufferFull": 1154590,
+        "CollectForMetadataAllocation": 112400846,
+        "ParallelGCFailedAllocation": 337816694,
+        "ParallelGCSystemGC": 1162133967
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 107884.5,
+        "ICBufferFull": 192431.67,
+        "CollectForMetadataAllocation": 56200423.0,
+        "ParallelGCFailedAllocation": 5448656.35,
+        "ParallelGCSystemGC": 58106698.35
+    },
+    "p90_pause_time": 59521145.5,
+    "throughput": 63268637535
+}

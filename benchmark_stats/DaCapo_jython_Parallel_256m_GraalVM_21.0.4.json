@@ -1,0 +1,32 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "jython",
+    "heap_size": "256",
+    "error": null,
+    "avg_cpu_usage": 18.0,
+    "avg_cpu_time": 91.5,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 497,
+    "total_pause_time": 2144039341,
+    "avg_pause_time": 4313962.46,
+    "pauses_per_category": {
+        "ParallelGCFailedAllocation": 484,
+        "ICBufferFull": 11,
+        "CollectForMetadataAllocation": 2
+    },
+    "total_pause_time_per_category": {
+        "ParallelGCFailedAllocation": 1974296362,
+        "ICBufferFull": 1366104,
+        "CollectForMetadataAllocation": 168376875
+    },
+    "avg_pause_time_per_category": {
+        "ParallelGCFailedAllocation": 4079124.71,
+        "ICBufferFull": 124191.27,
+        "CollectForMetadataAllocation": 84188437.5
+    },
+    "p90_pause_time": 8221791.6,
+    "throughput": 71584152585
+}

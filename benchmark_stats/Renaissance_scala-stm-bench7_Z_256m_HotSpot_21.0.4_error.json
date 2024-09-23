@@ -1,0 +1,20 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "scala-stm-bench7",
+    "heap_size": "256",
+    "error": "Error code not found: 1\nSetup start...\nSetting up the design library:\n\nException: java.lang.OutOfMemoryError thrown from the UncaughtExceptionHandler in thread \"Thread-2\"\n\nException: java.lang.OutOfMemoryError thrown from the UncaughtExceptionHandler in thread \"main\"\n",
+    "avg_cpu_usage": 26.0,
+    "avg_cpu_time": 43.8,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 0,
+    "total_pause_time": 0,
+    "avg_pause_time": 0,
+    "pauses_per_category": {},
+    "total_pause_time_per_category": {},
+    "avg_pause_time_per_category": {},
+    "p90_pause_time": 0,
+    "throughput": 0
+}

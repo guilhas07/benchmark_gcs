@@ -1,0 +1,29 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "future-genetic",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 31.4,
+    "avg_cpu_time": 49.3,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 29,
+    "total_pause_time": 42132035,
+    "avg_pause_time": 1452828.79,
+    "pauses_per_category": {
+        "ICBufferFull": 5,
+        "ParallelGCFailedAllocation": 24
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 419333,
+        "ParallelGCFailedAllocation": 41712702
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 83866.6,
+        "ParallelGCFailedAllocation": 1738029.25
+    },
+    "p90_pause_time": 3875001.8,
+    "throughput": 19805114086
+}

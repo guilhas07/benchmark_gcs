@@ -1,0 +1,20 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "page-rank",
+    "heap_size": "512",
+    "error": "Error code not found: 1\nBenchmark 'page-rank' failed with exception:\njava.lang.OutOfMemoryError: Java heap space\n\tat java.base/java.io.BufferedReader.implReadLine(BufferedReader.java:403)\n\tat java.base/java.io.BufferedReader.readLine(BufferedReader.java:347)\n\tat java.base/java.io.BufferedReader.readLine(BufferedReader.java:436)\n\tat scala.io.BufferedSource$BufferedLineIterator.hasNext(BufferedSource.scala:73)\n\tat scala.collection.Iterator$$anon$12.hasNext(Iterator.scala:653)\n\tat scala.collection.immutable.List.prependedAll(List.scala:155)\n\tat scala.collection.immutable.List$.from(List.scala:684)\n\tat scala.collection.immutable.List$.from(List.scala:681)\n\tat scala.collection.SeqFactory$Delegate.from(Factory.scala:306)\n\tat scala.collection.immutable.Seq$.from(Seq.scala:42)\n\tat scala.collection.IterableOnceOps.toSeq(IterableOnce.scala:1326)\n\tat scala.collection.IterableOnceOps.toSeq$(IterableOnce.scala:1326)\n\tat scala.collection.AbstractIterator.toSeq(Iterator.scala:1300)\n\tat org.renaissance.apache.spark.PageRank.copyLinesToFile(PageRank.scala:87)\n\tat org.renaissance.apache.spark.PageRank.setUpBeforeAll(PageRank.scala:114)\n\tat org.renaissance.harness.ExecutionDriver.executeBenchmark(ExecutionDriver.java:82)\n\tat org.renaissance.harness.RenaissanceSuite$.runBenchmarks$$anonfun$1(RenaissanceSuite.scala:172)\n\tat org.renaissance.harness.RenaissanceSuite$$$Lambda/0x00007719b011c4c0.applyVoid(Unknown Source)\n\tat scala.runtime.function.JProcedure1.apply(JProcedure1.java:15)\n\tat scala.runtime.function.JProcedure1.apply(JProcedure1.java:10)\n\tat scala.collection.immutable.List.foreach(List.scala:333)\n\tat org.renaissance.harness.RenaissanceSuite$.runBenchmarks(RenaissanceSuite.scala:205)\n\tat org.renaissance.harness.RenaissanceSuite$.main(RenaissanceSuite.scala:130)\n\tat org.renaissance.harness.RenaissanceSuite.main(RenaissanceSuite.scala)\n\tat java.base/java.lang.invoke.LambdaForm$DMH/0x00007719b0004000.invokeStatic(LambdaForm$DMH)\n\tat java.base/java.lang.invoke.LambdaForm$MH/0x00007719b000a000.invoke(LambdaForm$MH)\n\tat java.base/java.lang.invoke.Invokers$Holder.invokeExact_MT(Invokers$Holder)\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invokeImpl(DirectMethodHandleAccessor.java:154)\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat org.renaissance.core.Launcher.loadAndInvokeHarnessClass(Launcher.java:129)\n\tat org.renaissance.core.Launcher.launchHarnessClass(Launcher.java:78)\n",
+    "avg_cpu_usage": 30.4,
+    "avg_cpu_time": 50.5,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 0,
+    "total_pause_time": 0,
+    "avg_pause_time": 0,
+    "pauses_per_category": {},
+    "total_pause_time_per_category": {},
+    "avg_pause_time_per_category": {},
+    "p90_pause_time": 0,
+    "throughput": 0
+}

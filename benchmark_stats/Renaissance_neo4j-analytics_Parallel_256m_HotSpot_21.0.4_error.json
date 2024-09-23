@@ -1,0 +1,20 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "neo4j-analytics",
+    "heap_size": "256",
+    "error": "Error code not found: 1\nBenchmark 'neo4j-analytics' failed with exception:\njava.lang.OutOfMemoryError: GC overhead limit exceeded\n\tat java.base/java.util.LinkedHashMap.newNode(LinkedHashMap.java:281)\n\tat java.base/java.util.HashMap.putVal(HashMap.java:637)\n\tat java.base/java.util.HashMap.put(HashMap.java:618)\n\tat play.api.libs.json.ImmutableLinkedHashMap$$anon$2.addOne(ImmutableLinkedHashMap.scala:77)\n\tat play.api.libs.json.ImmutableLinkedHashMap$$anon$2.$anonfun$addAll$1(ImmutableLinkedHashMap.scala:83)\n\tat play.api.libs.json.ImmutableLinkedHashMap$$anon$2$$Lambda/0x000071bcec88c908.apply(Unknown Source)\n\tat scala.collection.IterableOnceOps.foreach(IterableOnce.scala:576)\n\tat scala.collection.IterableOnceOps.foreach$(IterableOnce.scala:574)\n\tat scala.collection.AbstractIterator.foreach(Iterator.scala:1300)\n\tat play.api.libs.json.ImmutableLinkedHashMap$$anon$2.addAll(ImmutableLinkedHashMap.scala:83)\n\tat play.api.libs.json.ImmutableLinkedHashMap$$anon$2.addAll(ImmutableLinkedHashMap.scala:64)\n\tat scala.collection.mutable.Growable.$plus$plus$eq(Growable.scala:69)\n\tat scala.collection.mutable.Growable.$plus$plus$eq$(Growable.scala:69)\n\tat play.api.libs.json.ImmutableLinkedHashMap$$anon$2.$plus$plus$eq(ImmutableLinkedHashMap.scala:64)\n\tat play.api.libs.json.JsObject$.createFieldsMap(JsValue.scala:205)\n\tat play.api.libs.json.JsObject$.apply(JsValue.scala:211)\n\tat play.api.libs.json.jackson.JsValueDeserializer.deserialize(JacksonJson.scala:228)\n\tat play.api.libs.json.jackson.JsValueDeserializer.deserialize(JacksonJson.scala:158)\n\tat play.api.libs.json.jackson.JsValueDeserializer.deserialize(JacksonJson.scala:153)\n\tat com.fasterxml.jackson.databind.deser.DefaultDeserializationContext.readRootValue(DefaultDeserializationContext.java:323)\n\tat com.fasterxml.jackson.databind.ObjectMapper._readValue(ObjectMapper.java:4801)\n\tat com.fasterxml.jackson.databind.ObjectMapper.readValue(ObjectMapper.java:2974)\n\tat play.api.libs.json.jackson.JacksonJson.parseJsValue(JacksonJson.scala:296)\n\tat play.api.libs.json.StaticBinding$.parseJsValue(StaticBinding.scala:17)\n\tat play.api.libs.json.Json$.parse(Json.scala:175)\n\tat org.renaissance.neo4j.Neo4jAnalytics.loadJsonResource(Neo4jAnalytics.scala:82)\n\tat org.renaissance.neo4j.Neo4jAnalytics.setUpBeforeAll(Neo4jAnalytics.scala:101)\n\tat org.renaissance.harness.ExecutionDriver.executeBenchmark(ExecutionDriver.java:82)\n\tat org.renaissance.harness.RenaissanceSuite$.runBenchmarks$$anonfun$1(RenaissanceSuite.scala:172)\n\tat org.renaissance.harness.RenaissanceSuite$$$Lambda/0x000071bcec11c4c0.applyVoid(Unknown Source)\n\tat scala.runtime.function.JProcedure1.apply(JProcedure1.java:15)\n\tat scala.runtime.function.JProcedure1.apply(JProcedure1.java:10)\n",
+    "avg_cpu_usage": 40.4,
+    "avg_cpu_time": 60.0,
+    "avg_io_time": 0.5,
+    "p90_io": 0.24,
+    "number_of_pauses": 0,
+    "total_pause_time": 0,
+    "avg_pause_time": 0,
+    "pauses_per_category": {},
+    "total_pause_time_per_category": {},
+    "avg_pause_time_per_category": {},
+    "p90_pause_time": 0,
+    "throughput": 0
+}

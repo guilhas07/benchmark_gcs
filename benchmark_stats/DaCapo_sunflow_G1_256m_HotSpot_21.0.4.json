@@ -1,0 +1,35 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "sunflow",
+    "heap_size": "256",
+    "error": null,
+    "avg_cpu_usage": 95.3,
+    "avg_cpu_time": 97.7,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 1262,
+    "total_pause_time": 1449841394,
+    "avg_pause_time": 1148844.21,
+    "pauses_per_category": {
+        "G1CollectForAllocation": 1258,
+        "G1TryInitiateConcMark": 2,
+        "G1PauseRemark": 1,
+        "G1PauseCleanup": 1
+    },
+    "total_pause_time_per_category": {
+        "G1CollectForAllocation": 1447224147,
+        "G1TryInitiateConcMark": 1580735,
+        "G1PauseRemark": 894102,
+        "G1PauseCleanup": 142410
+    },
+    "avg_pause_time_per_category": {
+        "G1CollectForAllocation": 1150416.65,
+        "G1TryInitiateConcMark": 790367.5,
+        "G1PauseRemark": 894102.0,
+        "G1PauseCleanup": 142410.0
+    },
+    "p90_pause_time": 1263002.4,
+    "throughput": 95887083779
+}

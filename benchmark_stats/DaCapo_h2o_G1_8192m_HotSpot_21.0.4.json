@@ -1,0 +1,44 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "h2o",
+    "heap_size": "8192",
+    "error": null,
+    "avg_cpu_usage": 20.6,
+    "avg_cpu_time": 91.4,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 96,
+    "total_pause_time": 1456767441,
+    "avg_pause_time": 15174660.84,
+    "pauses_per_category": {
+        "Cleanup": 46,
+        "CollectForMetadataAllocation": 4,
+        "G1PauseRemark": 2,
+        "G1PauseCleanup": 2,
+        "ICBufferFull": 10,
+        "G1CollectForAllocation": 12,
+        "G1CollectFull": 20
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 15324366,
+        "CollectForMetadataAllocation": 100675073,
+        "G1PauseRemark": 14058227,
+        "G1PauseCleanup": 953162,
+        "ICBufferFull": 23618986,
+        "G1CollectForAllocation": 183514717,
+        "G1CollectFull": 1118622910
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 333138.39,
+        "CollectForMetadataAllocation": 25168768.25,
+        "G1PauseRemark": 7029113.5,
+        "G1PauseCleanup": 476581.0,
+        "ICBufferFull": 2361898.6,
+        "G1CollectForAllocation": 15292893.08,
+        "G1CollectFull": 55931145.5
+    },
+    "p90_pause_time": 55338314.0,
+    "throughput": 66370403390
+}

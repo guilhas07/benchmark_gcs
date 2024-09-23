@@ -1,0 +1,35 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "cassandra",
+    "heap_size": "512",
+    "error": null,
+    "avg_cpu_usage": 14.4,
+    "avg_cpu_time": 84.1,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 326,
+    "total_pause_time": 2552780741,
+    "avg_pause_time": 7830615.77,
+    "pauses_per_category": {
+        "Cleanup": 31,
+        "ICBufferFull": 39,
+        "CollectForMetadataAllocation": 4,
+        "ParallelGCFailedAllocation": 252
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 1105806,
+        "ICBufferFull": 17885415,
+        "CollectForMetadataAllocation": 227092089,
+        "ParallelGCFailedAllocation": 2306697431
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 35671.16,
+        "ICBufferFull": 458600.38,
+        "CollectForMetadataAllocation": 56773022.25,
+        "ParallelGCFailedAllocation": 9153561.23
+    },
+    "p90_pause_time": 13352594.0,
+    "throughput": 212619746015
+}

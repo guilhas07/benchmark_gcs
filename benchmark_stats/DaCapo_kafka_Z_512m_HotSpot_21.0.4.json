@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "kafka",
+    "heap_size": "512",
+    "error": null,
+    "avg_cpu_usage": 14.3,
+    "avg_cpu_time": 85.5,
+    "avg_io_time": 1.6,
+    "p90_io": 7.2,
+    "number_of_pauses": 713,
+    "total_pause_time": 149448251,
+    "avg_pause_time": 209604.84,
+    "pauses_per_category": {
+        "XMarkStart": 227,
+        "XMarkEnd": 227,
+        "CleanClassLoaderDataMetaspaces": 8,
+        "XRelocateStart": 227,
+        "ICBufferFull": 13,
+        "Cleanup": 11
+    },
+    "total_pause_time_per_category": {
+        "XMarkStart": 38538078,
+        "XMarkEnd": 54619344,
+        "CleanClassLoaderDataMetaspaces": 1918549,
+        "XRelocateStart": 44746022,
+        "ICBufferFull": 7085029,
+        "Cleanup": 2541229
+    },
+    "avg_pause_time_per_category": {
+        "XMarkStart": 169771.27,
+        "XMarkEnd": 240613.85,
+        "CleanClassLoaderDataMetaspaces": 239818.62,
+        "XRelocateStart": 197119.04,
+        "ICBufferFull": 545002.23,
+        "Cleanup": 231020.82
+    },
+    "p90_pause_time": 178701.0,
+    "throughput": 79175299715
+}

@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "avrora",
+    "heap_size": "512",
+    "error": null,
+    "avg_cpu_usage": 13.1,
+    "avg_cpu_time": 83.1,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 64,
+    "total_pause_time": 9657305,
+    "avg_pause_time": 150895.39,
+    "pauses_per_category": {
+        "XMarkStart": 17,
+        "XMarkEnd": 17,
+        "CleanClassLoaderDataMetaspaces": 1,
+        "XRelocateStart": 17,
+        "ICBufferFull": 1,
+        "Cleanup": 11
+    },
+    "total_pause_time_per_category": {
+        "XMarkStart": 5398635,
+        "XMarkEnd": 1378017,
+        "CleanClassLoaderDataMetaspaces": 660979,
+        "XRelocateStart": 1352958,
+        "ICBufferFull": 62142,
+        "Cleanup": 804574
+    },
+    "avg_pause_time_per_category": {
+        "XMarkStart": 317566.76,
+        "XMarkEnd": 81059.82,
+        "CleanClassLoaderDataMetaspaces": 660979.0,
+        "XRelocateStart": 79585.76,
+        "ICBufferFull": 62142.0,
+        "Cleanup": 73143.09
+    },
+    "p90_pause_time": 113107.6,
+    "throughput": 104612995538
+}

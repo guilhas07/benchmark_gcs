@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "naive-bayes",
+    "heap_size": "1024",
+    "error": null,
+    "avg_cpu_usage": 67.3,
+    "avg_cpu_time": 87.6,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 2697,
+    "total_pause_time": 5510090355,
+    "avg_pause_time": 2043044.25,
+    "pauses_per_category": {
+        "ICBufferFull": 27,
+        "G1CollectForAllocation": 1413,
+        "CollectForMetadataAllocation": 10,
+        "G1PauseRemark": 421,
+        "G1PauseCleanup": 421,
+        "G1TryInitiateConcMark": 405
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 5083551,
+        "G1CollectForAllocation": 2750684241,
+        "CollectForMetadataAllocation": 64843709,
+        "G1PauseRemark": 1743984099,
+        "G1PauseCleanup": 150419260,
+        "G1TryInitiateConcMark": 795075495
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 188279.67,
+        "G1CollectForAllocation": 1946697.98,
+        "CollectForMetadataAllocation": 6484370.9,
+        "G1PauseRemark": 4142480.05,
+        "G1PauseCleanup": 357290.4,
+        "G1TryInitiateConcMark": 1963149.37
+    },
+    "p90_pause_time": 4117016.4,
+    "throughput": 82079335499
+}

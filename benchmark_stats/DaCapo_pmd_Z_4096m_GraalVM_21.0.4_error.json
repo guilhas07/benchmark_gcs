@@ -1,0 +1,20 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "pmd",
+    "heap_size": "4096",
+    "error": "Error code not found: 254\n===== DaCapo 23.11-chopin pmd starting warmup 1 =====\nDigest validation failed for pmd-report.txt, expecting 0x9ac4266f6d867118bf6365f3c935b97526705c2c found 0x059a56a6b1755c346c07689cd7a1979770e372bf\n===== DaCapo 23.11-chopin pmd FAILED warmup =====\n===== DaCapo 23.11-chopin pmd starting warmup 2 =====\n===== DaCapo 23.11-chopin pmd completed warmup 2 in 4728 msec =====\n===== DaCapo 23.11-chopin pmd starting warmup 3 =====\n===== DaCapo 23.11-chopin pmd completed warmup 3 in 3987 msec =====\n===== DaCapo 23.11-chopin pmd starting warmup 4 =====\n===== DaCapo 23.11-chopin pmd completed warmup 4 in 3819 msec =====\n===== DaCapo 23.11-chopin pmd starting warmup 5 =====\n===== DaCapo 23.11-chopin pmd completed warmup 5 in 3694 msec =====\n===== DaCapo 23.11-chopin pmd starting warmup 6 =====\n===== DaCapo 23.11-chopin pmd completed warmup 6 in 3637 msec =====\n===== DaCapo 23.11-chopin pmd starting warmup 7 =====\n===== DaCapo 23.11-chopin pmd completed warmup 7 in 3574 msec =====\n===== DaCapo 23.11-chopin pmd starting warmup 8 =====\n===== DaCapo 23.11-chopin pmd completed warmup 8 in 3420 msec =====\n===== DaCapo 23.11-chopin pmd starting warmup 9 =====\n===== DaCapo 23.11-chopin pmd completed warmup 9 in 3352 msec =====\n===== DaCapo 23.11-chopin pmd starting =====\n===== DaCapo 23.11-chopin pmd PASSED in 3334 msec =====\nValidation FAILED for pmd default\n",
+    "avg_cpu_usage": 49.8,
+    "avg_cpu_time": 95.8,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 0,
+    "total_pause_time": 0,
+    "avg_pause_time": 0,
+    "pauses_per_category": {},
+    "total_pause_time_per_category": {},
+    "avg_pause_time_per_category": {},
+    "p90_pause_time": 0,
+    "throughput": 0
+}

@@ -1,0 +1,38 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "future-genetic",
+    "heap_size": "1024",
+    "error": null,
+    "avg_cpu_usage": 36.5,
+    "avg_cpu_time": 53.9,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 86,
+    "total_pause_time": 8893809,
+    "avg_pause_time": 103416.38,
+    "pauses_per_category": {
+        "ICBufferFull": 3,
+        "XMarkStart": 27,
+        "XMarkEnd": 27,
+        "CleanClassLoaderDataMetaspaces": 2,
+        "XRelocateStart": 27
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 275017,
+        "XMarkStart": 2872289,
+        "XMarkEnd": 2552517,
+        "CleanClassLoaderDataMetaspaces": 585529,
+        "XRelocateStart": 2608457
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 91672.33,
+        "XMarkStart": 106381.07,
+        "XMarkEnd": 94537.67,
+        "CleanClassLoaderDataMetaspaces": 292764.5,
+        "XRelocateStart": 96609.52
+    },
+    "p90_pause_time": 122241.5,
+    "throughput": 17974169988
+}

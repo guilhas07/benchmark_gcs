@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "jython",
+    "heap_size": "1024",
+    "error": null,
+    "avg_cpu_usage": 18.1,
+    "avg_cpu_time": 91.7,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 98,
+    "total_pause_time": 916809063,
+    "avg_pause_time": 9355194.52,
+    "pauses_per_category": {
+        "G1CollectForAllocation": 61,
+        "ICBufferFull": 14,
+        "CollectForMetadataAllocation": 2,
+        "G1PauseRemark": 2,
+        "G1PauseCleanup": 2,
+        "Cleanup": 17
+    },
+    "total_pause_time_per_category": {
+        "G1CollectForAllocation": 847038781,
+        "ICBufferFull": 1462219,
+        "CollectForMetadataAllocation": 40977065,
+        "G1PauseRemark": 15357574,
+        "G1PauseCleanup": 255087,
+        "Cleanup": 11718337
+    },
+    "avg_pause_time_per_category": {
+        "G1CollectForAllocation": 13885881.66,
+        "ICBufferFull": 104444.21,
+        "CollectForMetadataAllocation": 20488532.5,
+        "G1PauseRemark": 7678787.0,
+        "G1PauseCleanup": 127543.5,
+        "Cleanup": 689313.94
+    },
+    "p90_pause_time": 28366520.7,
+    "throughput": 72149646135
+}

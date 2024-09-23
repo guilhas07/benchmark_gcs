@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "lusearch",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 32.8,
+    "avg_cpu_time": 94.3,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 521,
+    "total_pause_time": 224776239,
+    "avg_pause_time": 431432.32,
+    "pauses_per_category": {
+        "Cleanup": 56,
+        "XMarkStart": 152,
+        "XMarkEnd": 152,
+        "CleanClassLoaderDataMetaspaces": 3,
+        "XRelocateStart": 152,
+        "ICBufferFull": 6
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 30583539,
+        "XMarkStart": 57627899,
+        "XMarkEnd": 67090660,
+        "CleanClassLoaderDataMetaspaces": 3187790,
+        "XRelocateStart": 55900134,
+        "ICBufferFull": 10386217
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 546134.62,
+        "XMarkStart": 379130.91,
+        "XMarkEnd": 441385.92,
+        "CleanClassLoaderDataMetaspaces": 1062596.67,
+        "XRelocateStart": 367764.04,
+        "ICBufferFull": 1731036.17
+    },
+    "p90_pause_time": 677512.0,
+    "throughput": 252647932808
+}

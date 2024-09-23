@@ -1,0 +1,32 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "scala-doku",
+    "heap_size": "256",
+    "error": null,
+    "avg_cpu_usage": 14.3,
+    "avg_cpu_time": 33.6,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 47,
+    "total_pause_time": 423743010,
+    "avg_pause_time": 9015808.72,
+    "pauses_per_category": {
+        "ICBufferFull": 2,
+        "ParallelGCFailedAllocation": 43,
+        "Cleanup": 2
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 117480,
+        "ParallelGCFailedAllocation": 423442768,
+        "Cleanup": 182762
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 58740.0,
+        "ParallelGCFailedAllocation": 9847506.23,
+        "Cleanup": 91381.0
+    },
+    "p90_pause_time": 14550727.8,
+    "throughput": 20367883962
+}

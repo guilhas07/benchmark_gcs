@@ -1,0 +1,32 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "h2",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 33.5,
+    "avg_cpu_time": 93.8,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 419,
+    "total_pause_time": 14434471088,
+    "avg_pause_time": 34449811.67,
+    "pauses_per_category": {
+        "ICBufferFull": 3,
+        "ParallelGCFailedAllocation": 412,
+        "Cleanup": 4
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 2443782,
+        "ParallelGCFailedAllocation": 14424293939,
+        "Cleanup": 7733367
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 814594.0,
+        "ParallelGCFailedAllocation": 35010422.18,
+        "Cleanup": 1933341.75
+    },
+    "p90_pause_time": 52698279.4,
+    "throughput": 190562150285
+}

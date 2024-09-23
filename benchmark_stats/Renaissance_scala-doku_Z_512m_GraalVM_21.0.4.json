@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "scala-doku",
+    "heap_size": "512",
+    "error": null,
+    "avg_cpu_usage": 16.1,
+    "avg_cpu_time": 31.6,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 38,
+    "total_pause_time": 4720144,
+    "avg_pause_time": 124214.32,
+    "pauses_per_category": {
+        "ICBufferFull": 2,
+        "XMarkStart": 8,
+        "XMarkEnd": 8,
+        "CleanClassLoaderDataMetaspaces": 3,
+        "XRelocateStart": 9,
+        "Cleanup": 8
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 211222,
+        "XMarkStart": 913952,
+        "XMarkEnd": 782745,
+        "CleanClassLoaderDataMetaspaces": 1311712,
+        "XRelocateStart": 877951,
+        "Cleanup": 622562
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 105611.0,
+        "XMarkStart": 114244.0,
+        "XMarkEnd": 97843.12,
+        "CleanClassLoaderDataMetaspaces": 437237.33,
+        "XRelocateStart": 97550.11,
+        "Cleanup": 77820.25
+    },
+    "p90_pause_time": 135437.0,
+    "throughput": 16724377110
+}

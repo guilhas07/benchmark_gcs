@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "finagle-http",
+    "heap_size": "512",
+    "error": null,
+    "avg_cpu_usage": 71.3,
+    "avg_cpu_time": 78.3,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 222,
+    "total_pause_time": 358049019,
+    "avg_pause_time": 1612833.42,
+    "pauses_per_category": {
+        "ICBufferFull": 97,
+        "G1CollectForAllocation": 118,
+        "CollectForMetadataAllocation": 2,
+        "G1PauseRemark": 2,
+        "G1PauseCleanup": 2,
+        "Cleanup": 1
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 20150672,
+        "G1CollectForAllocation": 324530827,
+        "CollectForMetadataAllocation": 8979467,
+        "G1PauseRemark": 3269493,
+        "G1PauseCleanup": 493344,
+        "Cleanup": 625216
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 207738.89,
+        "G1CollectForAllocation": 2750261.25,
+        "CollectForMetadataAllocation": 4489733.5,
+        "G1PauseRemark": 1634746.5,
+        "G1PauseCleanup": 246672.0,
+        "Cleanup": 625216.0
+    },
+    "p90_pause_time": 3977232.5,
+    "throughput": 58063763131
+}

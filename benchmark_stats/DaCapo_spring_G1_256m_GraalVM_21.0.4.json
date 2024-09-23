@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "spring",
+    "heap_size": "256",
+    "error": null,
+    "avg_cpu_usage": 39.1,
+    "avg_cpu_time": 94.8,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 811,
+    "total_pause_time": 4381374099,
+    "avg_pause_time": 5402434.15,
+    "pauses_per_category": {
+        "ICBufferFull": 35,
+        "G1CollectForAllocation": 759,
+        "CollectForMetadataAllocation": 5,
+        "G1PauseRemark": 5,
+        "G1PauseCleanup": 5,
+        "G1TryInitiateConcMark": 2
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 42348727,
+        "G1CollectForAllocation": 4223604910,
+        "CollectForMetadataAllocation": 44022151,
+        "G1PauseRemark": 57964310,
+        "G1PauseCleanup": 4327766,
+        "G1TryInitiateConcMark": 9106235
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 1209963.63,
+        "G1CollectForAllocation": 5564696.85,
+        "CollectForMetadataAllocation": 8804430.2,
+        "G1PauseRemark": 11592862.0,
+        "G1PauseCleanup": 865553.2,
+        "G1TryInitiateConcMark": 4553117.5
+    },
+    "p90_pause_time": 11665659.0,
+    "throughput": 100956143022
+}

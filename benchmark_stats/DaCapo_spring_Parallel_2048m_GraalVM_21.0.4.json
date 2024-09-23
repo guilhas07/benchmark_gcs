@@ -1,0 +1,38 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "spring",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 39.4,
+    "avg_cpu_time": 94.7,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 225,
+    "total_pause_time": 1186045607,
+    "avg_pause_time": 5271313.81,
+    "pauses_per_category": {
+        "ICBufferFull": 47,
+        "CollectForMetadataAllocation": 3,
+        "Cleanup": 1,
+        "ParallelGCFailedAllocation": 152,
+        "ParallelGCSystemGC": 22
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 33943681,
+        "CollectForMetadataAllocation": 236129546,
+        "Cleanup": 111297,
+        "ParallelGCFailedAllocation": 701113858,
+        "ParallelGCSystemGC": 214747225
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 722205.98,
+        "CollectForMetadataAllocation": 78709848.67,
+        "Cleanup": 111297.0,
+        "ParallelGCFailedAllocation": 4612591.17,
+        "ParallelGCSystemGC": 9761237.5
+    },
+    "p90_pause_time": 7922592.8,
+    "throughput": 92472127809
+}

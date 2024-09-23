@@ -1,0 +1,44 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "tradesoap",
+    "heap_size": "1024",
+    "error": null,
+    "avg_cpu_usage": 20.3,
+    "avg_cpu_time": 92.0,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 189,
+    "total_pause_time": 1380212351,
+    "avg_pause_time": 7302710.85,
+    "pauses_per_category": {
+        "G1CollectForAllocation": 59,
+        "ICBufferFull": 40,
+        "CollectForMetadataAllocation": 39,
+        "G1PauseRemark": 5,
+        "G1PauseCleanup": 5,
+        "Cleanup": 40,
+        "G1TryInitiateConcMark": 1
+    },
+    "total_pause_time_per_category": {
+        "G1CollectForAllocation": 954824741,
+        "ICBufferFull": 52183302,
+        "CollectForMetadataAllocation": 240819112,
+        "G1PauseRemark": 59115825,
+        "G1PauseCleanup": 12688782,
+        "Cleanup": 29121790,
+        "G1TryInitiateConcMark": 31458799
+    },
+    "avg_pause_time_per_category": {
+        "G1CollectForAllocation": 16183470.19,
+        "ICBufferFull": 1304582.55,
+        "CollectForMetadataAllocation": 6174849.03,
+        "G1PauseRemark": 11823165.0,
+        "G1PauseCleanup": 2537756.4,
+        "Cleanup": 728044.75,
+        "G1TryInitiateConcMark": 31458799.0
+    },
+    "p90_pause_time": 19886558.0,
+    "throughput": 123152620320
+}

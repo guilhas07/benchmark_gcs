@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "jython",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 17.2,
+    "avg_cpu_time": 90.0,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 158,
+    "total_pause_time": 64798223,
+    "avg_pause_time": 410115.34,
+    "pauses_per_category": {
+        "Cleanup": 34,
+        "XMarkStart": 36,
+        "XMarkEnd": 36,
+        "CleanClassLoaderDataMetaspaces": 5,
+        "XRelocateStart": 36,
+        "ICBufferFull": 11
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 16068114,
+        "XMarkStart": 5805392,
+        "XMarkEnd": 6109952,
+        "CleanClassLoaderDataMetaspaces": 4684958,
+        "XRelocateStart": 20601604,
+        "ICBufferFull": 11528203
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 472591.59,
+        "XMarkStart": 161260.89,
+        "XMarkEnd": 169720.89,
+        "CleanClassLoaderDataMetaspaces": 936991.6,
+        "XRelocateStart": 572266.78,
+        "ICBufferFull": 1048018.45
+    },
+    "p90_pause_time": 588996.0,
+    "throughput": 85108670612
+}

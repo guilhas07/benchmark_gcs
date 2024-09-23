@@ -1,0 +1,20 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "page-rank",
+    "heap_size": "512",
+    "error": "Error code not found: 1\nException in thread \"Spark Context Cleaner\" java.lang.OutOfMemoryError: Java heap space\n\tat org.apache.spark.util.Utils$.tryOrStopSparkContext(Utils.scala:1362)\n\tat org.apache.spark.ContextCleaner.org$apache$spark$ContextCleaner$$keepCleaning(ContextCleaner.scala:189)\n\tat org.apache.spark.ContextCleaner$$anon$1.run(ContextCleaner.scala:79)\nBenchmark 'page-rank' failed with exception:\njava.lang.OutOfMemoryError: Java heap space\nException in thread \"RemoteBlock-temp-file-clean-thread\" java.lang.OutOfMemoryError: Java heap space\n\tat java.base/jdk.internal.misc.Unsafe.allocateInstance(Native Method)\n\tat java.base/java.lang.invoke.DirectMethodHandle.allocateInstance(DirectMethodHandle.java:501)\n\tat java.base/java.lang.invoke.DirectMethodHandle$Holder.newInvokeSpecial(DirectMethodHandle$Holder)\n\tat java.base/java.lang.invoke.Invokers$Holder.linkToTargetMethod(Invokers$Holder)\n\tat org.apache.spark.storage.BlockManager$RemoteBlockDownloadFileManager.org$apache$spark$storage$BlockManager$RemoteBlockDownloadFileManager$$keepCleaning(BlockManager.scala:2230)\n\tat org.apache.spark.storage.BlockManager$RemoteBlockDownloadFileManager$$anon$2.run(BlockManager.scala:2196)\n",
+    "avg_cpu_usage": 26.3,
+    "avg_cpu_time": 49.2,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 0,
+    "total_pause_time": 0,
+    "avg_pause_time": 0,
+    "pauses_per_category": {},
+    "total_pause_time_per_category": {},
+    "avg_pause_time_per_category": {},
+    "p90_pause_time": 0,
+    "throughput": 0
+}

@@ -1,0 +1,32 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "luindex",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 12.8,
+    "avg_cpu_time": 87.3,
+    "avg_io_time": 1.1,
+    "p90_io": 3.8,
+    "number_of_pauses": 63,
+    "total_pause_time": 209709172,
+    "avg_pause_time": 3328717.02,
+    "pauses_per_category": {
+        "Cleanup": 43,
+        "G1CollectForAllocation": 19,
+        "ICBufferFull": 1
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 10301678,
+        "G1CollectForAllocation": 199330719,
+        "ICBufferFull": 76775
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 239573.91,
+        "G1CollectForAllocation": 10491090.47,
+        "ICBufferFull": 76775.0
+    },
+    "p90_pause_time": 11708519.6,
+    "throughput": 96743070082
+}

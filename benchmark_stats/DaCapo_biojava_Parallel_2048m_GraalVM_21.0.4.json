@@ -1,0 +1,32 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "biojava",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 13.6,
+    "avg_cpu_time": 88.8,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 162,
+    "total_pause_time": 1591003144,
+    "avg_pause_time": 9821007.06,
+    "pauses_per_category": {
+        "Cleanup": 1,
+        "ICBufferFull": 1,
+        "ParallelGCFailedAllocation": 160
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 48209,
+        "ICBufferFull": 85738,
+        "ParallelGCFailedAllocation": 1590869197
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 48209.0,
+        "ICBufferFull": 85738.0,
+        "ParallelGCFailedAllocation": 9942932.48
+    },
+    "p90_pause_time": 18442399.8,
+    "throughput": 88095800881
+}

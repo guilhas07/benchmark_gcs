@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "dotty",
+    "heap_size": "512",
+    "error": null,
+    "avg_cpu_usage": 39.6,
+    "avg_cpu_time": 57.5,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 118,
+    "total_pause_time": 59407950,
+    "avg_pause_time": 503457.2,
+    "pauses_per_category": {
+        "ICBufferFull": 60,
+        "XMarkStart": 14,
+        "XMarkEnd": 14,
+        "CleanClassLoaderDataMetaspaces": 6,
+        "XRelocateStart": 14,
+        "Cleanup": 10
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 35000518,
+        "XMarkStart": 8393664,
+        "XMarkEnd": 5312475,
+        "CleanClassLoaderDataMetaspaces": 6186432,
+        "XRelocateStart": 3585257,
+        "Cleanup": 929604
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 583341.97,
+        "XMarkStart": 599547.43,
+        "XMarkEnd": 379462.5,
+        "CleanClassLoaderDataMetaspaces": 1031072.0,
+        "XRelocateStart": 256089.79,
+        "Cleanup": 92960.4
+    },
+    "p90_pause_time": 980431.8,
+    "throughput": 32628917790
+}

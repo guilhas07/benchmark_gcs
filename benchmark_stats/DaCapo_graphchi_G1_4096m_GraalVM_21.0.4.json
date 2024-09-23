@@ -1,0 +1,29 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "graphchi",
+    "heap_size": "4096",
+    "error": null,
+    "avg_cpu_usage": 26.8,
+    "avg_cpu_time": 91.1,
+    "avg_io_time": 0.4,
+    "p90_io": 1.2,
+    "number_of_pauses": 67,
+    "total_pause_time": 828973581,
+    "avg_pause_time": 12372740.01,
+    "pauses_per_category": {
+        "Cleanup": 22,
+        "G1CollectForAllocation": 45
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 13503820,
+        "G1CollectForAllocation": 815469761
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 613810.0,
+        "G1CollectForAllocation": 18121550.24
+    },
+    "p90_pause_time": 24815165.4,
+    "throughput": 80864476110
+}

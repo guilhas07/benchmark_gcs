@@ -1,0 +1,32 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "avrora",
+    "heap_size": "8192",
+    "error": null,
+    "avg_cpu_usage": 13.5,
+    "avg_cpu_time": 82.9,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 18,
+    "total_pause_time": 16883502,
+    "avg_pause_time": 937972.33,
+    "pauses_per_category": {
+        "ICBufferFull": 1,
+        "Cleanup": 16,
+        "ParallelGCFailedAllocation": 1
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 236596,
+        "Cleanup": 4325011,
+        "ParallelGCFailedAllocation": 12321895
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 236596.0,
+        "Cleanup": 270313.19,
+        "ParallelGCFailedAllocation": 12321895.0
+    },
+    "p90_pause_time": 1178488.0,
+    "throughput": 101224815995
+}

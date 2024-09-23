@@ -1,0 +1,38 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "als",
+    "heap_size": "8192",
+    "error": null,
+    "avg_cpu_usage": 60.9,
+    "avg_cpu_time": 77.2,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 127,
+    "total_pause_time": 477575065,
+    "avg_pause_time": 3760433.58,
+    "pauses_per_category": {
+        "ICBufferFull": 57,
+        "Cleanup": 42,
+        "CollectForMetadataAllocation": 8,
+        "ParallelGCFailedAllocation": 16,
+        "ParallelGCSystemGC": 4
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 5598281,
+        "Cleanup": 19754544,
+        "CollectForMetadataAllocation": 134620751,
+        "ParallelGCFailedAllocation": 181279074,
+        "ParallelGCSystemGC": 136322415
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 98215.46,
+        "Cleanup": 470346.29,
+        "CollectForMetadataAllocation": 16827593.88,
+        "ParallelGCFailedAllocation": 11329942.12,
+        "ParallelGCSystemGC": 34080603.75
+    },
+    "p90_pause_time": 9675662.6,
+    "throughput": 62217238423
+}

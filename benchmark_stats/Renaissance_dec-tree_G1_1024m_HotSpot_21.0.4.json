@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "dec-tree",
+    "heap_size": "1024",
+    "error": null,
+    "avg_cpu_usage": 43.1,
+    "avg_cpu_time": 58.9,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 83,
+    "total_pause_time": 322798501,
+    "avg_pause_time": 3889138.57,
+    "pauses_per_category": {
+        "ICBufferFull": 41,
+        "G1CollectForAllocation": 25,
+        "CollectForMetadataAllocation": 6,
+        "G1PauseRemark": 5,
+        "G1PauseCleanup": 5,
+        "G1TryInitiateConcMark": 1
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 4169568,
+        "G1CollectForAllocation": 244072597,
+        "CollectForMetadataAllocation": 43792706,
+        "G1PauseRemark": 21511549,
+        "G1PauseCleanup": 1848144,
+        "G1TryInitiateConcMark": 7403937
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 101696.78,
+        "G1CollectForAllocation": 9762903.88,
+        "CollectForMetadataAllocation": 7298784.33,
+        "G1PauseRemark": 4302309.8,
+        "G1PauseCleanup": 369628.8,
+        "G1TryInitiateConcMark": 7403937.0
+    },
+    "p90_pause_time": 13933514.6,
+    "throughput": 18038645755
+}

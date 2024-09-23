@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "tomcat",
+    "heap_size": "512",
+    "error": null,
+    "avg_cpu_usage": 16.2,
+    "avg_cpu_time": 87.7,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 581,
+    "total_pause_time": 118784555,
+    "avg_pause_time": 204448.46,
+    "pauses_per_category": {
+        "XMarkStart": 147,
+        "XMarkEnd": 147,
+        "CleanClassLoaderDataMetaspaces": 15,
+        "XRelocateStart": 148,
+        "ICBufferFull": 33,
+        "Cleanup": 91
+    },
+    "total_pause_time_per_category": {
+        "XMarkStart": 21278087,
+        "XMarkEnd": 17156930,
+        "CleanClassLoaderDataMetaspaces": 4961049,
+        "XRelocateStart": 23221183,
+        "ICBufferFull": 22357620,
+        "Cleanup": 29809686
+    },
+    "avg_pause_time_per_category": {
+        "XMarkStart": 144748.89,
+        "XMarkEnd": 116713.81,
+        "CleanClassLoaderDataMetaspaces": 330736.6,
+        "XRelocateStart": 156899.89,
+        "ICBufferFull": 677503.64,
+        "Cleanup": 327578.97
+    },
+    "p90_pause_time": 244130.0,
+    "throughput": 192211305092
+}

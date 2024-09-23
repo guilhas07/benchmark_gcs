@@ -1,0 +1,29 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "philosophers",
+    "heap_size": "512",
+    "error": null,
+    "avg_cpu_usage": 71.4,
+    "avg_cpu_time": 87.7,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 155,
+    "total_pause_time": 160160097,
+    "avg_pause_time": 1033290.95,
+    "pauses_per_category": {
+        "ICBufferFull": 1,
+        "ParallelGCFailedAllocation": 154
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 59322,
+        "ParallelGCFailedAllocation": 160100775
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 59322.0,
+        "ParallelGCFailedAllocation": 1039615.42
+    },
+    "p90_pause_time": 1342256.8,
+    "throughput": 15684386733
+}

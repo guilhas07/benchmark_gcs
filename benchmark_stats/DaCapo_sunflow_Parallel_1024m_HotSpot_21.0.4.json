@@ -1,0 +1,26 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "sunflow",
+    "heap_size": "1024",
+    "error": null,
+    "avg_cpu_usage": 61.8,
+    "avg_cpu_time": 99.0,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 555,
+    "total_pause_time": 3129522256,
+    "avg_pause_time": 5638778.84,
+    "pauses_per_category": {
+        "ParallelGCFailedAllocation": 555
+    },
+    "total_pause_time_per_category": {
+        "ParallelGCFailedAllocation": 3129522256
+    },
+    "avg_pause_time_per_category": {
+        "ParallelGCFailedAllocation": 5638778.84
+    },
+    "p90_pause_time": 9202591.6,
+    "throughput": 138916663690
+}

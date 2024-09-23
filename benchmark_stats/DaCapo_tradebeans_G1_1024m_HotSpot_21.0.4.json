@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "tradebeans",
+    "heap_size": "1024",
+    "error": null,
+    "avg_cpu_usage": 22.1,
+    "avg_cpu_time": 92.8,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 224,
+    "total_pause_time": 3522838800,
+    "avg_pause_time": 15726958.93,
+    "pauses_per_category": {
+        "G1CollectForAllocation": 129,
+        "Cleanup": 14,
+        "ICBufferFull": 39,
+        "CollectForMetadataAllocation": 34,
+        "G1PauseRemark": 4,
+        "G1PauseCleanup": 4
+    },
+    "total_pause_time_per_category": {
+        "G1CollectForAllocation": 3188965705,
+        "Cleanup": 12591862,
+        "ICBufferFull": 74501605,
+        "CollectForMetadataAllocation": 203896524,
+        "G1PauseRemark": 40531258,
+        "G1PauseCleanup": 2351846
+    },
+    "avg_pause_time_per_category": {
+        "G1CollectForAllocation": 24720664.38,
+        "Cleanup": 899418.71,
+        "ICBufferFull": 1910297.56,
+        "CollectForMetadataAllocation": 5996956.59,
+        "G1PauseRemark": 10132814.5,
+        "G1PauseCleanup": 587961.5
+    },
+    "p90_pause_time": 34571158.0,
+    "throughput": 124428743081
+}

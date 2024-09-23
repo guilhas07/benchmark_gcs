@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "spring",
+    "heap_size": "4096",
+    "error": null,
+    "avg_cpu_usage": 38.8,
+    "avg_cpu_time": 94.2,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 210,
+    "total_pause_time": 162109907,
+    "avg_pause_time": 771951.94,
+    "pauses_per_category": {
+        "ICBufferFull": 50,
+        "XMarkStart": 40,
+        "XMarkEnd": 36,
+        "CleanClassLoaderDataMetaspaces": 4,
+        "XRelocateStart": 40,
+        "Cleanup": 40
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 22249758,
+        "XMarkStart": 47006154,
+        "XMarkEnd": 19403548,
+        "CleanClassLoaderDataMetaspaces": 10220075,
+        "XRelocateStart": 48728377,
+        "Cleanup": 14501995
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 444995.16,
+        "XMarkStart": 1175153.85,
+        "XMarkEnd": 538987.44,
+        "CleanClassLoaderDataMetaspaces": 2555018.75,
+        "XRelocateStart": 1218209.43,
+        "Cleanup": 362549.88
+    },
+    "p90_pause_time": 2681815.2,
+    "throughput": 91155497932
+}

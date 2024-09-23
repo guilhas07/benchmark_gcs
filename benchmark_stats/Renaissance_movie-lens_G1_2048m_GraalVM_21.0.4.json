@@ -1,0 +1,44 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "movie-lens",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 49.0,
+    "avg_cpu_time": 65.9,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 544,
+    "total_pause_time": 1595209756,
+    "avg_pause_time": 2932370.88,
+    "pauses_per_category": {
+        "ICBufferFull": 32,
+        "Cleanup": 1,
+        "CollectForMetadataAllocation": 3,
+        "G1PauseRemark": 42,
+        "G1PauseCleanup": 42,
+        "G1CollectForAllocation": 139,
+        "G1TryInitiateConcMark": 285
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 5132736,
+        "Cleanup": 30596,
+        "CollectForMetadataAllocation": 24706453,
+        "G1PauseRemark": 163457103,
+        "G1PauseCleanup": 26623608,
+        "G1CollectForAllocation": 658511088,
+        "G1TryInitiateConcMark": 716748172
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 160398.0,
+        "Cleanup": 30596.0,
+        "CollectForMetadataAllocation": 8235484.33,
+        "G1PauseRemark": 3891835.79,
+        "G1PauseCleanup": 633895.43,
+        "G1CollectForAllocation": 4737489.84,
+        "G1TryInitiateConcMark": 2514905.87
+    },
+    "p90_pause_time": 5231755.2,
+    "throughput": 110449641598
+}

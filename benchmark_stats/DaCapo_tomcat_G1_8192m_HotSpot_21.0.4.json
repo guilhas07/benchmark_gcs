@@ -1,0 +1,44 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "tomcat",
+    "heap_size": "8192",
+    "error": null,
+    "avg_cpu_usage": 16.0,
+    "avg_cpu_time": 87.3,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 130,
+    "total_pause_time": 428070828,
+    "avg_pause_time": 3292852.52,
+    "pauses_per_category": {
+        "ICBufferFull": 17,
+        "CollectForMetadataAllocation": 1,
+        "G1PauseRemark": 2,
+        "G1PauseCleanup": 2,
+        "G1CollectForAllocation": 13,
+        "Cleanup": 94,
+        "G1TryInitiateConcMark": 1
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 2448261,
+        "CollectForMetadataAllocation": 23109974,
+        "G1PauseRemark": 22287952,
+        "G1PauseCleanup": 1018193,
+        "G1CollectForAllocation": 326735165,
+        "Cleanup": 18322401,
+        "G1TryInitiateConcMark": 34148882
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 144015.35,
+        "CollectForMetadataAllocation": 23109974.0,
+        "G1PauseRemark": 11143976.0,
+        "G1PauseCleanup": 509096.5,
+        "G1CollectForAllocation": 25133474.23,
+        "Cleanup": 194919.16,
+        "G1TryInitiateConcMark": 34148882.0
+    },
+    "p90_pause_time": 13547334.6,
+    "throughput": 184513424330
+}

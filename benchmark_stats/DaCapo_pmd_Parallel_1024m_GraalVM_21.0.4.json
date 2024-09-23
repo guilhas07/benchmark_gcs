@@ -1,0 +1,32 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "pmd",
+    "heap_size": "1024",
+    "error": null,
+    "avg_cpu_usage": 45.3,
+    "avg_cpu_time": 97.2,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 225,
+    "total_pause_time": 4677968924,
+    "avg_pause_time": 20790973.0,
+    "pauses_per_category": {
+        "ICBufferFull": 42,
+        "ParallelGCFailedAllocation": 182,
+        "CollectForMetadataAllocation": 1
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 93613669,
+        "ParallelGCFailedAllocation": 4474549878,
+        "CollectForMetadataAllocation": 109805377
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 2228896.88,
+        "ParallelGCFailedAllocation": 24585438.89,
+        "CollectForMetadataAllocation": 109805377.0
+    },
+    "p90_pause_time": 31073174.8,
+    "throughput": 45564969850
+}

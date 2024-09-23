@@ -1,0 +1,32 @@
+{
+    "garbage_collector": "G1",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "jme",
+    "heap_size": "512",
+    "error": null,
+    "avg_cpu_usage": 1.5,
+    "avg_cpu_time": 78.3,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 32,
+    "total_pause_time": 172228252,
+    "avg_pause_time": 5382132.88,
+    "pauses_per_category": {
+        "Cleanup": 20,
+        "G1CollectForAllocation": 2,
+        "G1CollectFull": 10
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 1582658,
+        "G1CollectForAllocation": 10514284,
+        "G1CollectFull": 160131310
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 79132.9,
+        "G1CollectForAllocation": 5257142.0,
+        "G1CollectFull": 16013131.0
+    },
+    "p90_pause_time": 18825454.2,
+    "throughput": 72238121493
+}

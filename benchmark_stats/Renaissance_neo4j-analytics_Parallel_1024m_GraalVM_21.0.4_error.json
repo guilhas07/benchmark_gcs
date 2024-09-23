@@ -1,0 +1,20 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "neo4j-analytics",
+    "heap_size": "1024",
+    "error": "Error code not found: 1\nBenchmark 'neo4j-analytics' failed with exception:\njava.lang.OutOfMemoryError: GC overhead limit exceeded\n\tat org.neo4j.kernel.impl.store.LongerShortString.encode(LongerShortString.java:89)\n\tat org.neo4j.kernel.impl.store.PropertyStore$PropertyBlockValueWriter.writeString(PropertyStore.java:497)\n\tat org.neo4j.values.storable.ValueWriter.writeUTF8(ValueWriter.java:77)\n\tat org.neo4j.values.storable.UTF8StringValue.writeTo(UTF8StringValue.java:60)\n\tat org.neo4j.kernel.impl.store.PropertyStore.encodeValue(PropertyStore.java:364)\n\tat org.neo4j.internal.recordstorage.PropertyCreator.encodePropertyValue(PropertyCreator.java:189)\n\tat org.neo4j.internal.recordstorage.PropertyCreator.primitiveSetProperty(PropertyCreator.java:63)\n\tat org.neo4j.internal.recordstorage.TransactionRecordState.nodeAddProperty(TransactionRecordState.java:461)\n\tat org.neo4j.internal.recordstorage.TransactionToRecordStateVisitor.visitNodePropertyChanges(TransactionToRecordStateVisitor.java:101)\n\tat org.neo4j.storageengine.api.txstate.TxStateVisitor$Delegator.visitNodePropertyChanges(TxStateVisitor.java:160)\n\tat org.neo4j.kernel.impl.api.state.TxState.accept(TxState.java:203)\n\tat org.neo4j.internal.recordstorage.RecordStorageEngine.createCommands(RecordStorageEngine.java:472)\n\tat org.neo4j.kernel.impl.api.KernelTransactionImplementation.extractCommands(KernelTransactionImplementation.java:1033)\n\tat org.neo4j.kernel.impl.api.commit.DefaultCommitter.commit(DefaultCommitter.java:85)\n\tat org.neo4j.kernel.impl.api.KernelTransactionImplementation.commitTransaction(KernelTransactionImplementation.java:1002)\n\tat org.neo4j.kernel.impl.api.KernelTransactionImplementation.closeTransaction(KernelTransactionImplementation.java:878)\n\tat org.neo4j.kernel.impl.api.KernelTransactionImplementation.commit(KernelTransactionImplementation.java:851)\n\tat org.neo4j.kernel.impl.coreapi.TransactionImpl.lambda$commit$0(TransactionImpl.java:175)\n\tat org.neo4j.kernel.impl.coreapi.TransactionImpl$$Lambda/0x00007b0c0c73b9a0.perform(Unknown Source)\n\tat org.neo4j.kernel.impl.coreapi.TransactionImpl.safeTerminalOperation(TransactionImpl.java:322)\n\tat org.neo4j.kernel.impl.coreapi.TransactionImpl.commit(TransactionImpl.java:175)\n\tat org.neo4j.kernel.impl.coreapi.TransactionImpl.commit(TransactionImpl.java:170)\n\tat org.renaissance.neo4j.analytics.AnalyticsBenchmark.populateVertices(AnalyticsBenchmark.scala:97)\n\tat org.renaissance.neo4j.analytics.AnalyticsBenchmark.populateDatabase(AnalyticsBenchmark.scala:54)\n\tat org.renaissance.neo4j.Neo4jAnalytics.setUpBeforeAll(Neo4jAnalytics.scala:104)\n\tat org.renaissance.harness.ExecutionDriver.executeBenchmark(ExecutionDriver.java:82)\n\tat org.renaissance.harness.RenaissanceSuite$.runBenchmarks$$anonfun$1(RenaissanceSuite.scala:172)\n\tat org.renaissance.harness.RenaissanceSuite$$$Lambda/0x00007b0c0c11bbe0.applyVoid(Unknown Source)\n\tat scala.runtime.function.JProcedure1.apply(JProcedure1.java:15)\n\tat scala.runtime.function.JProcedure1.apply(JProcedure1.java:10)\n\tat scala.collection.immutable.List.foreach(List.scala:333)\n\tat org.renaissance.harness.RenaissanceSuite$.runBenchmarks(RenaissanceSuite.scala:205)\n",
+    "avg_cpu_usage": 55.9,
+    "avg_cpu_time": 74.6,
+    "avg_io_time": 0.4,
+    "p90_io": 0.0,
+    "number_of_pauses": 0,
+    "total_pause_time": 0,
+    "avg_pause_time": 0,
+    "pauses_per_category": {},
+    "total_pause_time_per_category": {},
+    "avg_pause_time_per_category": {},
+    "p90_pause_time": 0,
+    "throughput": 0
+}

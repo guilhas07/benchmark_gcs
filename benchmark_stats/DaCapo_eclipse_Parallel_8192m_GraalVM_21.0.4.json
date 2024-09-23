@@ -1,0 +1,38 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "eclipse",
+    "heap_size": "8192",
+    "error": null,
+    "avg_cpu_usage": 20.3,
+    "avg_cpu_time": 87.3,
+    "avg_io_time": 0.1,
+    "p90_io": 0.0,
+    "number_of_pauses": 246,
+    "total_pause_time": 1208170904,
+    "avg_pause_time": 4911263.84,
+    "pauses_per_category": {
+        "ICBufferFull": 74,
+        "CollectForMetadataAllocation": 2,
+        "Cleanup": 139,
+        "ParallelGCFailedAllocation": 28,
+        "ParallelGCSystemGC": 3
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 26689067,
+        "CollectForMetadataAllocation": 127930541,
+        "Cleanup": 61682588,
+        "ParallelGCFailedAllocation": 556165113,
+        "ParallelGCSystemGC": 435703595
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 360663.07,
+        "CollectForMetadataAllocation": 63965270.5,
+        "Cleanup": 443759.63,
+        "ParallelGCFailedAllocation": 19863039.75,
+        "ParallelGCSystemGC": 145234531.67
+    },
+    "p90_pause_time": 12888683.0,
+    "throughput": 209852969571
+}

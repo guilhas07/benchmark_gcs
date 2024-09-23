@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "philosophers",
+    "heap_size": "4096",
+    "error": null,
+    "avg_cpu_usage": 66.3,
+    "avg_cpu_time": 83.6,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 37,
+    "total_pause_time": 10775239,
+    "avg_pause_time": 291222.68,
+    "pauses_per_category": {
+        "ICBufferFull": 5,
+        "XMarkStart": 9,
+        "XMarkEnd": 9,
+        "CleanClassLoaderDataMetaspaces": 2,
+        "XRelocateStart": 9,
+        "Cleanup": 3
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 441180,
+        "XMarkStart": 1074804,
+        "XMarkEnd": 1457884,
+        "CleanClassLoaderDataMetaspaces": 836734,
+        "XRelocateStart": 6122445,
+        "Cleanup": 842192
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 88236.0,
+        "XMarkStart": 119422.67,
+        "XMarkEnd": 161987.11,
+        "CleanClassLoaderDataMetaspaces": 418367.0,
+        "XRelocateStart": 680271.67,
+        "Cleanup": 280730.67
+    },
+    "p90_pause_time": 385198.8,
+    "throughput": 14178479502
+}

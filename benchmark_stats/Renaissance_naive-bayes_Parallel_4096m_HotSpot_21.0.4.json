@@ -1,0 +1,35 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "naive-bayes",
+    "heap_size": "4096",
+    "error": null,
+    "avg_cpu_usage": 60.8,
+    "avg_cpu_time": 77.9,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 175,
+    "total_pause_time": 1057262584,
+    "avg_pause_time": 6041500.48,
+    "pauses_per_category": {
+        "ICBufferFull": 45,
+        "Cleanup": 1,
+        "CollectForMetadataAllocation": 6,
+        "ParallelGCFailedAllocation": 123
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 4371581,
+        "Cleanup": 82129,
+        "CollectForMetadataAllocation": 135916957,
+        "ParallelGCFailedAllocation": 916891917
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 97146.24,
+        "Cleanup": 82129.0,
+        "CollectForMetadataAllocation": 22652826.17,
+        "ParallelGCFailedAllocation": 7454405.83
+    },
+    "p90_pause_time": 14916186.8,
+    "throughput": 25809459651
+}

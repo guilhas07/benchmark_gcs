@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "tradesoap",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 19.5,
+    "avg_cpu_time": 91.7,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 196,
+    "total_pause_time": 113066921,
+    "avg_pause_time": 576872.05,
+    "pauses_per_category": {
+        "Cleanup": 40,
+        "ICBufferFull": 39,
+        "XMarkStart": 37,
+        "XMarkEnd": 36,
+        "CleanClassLoaderDataMetaspaces": 7,
+        "XRelocateStart": 37
+    },
+    "total_pause_time_per_category": {
+        "Cleanup": 4929154,
+        "ICBufferFull": 34035283,
+        "XMarkStart": 23933698,
+        "XMarkEnd": 4377225,
+        "CleanClassLoaderDataMetaspaces": 36498163,
+        "XRelocateStart": 9293398
+    },
+    "avg_pause_time_per_category": {
+        "Cleanup": 123228.85,
+        "ICBufferFull": 872699.56,
+        "XMarkStart": 646856.7,
+        "XMarkEnd": 121589.58,
+        "CleanClassLoaderDataMetaspaces": 5214023.29,
+        "XRelocateStart": 251172.92
+    },
+    "p90_pause_time": 997117.0,
+    "throughput": 134233205146
+}

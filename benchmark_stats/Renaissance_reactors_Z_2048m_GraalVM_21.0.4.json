@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "reactors",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 39.8,
+    "avg_cpu_time": 60.0,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 523,
+    "total_pause_time": 79865433,
+    "avg_pause_time": 152706.37,
+    "pauses_per_category": {
+        "ICBufferFull": 6,
+        "XMarkStart": 169,
+        "XMarkEnd": 168,
+        "CleanClassLoaderDataMetaspaces": 2,
+        "XRelocateStart": 168,
+        "Cleanup": 10
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 1068389,
+        "XMarkStart": 32278284,
+        "XMarkEnd": 24091193,
+        "CleanClassLoaderDataMetaspaces": 1116975,
+        "XRelocateStart": 20489936,
+        "Cleanup": 820656
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 178064.83,
+        "XMarkStart": 190995.76,
+        "XMarkEnd": 143399.96,
+        "CleanClassLoaderDataMetaspaces": 558487.5,
+        "XRelocateStart": 121963.9,
+        "Cleanup": 82065.6
+    },
+    "p90_pause_time": 110425.2,
+    "throughput": 84002678820
+}

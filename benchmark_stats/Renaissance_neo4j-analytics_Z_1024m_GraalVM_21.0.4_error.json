@@ -1,0 +1,20 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "neo4j-analytics",
+    "heap_size": "1024",
+    "error": "Error code not found: 1\nException in thread \"neo4j.Scheduler-1\" java.lang.OutOfMemoryError: Java heap space\n\tat java.base/jdk.internal.misc.Unsafe.allocateInstance(Native Method)\n\tat java.base/java.lang.invoke.DirectMethodHandle.allocateInstance(DirectMethodHandle.java:501)\n\tat java.base/java.lang.invoke.DirectMethodHandle$Holder.newInvokeSpecial(DirectMethodHandle$Holder)\n\tat java.base/java.lang.invoke.Invokers$Holder.linkToTargetMethod(Invokers$Holder)\n\tat org.neo4j.kernel.impl.scheduler.ThreadPoolManager.getThreadPool(ThreadPoolManager.java:56)\n\tat org.neo4j.kernel.impl.scheduler.ThreadPoolManager.getThreadPool(ThreadPoolManager.java:52)\n\tat org.neo4j.kernel.impl.scheduler.ScheduledJobHandle.submitIfRunnable(ScheduledJobHandle.java:148)\n\tat org.neo4j.kernel.impl.scheduler.TimeBasedTaskScheduler.scheduleDueTasks(TimeBasedTaskScheduler.java:146)\n\tat org.neo4j.kernel.impl.scheduler.TimeBasedTaskScheduler.tick(TimeBasedTaskScheduler.java:129)\n\tat org.neo4j.kernel.impl.scheduler.TimeBasedTaskScheduler.run(TimeBasedTaskScheduler.java:119)\n\tat java.base/java.lang.Thread.runWith(Thread.java:1596)\n\tat java.base/java.lang.Thread.run(Thread.java:1583)\n\nException: java.lang.OutOfMemoryError thrown from the UncaughtExceptionHandler in thread \"neo4j.VmPauseMonitor-1\"\nBenchmark 'neo4j-analytics' failed with exception:\njava.lang.OutOfMemoryError: Java heap space\n",
+    "avg_cpu_usage": 27.9,
+    "avg_cpu_time": 48.8,
+    "avg_io_time": 0.3,
+    "p90_io": 0.0,
+    "number_of_pauses": 0,
+    "total_pause_time": 0,
+    "avg_pause_time": 0,
+    "pauses_per_category": {},
+    "total_pause_time_per_category": {},
+    "avg_pause_time_per_category": {},
+    "p90_pause_time": 0,
+    "throughput": 0
+}

@@ -1,0 +1,20 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "page-rank",
+    "heap_size": "512",
+    "error": "Error code not found: 1\n\nException: java.lang.OutOfMemoryError thrown from the UncaughtExceptionHandler in thread \"Spark Context Cleaner\"\n\nException: java.lang.OutOfMemoryError thrown from the UncaughtExceptionHandler in thread \"RemoteBlock-temp-file-clean-thread\"\nBenchmark 'page-rank' failed with exception:\njava.lang.OutOfMemoryError: Java heap space\n",
+    "avg_cpu_usage": 18.4,
+    "avg_cpu_time": 38.2,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 0,
+    "total_pause_time": 0,
+    "avg_pause_time": 0,
+    "pauses_per_category": {},
+    "total_pause_time_per_category": {},
+    "avg_pause_time_per_category": {},
+    "p90_pause_time": 0,
+    "throughput": 0
+}

@@ -1,0 +1,35 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "finagle-http",
+    "heap_size": "4096",
+    "error": null,
+    "avg_cpu_usage": 71.0,
+    "avg_cpu_time": 78.1,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 168,
+    "total_pause_time": 141344799,
+    "avg_pause_time": 841338.09,
+    "pauses_per_category": {
+        "ICBufferFull": 107,
+        "CollectForMetadataAllocation": 2,
+        "ParallelGCFailedAllocation": 27,
+        "Cleanup": 32
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 20245867,
+        "CollectForMetadataAllocation": 45311544,
+        "ParallelGCFailedAllocation": 69241862,
+        "Cleanup": 6545526
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 189213.71,
+        "CollectForMetadataAllocation": 22655772.0,
+        "ParallelGCFailedAllocation": 2564513.41,
+        "Cleanup": 204547.69
+    },
+    "p90_pause_time": 1715518.0,
+    "throughput": 55337069330
+}

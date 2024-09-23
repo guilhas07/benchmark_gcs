@@ -1,0 +1,35 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "GraalVM_21.0.4",
+    "benchmark_group": "Renaissance",
+    "benchmark_name": "par-mnemonics",
+    "heap_size": "256",
+    "error": null,
+    "avg_cpu_usage": 22.5,
+    "avg_cpu_time": 41.8,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 751,
+    "total_pause_time": 52794197,
+    "avg_pause_time": 70298.53,
+    "pauses_per_category": {
+        "XMarkStart": 249,
+        "XMarkEnd": 249,
+        "CleanClassLoaderDataMetaspaces": 5,
+        "XRelocateStart": 248
+    },
+    "total_pause_time_per_category": {
+        "XMarkStart": 15799874,
+        "XMarkEnd": 13118656,
+        "CleanClassLoaderDataMetaspaces": 854516,
+        "XRelocateStart": 23021151
+    },
+    "avg_pause_time_per_category": {
+        "XMarkStart": 63453.31,
+        "XMarkEnd": 52685.37,
+        "CleanClassLoaderDataMetaspaces": 170903.2,
+        "XRelocateStart": 92827.22
+    },
+    "p90_pause_time": 98980.0,
+    "throughput": 20390324949
+}

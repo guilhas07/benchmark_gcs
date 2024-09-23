@@ -1,0 +1,38 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "DaCapo",
+    "benchmark_name": "tradesoap",
+    "heap_size": "512",
+    "error": null,
+    "avg_cpu_usage": 20.7,
+    "avg_cpu_time": 92.0,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 283,
+    "total_pause_time": 2079658018,
+    "avg_pause_time": 7348614.9,
+    "pauses_per_category": {
+        "ParallelGCFailedAllocation": 222,
+        "ICBufferFull": 31,
+        "CollectForMetadataAllocation": 25,
+        "ParallelGCSystemGC": 2,
+        "Cleanup": 3
+    },
+    "total_pause_time_per_category": {
+        "ParallelGCFailedAllocation": 1452488928,
+        "ICBufferFull": 26322663,
+        "CollectForMetadataAllocation": 450934014,
+        "ParallelGCSystemGC": 149718435,
+        "Cleanup": 193978
+    },
+    "avg_pause_time_per_category": {
+        "ParallelGCFailedAllocation": 6542742.92,
+        "ICBufferFull": 849118.16,
+        "CollectForMetadataAllocation": 18037360.56,
+        "ParallelGCSystemGC": 74859217.5,
+        "Cleanup": 64659.33
+    },
+    "p90_pause_time": 10550965.2,
+    "throughput": 110154207754
+}
