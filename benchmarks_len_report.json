@@ -1,0 +1,66 @@
+{
+    "Graal": {
+        "256": {
+            "G1": { "success": 35, "error": 11 },
+            "Z": { "error": 13, "success": 33 },
+            "Parallel": { "success": 32, "error": 14 }
+        },
+        "512": {
+            "G1": { "success": 42, "error": 4 },
+            "Z": { "success": 41, "error": 5 },
+            "Parallel": { "error": 5, "success": 41 }
+        },
+        "8192": {
+            "Z": { "success": 46, "error": 0 },
+            "Parallel": { "success": 46, "error": 0 },
+            "G1": { "success": 46, "error": 0 }
+        },
+        "2048": {
+            "Z": { "success": 46, "error": 0 },
+            "G1": { "success": 46, "error": 0 },
+            "Parallel": { "success": 46, "error": 0 }
+        },
+        "1024": {
+            "Parallel": { "success": 45, "error": 1 },
+            "Z": { "success": 44, "error": 2 },
+            "G1": { "success": 45, "error": 1 }
+        },
+        "4096": {
+            "Z": { "success": 46, "error": 0 },
+            "Parallel": { "success": 46, "error": 0 },
+            "G1": { "success": 46, "error": 0 }
+        }
+    },
+    "HotSpot": {
+        "2048": {
+            "G1": { "success": 46, "error": 0 },
+            "Parallel": { "success": 46, "error": 0 },
+            "Z": { "success": 46, "error": 0 }
+        },
+        "256": {
+            "G1": { "success": 35, "error": 11 },
+            "Z": { "error": 13, "success": 33 },
+            "Parallel": { "error": 14, "success": 32 }
+        },
+        "8192": {
+            "Z": { "success": 46, "error": 0 },
+            "Parallel": { "success": 46, "error": 0 },
+            "G1": { "success": 46, "error": 0 }
+        },
+        "1024": {
+            "Z": { "success": 44, "error": 2 },
+            "Parallel": { "success": 45, "error": 1 },
+            "G1": { "success": 45, "error": 1 }
+        },
+        "4096": {
+            "Parallel": { "success": 46, "error": 0 },
+            "Z": { "success": 46, "error": 0 },
+            "G1": { "success": 46, "error": 0 }
+        },
+        "512": {
+            "Parallel": { "success": 41, "error": 5 },
+            "Z": { "error": 5, "success": 41 },
+            "G1": { "error": 4, "success": 42 }
+        }
+    }
+}
