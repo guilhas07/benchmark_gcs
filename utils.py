@@ -1,10 +1,8 @@
 import glob
 import os
+import re
 import subprocess
 from typing import Optional
-import re
-
-from model import BenchmarkReport, GarbageCollectorReport
 
 _dir = os.path.dirname(__file__)
 _BENCHMARK_PATH = f"{_dir}/benchmark_apps"
@@ -154,21 +152,3 @@ def get_java_env_info() -> tuple[str, list[str]] | tuple[None, None]:
 def get_heap_sizes() -> list[str]:
     """Returns a list of heap sizes in megabytes"""
     return ["256", "512", "1024", "2048", "4096", "8192"]
-
-
-def load_benchmark_reports(
-    garbage_collector: str, heap_size: str, jdk: str
-) -> list[BenchmarkReport]:
-    return [
-        BenchmarkReport.load_from_json(i)
-        for i in glob.glob(
-            f"{_BENCHMARK_STATS_PATH}/*{garbage_collector}_{heap_size}m_{jdk}*.json"
-        )
-    ]
-
-
-def load_garbage_collector_results(jdk: str) -> list[GarbageCollectorReport]:
-    return [
-        GarbageCollectorReport.load_from_json(i)
-        for i in glob.glob(f"{_BENCHMARK_STATS_PATH}/gc_stats/*{jdk}.json")
-    ]

@@ -1,3 +1,4 @@
+import glob
 import re
 import subprocess
 import time
@@ -320,6 +321,20 @@ def run_benchmarks(
     benchmark_groups: list[BENCHMARK_GROUP],
     timeout: int | None = None,
 ) -> dict[str, dict[str, list[BenchmarkReport]]]:
+    """Run benchmarks
+
+    Args:
+        iterations: number of iterations to run benchmarks
+        jdk: [TODO:description]
+        garbage_collectors: [TODO:description]
+        skip_benchmarks: [TODO:description]
+        benchmark_groups: [TODO:description]
+        timeout: [TODO:description]
+
+    Returns:
+        dict[gc, dict[heap_size, list[BenchmarkReport]]]
+    """
+
     # { gc: heap_size: { list[BenchmarkReport } }
     benchmark_reports: dict[str, dict[str, list[BenchmarkReport]]] = defaultdict(
         lambda: defaultdict(list)
@@ -333,7 +348,7 @@ def run_benchmarks(
     for gc in garbage_collectors:
         for heap_size in heap_sizes:
             if skip_benchmarks:
-                benchmark_reports[gc][heap_size] = utils.load_benchmark_reports(
+                benchmark_reports[gc][heap_size] = load_benchmark_reports(
                     gc, heap_size, jdk
                 )
             else:
@@ -389,3 +404,25 @@ def run_benchmarks(
         error_report.save_to_json()
 
     return benchmark_reports
+
+
+def run_benchmark_config():
+    print("hehehe")
+
+
+def load_benchmark_reports(
+    garbage_collector: str, heap_size: str, jdk: str
+) -> list[BenchmarkReport]:
+    return [
+        BenchmarkReport.load_from_json(i)
+        for i in glob.glob(
+            f"{utils._BENCHMARK_STATS_PATH}/*{garbage_collector}_{heap_size}m_{jdk}*.json"
+        )
+    ]
+
+
+def load_garbage_collector_results(jdk: str) -> list[GarbageCollectorReport]:
+    return [
+        GarbageCollectorReport.load_from_json(i)
+        for i in glob.glob(f"{utils._BENCHMARK_STATS_PATH}/gc_stats/*{jdk}.json")
+    ]

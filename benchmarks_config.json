@@ -1,11 +1,12 @@
 {
-    "DaCapo": {
-        "kafka": { "java": ["-XX:+ExitOnOutOfMemoryError"] },
-        "cassandra": {
-            "java": ["-Djava.security.manager=allow"]
-        },
-        "h2o": {
-            "java": ["-Dsys.ai.h2o.debug.allowJavaVersions=21"]
+    "benchmark_suites": [
+        {
+            "suite_name": "PetClinic",
+            "jar_path": "benchmark_apps/spring-petclinic-3.3.0-SNAPSHOT.jar"
+            "run_options": {
+                "post_exec_script": "benchmark-spring.sh"
+            }
+            
         }
-    }
+    ]
 }

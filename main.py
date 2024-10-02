@@ -2,11 +2,13 @@
 
 import argparse
 
+from benchmark_config import BenchmarkConfig, BenchmarkSuiteCollection
 import utils
 import benchmark
 from model import (
     StatsMatrix,
 )
+from typing import Optional
 import interactive
 
 
@@ -79,17 +81,25 @@ def main(argv=None) -> int:
         nargs="+",
     )
 
+    parser.add_argument(
+        "-c",
+        "--config",
+        dest="config",
+        help="Specify a benchmark_config file to run",
+    )
+
     args = parser.parse_args(argv)
     parser.print_help()
     skip_benchmarks = args.skip_benchmarks
-    iterations = args.iterations
+    iterations: int = args.iterations
     clean = args.clean
-    jdk = args.jdk
+    jdk: Optional[str] = args.jdk
     benchmarks = args.benchmarks and [
         benchmark.BENCHMARK_GROUP(el) for el in args.benchmarks
     ]
-    timeout = args.timeout
+    timeout: int = args.timeout
     debug = args.debug
+    benchmark_config = args.benchmark_config
 
     benchmark.set_debug(debug)
 
@@ -123,9 +133,18 @@ def main(argv=None) -> int:
         ), "Skipping benchmarks is not supported in interactive mode."
         interactive.run(jdk, garbage_collectors)
     else:
-        benchmark_reports = benchmark.run_benchmarks(
-            iterations, jdk, garbage_collectors, skip_benchmarks, benchmarks, timeout
-        )
+        if benchmark_config is not None:
+            c = BenchmarkSuiteCollection.load_from_json(benchmark_config)
+            benchmark_reports = c.run_benchmarks(jdk, garbage_collectors, timeout)
+        else:
+            benchmark_reports = benchmark.run_benchmarks(
+                iterations,
+                jdk,
+                garbage_collectors,
+                skip_benchmarks,
+                benchmarks,
+                timeout,
+            )
 
         if len(benchmark_reports) == 0:
             print("No GarbageCollector had successfull benchmarks.")
