@@ -82,7 +82,6 @@ def main(argv=None) -> int:
     )
 
     parser.add_argument(
-        "-c",
         "--config",
         dest="config",
         help="Specify a benchmark_config file to run",
@@ -99,7 +98,7 @@ def main(argv=None) -> int:
     ]
     timeout: int = args.timeout
     debug = args.debug
-    benchmark_config = args.benchmark_config
+    config = args.config
 
     benchmark.set_debug(debug)
 
@@ -133,8 +132,8 @@ def main(argv=None) -> int:
         ), "Skipping benchmarks is not supported in interactive mode."
         interactive.run(jdk, garbage_collectors)
     else:
-        if benchmark_config is not None:
-            c = BenchmarkSuiteCollection.load_from_json(benchmark_config)
+        if config is not None:
+            c = BenchmarkSuiteCollection.load_from_json(config)
             benchmark_reports = c.run_benchmarks(jdk, garbage_collectors, timeout)
         else:
             benchmark_reports = benchmark.run_benchmarks(

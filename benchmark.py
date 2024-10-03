@@ -37,8 +37,8 @@ benchmarks_config = {}
 try:
     with open(_BENCHMARK_CONFIG_PATH) as f:
         benchmarks_config = json.loads(f.read())
-except FileNotFoundError:
-    print(f"[Warning] No benchmark options found in {_BENCHMARK_CONFIG_PATH}")
+except Exception as e:
+    print(f"Error while reading file {_BENCHMARK_CONFIG_PATH} {str(e)[:50]}")
 
 
 def set_debug(value: bool):
@@ -404,10 +404,6 @@ def run_benchmarks(
         error_report.save_to_json()
 
     return benchmark_reports
-
-
-def run_benchmark_config():
-    print("hehehe")
 
 
 def load_benchmark_reports(

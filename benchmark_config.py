@@ -193,6 +193,9 @@ class BenchmarkSuiteCollection:
                     failed_benchmarks[gc][heap_size].extend(
                         [(r.garbage_collector, r.error) for r in failed]  # type: ignore
                     )
+                # TODO: remove
+                print("BREAKING")
+                break
         # NOTE: using list to avoid modifying dict while iterating
         for gc in list(benchmark_reports):
             for heap_size, results in list(benchmark_reports[gc].items()):
@@ -273,11 +276,9 @@ def run_benchmark(
     def kill_process(
         process: subprocess.Popen[bytes],
         process_to_check: subprocess.Popen[bytes],
-        cmd: str,
+        cmd: list[str],
     ):
-        print(
-            f"Killing command: \n\t{' '.join(cmd)}\n\tdue to timeout with {timeout} seconds.\n"
-        )
+        print(f"Killing command: \n\t{' '.join(cmd)}\n")
         process.kill()
         process_to_check.kill()
 
@@ -299,6 +300,8 @@ def run_benchmark(
     # NOTE: When the post exec script ends we stop polling the main `process`
     process_to_check = process
     if exec_script is not None:
+        print("Sleeping 10 seconds in order to give time for application to start")
+        time.sleep(10)
         process_to_check = subprocess.Popen(
             exec_script.split(" "), stdout=subprocess.PIPE, stderr=subprocess.PIPE
         )
@@ -310,6 +313,8 @@ def run_benchmark(
     cpu_usage_stats = []
     cpu_time_stats = []
     io_time_stats = []
+
+    print("Starting...")
 
     # TODO: see better polling method than sleeping 1 seconds for throughput
     timer.start()
@@ -334,8 +339,10 @@ def run_benchmark(
         cpu_usage = round(float(lines[1].split()[8]) / utils.get_cpu_count(), 1)
         cpu_usage_stats.append(cpu_usage)
         time.sleep(0.1)
-    timer.cancel()
     throughput = time.time_ns() - time_start
+
+    # NOTE: Cancel timer
+    timer.cancel()
 
     cpu_usage_avg = round(float(numpy.mean(cpu_usage_stats)), 1)
     cpu_time_avg = round(float(numpy.mean(cpu_time_stats)), 1)
@@ -346,7 +353,21 @@ def run_benchmark(
         f"{cpu_usage_avg=} {cpu_time_avg=} {io_time_avg=} {p90_io=} and {throughput=}"
     )
 
-    if process.returncode == 0:
+    return_code = process_to_check.returncode
+    print("Current return code", return_code)
+
+    if process_to_check != process:
+        assert (
+            return_code == 0
+        ), f"Script exited with code {return_code}. It should always be successfull"
+
+    if process.poll() is not None:
+        print("Main Application finished")
+        return_code = process.returncode
+
+    kill_process(process, process_to_check, benchmark_command)
+
+    if return_code == 0:
         print("Success")
         result = BenchmarkReport.build_benchmark_result(
             gc,
@@ -380,6 +401,7 @@ def run_benchmark(
             error,
         )
     result.save_to_json()
+
     return result
 
 
