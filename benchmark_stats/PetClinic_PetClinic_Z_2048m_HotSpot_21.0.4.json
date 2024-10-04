@@ -1,0 +1,41 @@
+{
+    "garbage_collector": "Z",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "PetClinic",
+    "benchmark_name": "PetClinic",
+    "heap_size": "2048",
+    "error": null,
+    "avg_cpu_usage": 76.4,
+    "avg_cpu_time": 81.1,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 715,
+    "total_pause_time": 1367924313,
+    "avg_pause_time": 1913180.86,
+    "pauses_per_category": {
+        "ICBufferFull": 80,
+        "XMarkStart": 214,
+        "XMarkEnd": 197,
+        "CleanClassLoaderDataMetaspaces": 7,
+        "XRelocateStart": 213,
+        "Cleanup": 4
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 129127275,
+        "XMarkStart": 640821952,
+        "XMarkEnd": 148621185,
+        "CleanClassLoaderDataMetaspaces": 6002743,
+        "XRelocateStart": 442880598,
+        "Cleanup": 470560
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 1614090.94,
+        "XMarkStart": 2994495.1,
+        "XMarkEnd": 754422.26,
+        "CleanClassLoaderDataMetaspaces": 857534.71,
+        "XRelocateStart": 2079251.63,
+        "Cleanup": 117640.0
+    },
+    "p90_pause_time": 5963941.4,
+    "throughput": 97497792891
+}

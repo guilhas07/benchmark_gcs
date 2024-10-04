@@ -1,0 +1,38 @@
+{
+    "garbage_collector": "Parallel",
+    "jdk": "HotSpot_21.0.4",
+    "benchmark_group": "PetClinic",
+    "benchmark_name": "PetClinic",
+    "heap_size": "8192",
+    "error": null,
+    "avg_cpu_usage": 44.1,
+    "avg_cpu_time": 46.9,
+    "avg_io_time": 0.0,
+    "p90_io": 0.0,
+    "number_of_pauses": 179,
+    "total_pause_time": 1432972744,
+    "avg_pause_time": 8005434.32,
+    "pauses_per_category": {
+        "ICBufferFull": 82,
+        "CollectForMetadataAllocation": 4,
+        "Cleanup": 28,
+        "ParallelGCSystemGC": 3,
+        "ParallelGCFailedAllocation": 62
+    },
+    "total_pause_time_per_category": {
+        "ICBufferFull": 180369631,
+        "CollectForMetadataAllocation": 111071559,
+        "Cleanup": 75419980,
+        "ParallelGCSystemGC": 256173355,
+        "ParallelGCFailedAllocation": 809938219
+    },
+    "avg_pause_time_per_category": {
+        "ICBufferFull": 2199629.65,
+        "CollectForMetadataAllocation": 27767889.75,
+        "Cleanup": 2693570.71,
+        "ParallelGCSystemGC": 85391118.33,
+        "ParallelGCFailedAllocation": 13063519.66
+    },
+    "p90_pause_time": 19822702.4,
+    "throughput": 131662692146
+}
