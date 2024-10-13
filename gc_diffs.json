@@ -1,0 +1,116 @@
+{
+    "G1": {
+        "256": {
+            "throughput_diff_ns": 18769512715.160004,
+            "throughput_percentage": 32.24871513055832,
+            "pause_time_diff_ns": 4373240.89,
+            "pause_time_percentage": 70.97411031253901
+        },
+        "512": {
+            "throughput_diff_ns": -1928004713.2600098,
+            "throughput_percentage": -2.7120211174259072,
+            "pause_time_diff_ns": 125431.91000000015,
+            "pause_time_percentage": 0.8649758430883164
+        },
+        "1024": {
+            "throughput_diff_ns": -2132361775.1799927,
+            "throughput_percentage": -3.021952721177993,
+            "pause_time_diff_ns": 1529369.3200000003,
+            "pause_time_percentage": 6.437862733606756
+        },
+        "2048": {
+            "throughput_diff_ns": -1831538527.4399872,
+            "throughput_percentage": -2.5458591499074283,
+            "pause_time_diff_ns": 503294.2800000012,
+            "pause_time_percentage": 1.4977750903769227
+        },
+        "4096": {
+            "throughput_diff_ns": -5265502672.359985,
+            "throughput_percentage": -7.048655287068891,
+            "pause_time_diff_ns": -495527.2199999988,
+            "pause_time_percentage": -1.4076871575644607
+        },
+        "8192": {
+            "throughput_diff_ns": -1356745417.7700043,
+            "throughput_percentage": -1.9196522397106606,
+            "pause_time_diff_ns": -455295.69999999925,
+            "pause_time_percentage": -1.4693446737993818
+        }
+    },
+    "Parallel": {
+        "256": {
+            "throughput_diff_ns": -453133291.19999695,
+            "throughput_percentage": -0.579333532457026,
+            "pause_time_diff_ns": -608435.6500000004,
+            "pause_time_percentage": -4.02488523815408
+        },
+        "512": {
+            "throughput_diff_ns": -8486950194.179993,
+            "throughput_percentage": -11.222236208978345,
+            "pause_time_diff_ns": 299721.2100000009,
+            "pause_time_percentage": 1.7552397309214354
+        },
+        "1024": {
+            "throughput_diff_ns": 78782327.3299942,
+            "throughput_percentage": 0.11510861574644674,
+            "pause_time_diff_ns": 379911.1700000018,
+            "pause_time_percentage": 1.986044472161712
+        },
+        "2048": {
+            "throughput_diff_ns": -4176664407.7800064,
+            "throughput_percentage": -5.791196483672639,
+            "pause_time_diff_ns": 318235.950000003,
+            "pause_time_percentage": 1.1765849094261496
+        },
+        "4096": {
+            "throughput_diff_ns": -155845493.09999847,
+            "throughput_percentage": -0.232381672273384,
+            "pause_time_diff_ns": 752389.549999997,
+            "pause_time_percentage": 2.0742608478329942
+        },
+        "8192": {
+            "throughput_diff_ns": -1586258035.1900024,
+            "throughput_percentage": -2.3268745359465877,
+            "pause_time_diff_ns": -677252.3399999999,
+            "pause_time_percentage": -2.2989823957303415
+        }
+    },
+    "Z": {
+        "256": {
+            "throughput_diff_ns": -1956220348.0,
+            "throughput_percentage": -1.7722637183461964,
+            "pause_time_diff_ns": 10889.839999999967,
+            "pause_time_percentage": 1.6517757677051566
+        },
+        "512": {
+            "throughput_diff_ns": -3272097327.8099976,
+            "throughput_percentage": -3.6102677922843087,
+            "pause_time_diff_ns": -38285.630000000005,
+            "pause_time_percentage": -5.821118902968632
+        },
+        "1024": {
+            "throughput_diff_ns": -3292809344.970001,
+            "throughput_percentage": -3.9662008041123284,
+            "pause_time_diff_ns": -52049.0199999999,
+            "pause_time_percentage": -7.23736025461414
+        },
+        "2048": {
+            "throughput_diff_ns": -1802830035.3899994,
+            "throughput_percentage": -2.1001177696192403,
+            "pause_time_diff_ns": -47818.929999999935,
+            "pause_time_percentage": -5.777922686885508
+        },
+        "4096": {
+            "throughput_diff_ns": -2393205563.650009,
+            "throughput_percentage": -3.058441231266875,
+            "pause_time_diff_ns": -351513.42999999993,
+            "pause_time_percentage": -29.882117467785964
+        },
+        "8192": {
+            "throughput_diff_ns": -1753847433.219986,
+            "throughput_percentage": -2.2595273173657366,
+            "pause_time_diff_ns": 110680.82000000007,
+            "pause_time_percentage": 9.775077469432073
+        }
+    }
+}
